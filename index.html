@@ -33,6 +33,16 @@ header h1{margin:0;font-size:24px}header p{margin:6px 0 0;color:#dbe7ff;font-siz
     </div>
     <div id="simStatus" class="notice" style="margin-top:12px;background:#ecfdf3;border-color:#abefc6;color:#065f46">Presiona <b>Simular partidos y resultados</b> para llenar automáticamente TODAS las etapas hasta la final y verificar la lógica.</div>
     <div class="notice" style="margin-top:12px">GitHub Pages es estático. Para resultados automáticos necesitas una API pública con CORS o un JSON tuyo publicado. Esta app ya trae campo para pegar una URL/API o importar JSON manualmente.</div>
+
+    <div class="notice" style="margin-top:12px;background:#eef4ff;border-color:#b2ccff;color:#1849a9">
+      <b>Consulta Native Stats:</b> usa el botón para intentar leer automáticamente los resultados desde https://native-stats.org/competition/WC/. Si el navegador bloquea la consulta por CORS, la app te avisará y podrás usar una URL puente.
+    </div>
+    <div class="apiBox">
+      <input id="nativeUrl" class="textInput" value="https://native-stats.org/competition/WC/" placeholder="URL Native Stats Mundial 2026">
+      <button class="btn" onclick="consultarNativeStats()">Consultar Native Stats</button>
+    </div>
+    <div id="nativeStatus" class="small" style="margin-top:8px;color:#475467"></div>
+
     <div class="apiBox"><input id="apiUrl" class="textInput" placeholder="URL JSON de resultados / API CORS. Ejemplo: https://tusitio.com/mundial2026.json"><button class="btn" onclick="updateFromUrl()">Consultar web/API</button></div>
     <details style="margin-top:10px"><summary><b>Importar resultados pegando JSON</b></summary><textarea id="jsonImport" placeholder='[{"stage":"GRUPOS","group":"A","home":"México","away":"Sudáfrica","homeScore":2,"awayScore":1,"date":"2026-06-11","timeEcuador":"14:00","venue":"Estadio Azteca"}]'></textarea><br><button class="btn sec" onclick="importJson()">Importar JSON</button></details>
   </div>
@@ -143,6 +153,97 @@ function loadData(show){let s=localStorage.getItem('mundial2026app');if(s){data=
 async function updateFromUrl(){let url=document.getElementById('apiUrl').value.trim();if(!url)return alert('Pega una URL JSON primero.');try{let res=await fetch(url);let arr=await res.json();applyExternalMatches(arr);alert('Resultados importados desde la web/API.');render();}catch(e){alert('No se pudo consultar la URL. Revisa que sea JSON y permita CORS para GitHub Pages.');}}
 function importJson(){try{let arr=JSON.parse(document.getElementById('jsonImport').value);applyExternalMatches(arr);alert('JSON importado.');render();}catch(e){alert('JSON inválido.');}}
 function applyExternalMatches(arr){arr.forEach(x=>{let m=null;if(x.id)m=findMatch(x.id);if(!m&&x.stage==='GRUPOS')m=data.groups[x.group]?.matches.find(mm=>mm.home==x.home&&mm.away==x.away);if(!m)return;if(x.homeScore!==undefined)m.homeScore=x.homeScore;if(x.awayScore!==undefined)m.awayScore=x.awayScore;if(x.date)m.date=x.date;if(x.timeEcuador)m.timeEcuador=x.timeEcuador;if(x.venue)m.venue=x.venue;});buildKnockouts();saveData();}
+
+function normalizarEquipoNative(nombre){
+  if(!nombre) return '';
+  let n=String(nombre).trim().replace(/\s+/g,' ');
+  const mapa={
+    'Czechia':'República Checa','Bosnia-Herzegovina':'Bosnia y Herzegovina','Bosnia and Herzegovina':'Bosnia y Herzegovina',
+    'USA':'Estados Unidos','United States':'Estados Unidos','Korea Republic':'Corea del Sur','South Korea':'Corea del Sur',
+    'Ivory Coast':'Costa de Marfil','Saudi Arabia':'Arabia Saudita','Netherlands':'Países Bajos','New Zealand':'Nueva Zelanda',
+    'South Africa':'Sudáfrica','Curacao':'Curaçao','Cape Verde':'Cabo Verde','England':'Inglaterra','Germany':'Alemania',
+    'Spain':'España','France':'Francia','Brazil':'Brasil','Argentina':'Argentina','Mexico':'México','Canada':'Canadá',
+    'Ecuador':'Ecuador','Uruguay':'Uruguay','Paraguay':'Paraguay','Colombia':'Colombia','Portugal':'Portugal','Belgium':'Bélgica',
+    'Switzerland':'Suiza','Peru':'Perú','Japan':'Japón','Chile':'Chile','Italy':'Italia','Croatia':'Croacia',
+    'Australia':'Australia','Turkey':'Turquía','Austria':'Austria','Algeria':'Argelia','Jordan':'Jordania','Morocco':'Marruecos',
+    'Scotland':'Escocia','Haiti':'Haití','Senegal':'Senegal','Norway':'Noruega','Iraq':'Irak','Panama':'Panamá','Ghana':'Ghana',
+    'Qatar':'Qatar','Uzbekistan':'Uzbekistán','Jamaica':'Jamaica','Egypt':'Egipto','Costa Rica':'Costa Rica'
+  };
+  return mapa[n] || n;
+}
+function extraerResultadosNativeDesdeHtml(html){
+  const doc=new DOMParser().parseFromString(html,'text/html');
+  const texto=doc.body.innerText.replace(/\r/g,'\n');
+  const lineas=texto.split('\n').map(x=>x.trim()).filter(Boolean);
+  let resultados=[];
+  // Patrón genérico: Equipo A 2 - 1 Equipo B, flexible para HTML renderizado.
+  const patron=/([A-Za-zÁÉÍÓÚÜÑáéíóúüñ .'-]+?)\s+(\d{1,2})\s*[-–:]\s*(\d{1,2})\s+([A-Za-zÁÉÍÓÚÜÑáéíóúüñ .'-]+)/g;
+  let m;
+  while((m=patron.exec(texto))!==null){
+    let home=normalizarEquipoNative(m[1]);
+    let away=normalizarEquipoNative(m[4]);
+    let hs=+m[2], as=+m[3];
+    if(home && away && home!==away){resultados.push({home,away,homeScore:hs,awayScore:as,source:'Native Stats'});}
+  }
+  // Intento adicional por líneas consecutivas: equipo, score, score, equipo.
+  for(let i=0;i<lineas.length-3;i++){
+    if(/^\d{1,2}$/.test(lineas[i+1]) && /^\d{1,2}$/.test(lineas[i+2])){
+      let home=normalizarEquipoNative(lineas[i]);
+      let away=normalizarEquipoNative(lineas[i+3]);
+      if(home && away && isKnownTeam(home) && isKnownTeam(away)){
+        resultados.push({home,away,homeScore:+lineas[i+1],awayScore:+lineas[i+2],source:'Native Stats'});
+      }
+    }
+  }
+  // Quitar duplicados.
+  const seen=new Set();
+  resultados=resultados.filter(r=>{let k=[r.home,r.away,r.homeScore,r.awayScore].join('|'); if(seen.has(k))return false; seen.add(k); return true;});
+  return resultados;
+}
+function isKnownTeam(t){return groups.some(g=>data.groups[g].teams.some(x=>x.name===t));}
+function aplicarResultadosPorEquipos(arr){
+  let applied=0, notfound=[];
+  arr.forEach(x=>{
+    let home=normalizarEquipoNative(x.home), away=normalizarEquipoNative(x.away);
+    let m=null;
+    for(const g of groups){
+      m=data.groups[g].matches.find(mm=>(mm.home===home&&mm.away===away)||(mm.home===away&&mm.away===home));
+      if(m) break;
+    }
+    if(!m){
+      for(const k of Object.keys(data.knockouts)){
+        m=data.knockouts[k].find(mm=>(mm.home===home&&mm.away===away)||(mm.home===away&&mm.away===home));
+        if(m) break;
+      }
+    }
+    if(m){
+      if(m.home===home){m.homeScore=+x.homeScore;m.awayScore=+x.awayScore;} else {m.homeScore=+x.awayScore;m.awayScore=+x.homeScore;}
+      applied++;
+    }else{notfound.push(`${home} vs ${away}`);}
+  });
+  buildAllNext(); saveData(); render();
+  return {applied, notfound};
+}
+async function consultarNativeStats(){
+  const status=document.getElementById('nativeStatus');
+  const url=(document.getElementById('nativeUrl')?.value||'https://native-stats.org/competition/WC/').trim();
+  status.innerHTML='Consultando Native Stats...';
+  try{
+    const res=await fetch(url,{mode:'cors',cache:'no-store'});
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const html=await res.text();
+    const resultados=extraerResultadosNativeDesdeHtml(html);
+    if(!resultados.length){
+      status.innerHTML='Consulta realizada, pero no encontré marcadores publicados todavía o el formato de la página cambió.';
+      return;
+    }
+    const r=aplicarResultadosPorEquipos(resultados);
+    status.innerHTML=`✅ Native Stats consultado. Resultados encontrados: ${resultados.length}. Aplicados a la app: <b>${r.applied}</b>. ${r.notfound.length?'No ubicados: '+r.notfound.slice(0,5).join(', '):''}`;
+  }catch(e){
+    status.innerHTML='❌ El navegador bloqueó la consulta directa a Native Stats o la página no permite CORS. Solución: usar una URL puente/API o football-data.org. Error: '+e.message;
+  }
+}
+
 init();
 </script>
 </body>

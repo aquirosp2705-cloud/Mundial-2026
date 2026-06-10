@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mundial 2026 - Tablas y Etapas</title>
+<style>
+:root{--bg:#f4f7fb;--card:#fff;--ink:#172033;--muted:#667085;--line:#d8dee9;--brand:#0b5fff;--brand2:#003a9b;--ok:#087443;--bad:#b42318;--warn:#b54708;--soft:#eef4ff;}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:linear-gradient(135deg,#071952,#0b5fff);color:white;padding:22px 18px;position:sticky;top:0;z-index:10;box-shadow:0 6px 16px rgba(0,0,0,.18)}
+header h1{margin:0;font-size:24px}header p{margin:6px 0 0;color:#dbe7ff;font-size:14px}.wrap{max-width:1280px;margin:0 auto;padding:18px}.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 18px rgba(16,24,40,.06);padding:16px;margin-bottom:16px}.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.btn{border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer;background:var(--brand);color:#fff}.btn:hover{background:var(--brand2)}.btn.sec{background:#eef2f7;color:#1d2939}.btn.danger{background:#c4320a}.btn.ok{background:#087443}.btn.warn{background:#b54708}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}.tab{padding:10px 12px;border:1px solid var(--line);background:#fff;border-radius:999px;cursor:pointer;font-weight:700;color:#344054}.tab.active{background:var(--brand);color:#fff;border-color:var(--brand)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(430px,1fr));gap:16px}.groupTitle{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--brand);padding-bottom:8px;margin-bottom:10px}.groupTitle h3{font-weight:900;font-size:20px;color:#071952}.stageSummary{margin-top:16px;border:2px solid var(--line);border-radius:14px;background:#f8fafc;padding:12px}.stageSummary h3{margin-bottom:8px;color:#071952}.stageSummary table{background:white;border-radius:10px;overflow:hidden}.stageSummary .groupBadge{font-weight:900;color:#071952;background:#eef4ff;border-radius:999px;padding:2px 8px;display:inline-block}h2,h3{margin:0}.small{font-size:12px;color:var(--muted)}table{width:100%;border-collapse:collapse;font-size:13px}th,td{border-bottom:1px solid #edf0f5;padding:7px;text-align:left;vertical-align:middle}th{background:#f8fafc;color:#344054;font-size:12px}.rank1{background:#ecfdf3}.rank2{background:#f0f9ff}.rank3{background:#fff7ed}.teamInput,.scoreInput,.textInput,.dateInput{width:100%;border:1px solid var(--line);border-radius:8px;padding:7px;background:#fff}.scoreInput{width:54px;text-align:center}.dateInput{min-width:120px}.match{display:grid;grid-template-columns:1.1fr 58px 20px 58px 1.1fr;gap:6px;align-items:center}.muted{color:var(--muted)}.pill{display:inline-block;padding:3px 8px;border-radius:999px;background:var(--soft);color:#1849a9;font-weight:700;font-size:12px}.winner{font-weight:800;color:var(--ok)}.loser{color:#98a2b3}.bracket{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:16px}.matchCard{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff;margin-bottom:10px}.advance{font-size:12px;margin-top:6px}.apiBox{display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:10px}.notice{background:#fffbeb;border:1px solid #fedf89;color:#7a2e0e;padding:10px;border-radius:12px;font-size:13px}.hide{display:none}textarea{width:100%;min-height:110px;border:1px solid var(--line);border-radius:12px;padding:10px;font-family:monospace}.summary{display:flex;gap:10px;flex-wrap:wrap}.summary div{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:10px;min-width:160px}.originBadge{font-weight:900;color:#071952;background:#e0edff;border:1px solid #b2ccff;border-radius:999px;padding:2px 8px;display:inline-block;margin-left:4px}.teamMeta{font-size:11px;color:#475467;margin-top:4px;line-height:1.35}.teamLine{font-weight:800}.refBox{background:#f8fafc;border:1px solid #edf0f5;border-radius:10px;padding:7px;margin-top:8px}@media(max-width:700px){.grid{grid-template-columns:1fr}.match{grid-template-columns:1fr 46px 14px 46px 1fr}header{position:relative}.apiBox{grid-template-columns:1fr}.wrap{padding:10px}}
+</style>
+</head>
+<body>
+<header><h1>🏆 Mundial de Fútbol 2026 - Control de Etapas</h1><p>Tablas por grupos, clasificación automática, etapas eliminatorias, simulación, limpieza e importación de resultados externos.</p></header>
+<div class="wrap">
+  <div class="panel">
+    <div class="toolbar">
+      <button class="btn" onclick="simulateAll()">Simular partidos y resultados</button>
+      <button class="btn ok" onclick="buildKnockouts()">Actualizar clasificados y etapas</button>
+      <button class="btn sec" onclick="saveData()">Guardar en este navegador</button>
+      <button class="btn sec" onclick="loadData(true)">Restaurar guardado</button>
+      <button class="btn danger" onclick="resetResults()">Borrar todos los resultados</button>
+      <button class="btn warn" onclick="resetEverything()">Reiniciar todo</button>
+    </div>
+    <div id="simStatus" class="notice" style="margin-top:12px;background:#ecfdf3;border-color:#abefc6;color:#065f46">Presiona <b>Simular partidos y resultados</b> para llenar automáticamente TODAS las etapas hasta la final y verificar la lógica.</div>
+    <div class="notice" style="margin-top:12px">GitHub Pages es estático. Para resultados automáticos necesitas una API pública con CORS o un JSON tuyo publicado. Esta app ya trae campo para pegar una URL/API o importar JSON manualmente.</div>
+    <div class="apiBox"><input id="apiUrl" class="textInput" placeholder="URL JSON de resultados / API CORS. Ejemplo: https://tusitio.com/mundial2026.json"><button class="btn" onclick="updateFromUrl()">Consultar web/API</button></div>
+    <details style="margin-top:10px"><summary><b>Importar resultados pegando JSON</b></summary><textarea id="jsonImport" placeholder='[{"stage":"GRUPOS","group":"A","home":"México","away":"Sudáfrica","homeScore":2,"awayScore":1,"date":"2026-06-11","timeEcuador":"14:00","venue":"Estadio Azteca"}]'></textarea><br><button class="btn sec" onclick="importJson()">Importar JSON</button></details>
+  </div>
+  <div class="tabs" id="tabs"></div>
+  <div id="view"></div>
+</div>
+<script>
+const groups = 'ABCDEFGHIJKL'.split('');
+const seedTeams = {
+A:['México','Sudáfrica','Corea del Sur','Costa Rica'],B:['Canadá','Bosnia y Herzegovina','Uruguay','Egipto'],C:['Estados Unidos','Paraguay','Australia','Turquía'],D:['Argentina','Austria','Argelia','Jordania'],E:['Alemania','Curaçao','Costa de Marfil','Ecuador'],F:['Brasil','Marruecos','Escocia','Haití'],G:['España','Arabia Saudita','Colombia','Cabo Verde'],H:['Francia','Senegal','Noruega','Irak'],I:['Inglaterra','Croacia','Panamá','Ghana'],J:['Italia','Japón','Chile','Nueva Zelanda'],K:['Portugal','Países Bajos','Qatar','Uzbekistán'],L:['Bélgica','Suiza','Perú','Jamaica']
+};
+let data, current='grupos';
+function defaultData(){
+  let d={groups:{},knockouts:{R32:[],R16:[],QF:[],SF:[],THIRD:[],FINAL:[]}};
+  groups.forEach((g,gi)=>{let teams=seedTeams[g];d.groups[g]={teams:teams.map(t=>({name:t})),matches:[]};let pairs=[[0,1],[2,3],[0,2],[1,3],[0,3],[1,2]];pairs.forEach((p,i)=>d.groups[g].matches.push({id:`G${g}-${i+1}`,stage:'GRUPOS',group:g,home:teams[p[0]],away:teams[p[1]],date:`2026-06-${String(11+Math.floor((gi*6+i)/4)).padStart(2,'0')}`,timeEcuador:['11:00','14:00','17:00','20:00'][(gi+i)%4],venue:['Ciudad de México','Toronto','Los Ángeles','Houston','Miami','Dallas','New York/New Jersey','Kansas City'][(gi+i)%8],homeScore:null,awayScore:null}));});return d;
+}
+function init(){data=defaultData();loadData(false);renderTabs();render();}
+function renderTabs(){let items=[['grupos','Fase de grupos'],['r32','32avos'],['r16','16avos'],['qf','Cuartos'],['sf','Semifinales'],['third','Tercer lugar'],['final','Final'],['ranking','Ranking general']];tabs.innerHTML=items.map(x=>`<button class="tab ${current==x[0]?'active':''}" onclick="current='${x[0]}';render()">${x[1]}</button>`).join('');}
+function tableForGroup(g){let stats={};data.groups[g].teams.forEach(t=>stats[t.name]={team:t.name,PJ:0,PG:0,PE:0,PP:0,GF:0,GC:0,DG:0,PTS:0});data.groups[g].matches.forEach(m=>{if(m.homeScore===null||m.awayScore===null)return;let a=stats[m.home],b=stats[m.away];a.PJ++;b.PJ++;a.GF+=+m.homeScore;a.GC+=+m.awayScore;b.GF+=+m.awayScore;b.GC+=+m.homeScore;if(+m.homeScore>+m.awayScore){a.PG++;b.PP++;a.PTS+=3}else if(+m.homeScore<+m.awayScore){b.PG++;a.PP++;b.PTS+=3}else{a.PE++;b.PE++;a.PTS++;b.PTS++;}});Object.values(stats).forEach(s=>s.DG=s.GF-s.GC);return Object.values(stats).sort((a,b)=>b.PTS-a.PTS||b.DG-a.DG||b.GF-a.GF||a.team.localeCompare(b.team));}
+function allRanked(){return groups.flatMap(g=>tableForGroup(g).map((s,i)=>({...s,group:g,pos:i+1,groupPts:s.PTS,totalRef:s.PTS})) ).sort((a,b)=>b.PTS-a.PTS||b.DG-a.DG||b.GF-a.GF);}
+function qualified(){let firstSecond=[],third=[];groups.forEach(g=>{let t=tableForGroup(g);firstSecond.push({...t[0],slot:`1${g}`},{...t[1],slot:`2${g}`});third.push({...t[2],slot:`3${g}`});});third.sort((a,b)=>b.PTS-a.PTS||b.DG-a.DG||b.GF-a.GF);return [...firstSecond,...third.slice(0,8)].sort((a,b)=>b.PTS-a.PTS||b.DG-a.DG||b.GF-a.GF);}
+function renderGroups(){view.innerHTML=`<div class="grid">`+groups.map(g=>`<div class="panel"><div class="groupTitle"><h3><b>GRUPO ${g}</b></h3><span class="pill">Pasan 1°, 2° y mejores 3°</span></div>${standingsHtml(g)}<h4>Partidos</h4>${matchesHtml(data.groups[g].matches)}${groupProgressHtml(g)}</div>`).join('')+`</div>`+qualifiedSummaryHtml();}
+function standingsHtml(g){let rows=tableForGroup(g);return `<table><thead><tr><th>#</th><th>País</th><th>PJ</th><th>GF</th><th>GC</th><th>DG</th><th>Pts</th></tr></thead><tbody>${rows.map((r,i)=>`<tr class="rank${i+1}"><td>${i+1}</td><td><b>${r.team}</b></td><td>${r.PJ}</td><td>${r.GF}</td><td>${r.GC}</td><td>${r.DG}</td><td><b>${r.PTS}</b></td></tr>`).join('')}</tbody></table>`;}
+function groupStatus(g){let played=data.groups[g].matches.filter(m=>m.homeScore!==null&&m.awayScore!==null).length;let total=data.groups[g].matches.length;return {played,total,complete:played===total,missing:total-played};}
+function groupProgressHtml(g){
+  let st=groupStatus(g), rows=tableForGroup(g);
+  let label=st.complete?'Resumen final del':'Resumen parcial del';
+  let note=st.complete?'Grupo completo: estos son los puestos finales del grupo.':`Grupo en progreso: ${st.played} de ${st.total} partidos jugados; faltan ${st.missing}. La posición puede cambiar.`;
+  return `<div class="stageSummary"><h3>${label} <span class="groupBadge">GRUPO ${g}</span></h3><p class="small">${note}</p><table><thead><tr><th>Puesto</th><th>Equipo</th><th>Puntos</th><th>DG</th><th>GF</th><th>Estado actual</th></tr></thead><tbody>${rows.map((r,i)=>{let estado=i<2?'Clasifica directo por ahora':(i===2?'Candidato a mejor 3°':'No clasifica por ahora');return `<tr class="rank${i+1}"><td>${i+1}°</td><td><b>${r.team}</b></td><td><b>${r.PTS}</b></td><td>${r.DG}</td><td>${r.GF}</td><td>${estado}</td></tr>`;}).join('')}</tbody></table></div>`;
+}
+function allGroupsComplete(){return groups.every(g=>groupStatus(g).complete);}
+
+function matchesHtml(matches){return matches.map(m=>`<div class="matchCard"><div class="small">${m.stage} ${m.group?'<span class="groupBadge">GRUPO '+m.group+'</span>':''} · <input class="dateInput" value="${m.date}" onchange="mset('${m.id}','date',this.value)"> <input class="scoreInput" value="${m.timeEcuador}" onchange="mset('${m.id}','timeEcuador',this.value)"> · <input class="textInput" style="width:180px" value="${m.venue}" onchange="mset('${m.id}','venue',this.value)"></div><div class="match"><input class="teamInput" value="${m.home||''}" onchange="mset('${m.id}','home',this.value)"><input class="scoreInput" type="number" value="${m.homeScore??''}" onchange="score('${m.id}','homeScore',this.value)"><b>-</b><input class="scoreInput" type="number" value="${m.awayScore??''}" onchange="score('${m.id}','awayScore',this.value)"><input class="teamInput" value="${m.away||''}" onchange="mset('${m.id}','away',this.value)"></div><div class="advance">Ganador actual: <b>${winnerText(m)}</b></div></div>`).join('');}
+function winnerText(m){if(m.homeScore===null||m.awayScore===null)return 'pendiente';if(+m.homeScore>+m.awayScore)return m.home;if(+m.homeScore<+m.awayScore)return m.away;return 'empate / penales pendiente';}
+function findMatch(id){for(const g of groups){let m=data.groups[g].matches.find(x=>x.id==id);if(m)return m;}for(const k of Object.keys(data.knockouts)){let m=data.knockouts[k].find(x=>x.id==id);if(m)return m;}return null;}
+function mset(id,field,val){let m=findMatch(id);m[field]=val;saveData();render();}
+function score(id,field,val){let m=findMatch(id);m[field]=val===''?null:+val;saveData();if(id.startsWith('G'))render();else{buildNextFrom(id);render();}}
+function buildKnockouts(){let q=qualified();const stages=[['R32',16,'32avos'],['R16',8,'16avos'],['QF',4,'Cuartos'],['SF',2,'Semifinal'],['THIRD',1,'Tercer lugar'],['FINAL',1,'Final']];data.knockouts.R32=[];for(let i=0;i<16;i++){let a=q[i],b=q[31-i]||q[q.length-1];data.knockouts.R32.push(newKO('R32',i+1,a,b,'2026-06-28',i));}['R16','QF','SF','THIRD','FINAL'].forEach(k=>{if(!data.knockouts[k].length){let n={R16:8,QF:4,SF:2,THIRD:1,FINAL:1}[k];for(let i=0;i<n;i++)data.knockouts[k].push(newKO(k,i+1,null,null,'2026-07-01',i));}});buildAllNext();saveData();render();}
+function newKO(stage,n,a,b,date,i){return {id:`${stage}-${n}`,stage,group:'',home:a?.team||'',away:b?.team||'',homeScore:null,awayScore:null,date, timeEcuador:['11:00','14:00','17:00','20:00'][i%4],venue:['Seattle','Atlanta','Boston','Vancouver','Miami','Dallas','Los Ángeles','New York/New Jersey'][i%8],homeRef:a?refPts(a.team):'',awayRef:b?refPts(b.team):''};}
+function refPts(team){let group=allRanked().find(x=>x.team==team)?.PTS||0;let ko=0;Object.values(data.knockouts).flat().forEach(m=>{if(m.homeScore!==null&&m.awayScore!==null){let w=winnerText(m); if(w==team)ko+=3;}});return `Grupo:${group} | Eliminatorias:${ko} | Total:${group+ko}`;}
+function originInfo(team){let r=allRanked().find(x=>x.team==team);if(!team||!r)return {group:'-',pos:'-',groupPts:0,slot:'Sin origen',label:'Sin origen de grupo'};let third=r.pos===3?'Mejor 3°':`${r.pos}°`;return {group:r.group,pos:r.pos,groupPts:r.PTS,slot:`${r.group}-${third}`,label:`GRUPO ${r.group} · ${third} · ${r.PTS} pts`};}
+function originBadge(team){let o=originInfo(team);return `<span class="originBadge">${o.label}</span>`;}
+function teamWithOrigin(team){if(!team)return '';return `<div class="teamLine">${team}</div><div class="teamMeta">Origen: ${originBadge(team)}</div>`;}
+function teamRefLine(team){if(!team)return 'Pendiente';let o=originInfo(team);return `${team}: ${refPts(team)} | Origen: Grupo ${o.group}, puesto ${o.pos}°, puntos grupo ${o.groupPts}`;}
+function winnerObj(m){if(!m||m.homeScore===null||m.awayScore===null)return null;let name=+m.homeScore>=+m.awayScore?m.home:m.away;return {team:name};}
+function loserObj(m){if(!m||m.homeScore===null||m.awayScore===null)return null;let name=+m.homeScore>=+m.awayScore?m.away:m.home;return {team:name};}
+function buildAllNext(){['R32','R16','QF'].forEach((st,idx)=>{let next=['R16','QF','SF'][idx];data.knockouts[next].forEach((m,i)=>{let a=winnerObj(data.knockouts[st][i*2]);let b=winnerObj(data.knockouts[st][i*2+1]);if(a)m.home=a.team;if(b)m.away=b.team;m.homeRef=m.home?refPts(m.home):'';m.awayRef=m.away?refPts(m.away):'';});});let sf=data.knockouts.SF;let final=data.knockouts.FINAL[0],third=data.knockouts.THIRD[0];let w1=winnerObj(sf[0]),w2=winnerObj(sf[1]),l1=loserObj(sf[0]),l2=loserObj(sf[1]);if(w1)final.home=w1.team;if(w2)final.away=w2.team;if(l1)third.home=l1.team;if(l2)third.away=l2.team;[final,third,...data.knockouts.SF].forEach(m=>{m.homeRef=m.home?refPts(m.home):'';m.awayRef=m.away?refPts(m.away):'';});}
+function buildNextFrom(){buildAllNext();saveData();}
+function renderKO(key,title){let ms=data.knockouts[key]||[];view.innerHTML=`<div class="panel"><h2>${title}</h2><p class="small">Cada equipo muestra su <b>grupo original</b>, puesto de clasificación y puntos de grupo para validar los cruces. También se muestra la referencia acumulada: grupos + victorias en eliminatorias.</p><div class="bracket">${ms.map(m=>`<div class="matchCard"><b>${m.stage} Partido ${m.id.split('-')[1]}</b><div class="small"><input class="dateInput" value="${m.date}" onchange="mset('${m.id}','date',this.value)"> <input class="scoreInput" value="${m.timeEcuador}" onchange="mset('${m.id}','timeEcuador',this.value)"> <input class="textInput" style="width:170px" value="${m.venue}" onchange="mset('${m.id}','venue',this.value)"></div><div class="match"><div><input class="teamInput" value="${m.home}" onchange="mset('${m.id}','home',this.value)">${m.home?`<div class="teamMeta">${originBadge(m.home)}</div>`:''}</div><input class="scoreInput" type="number" value="${m.homeScore??''}" onchange="score('${m.id}','homeScore',this.value)"><b>-</b><input class="scoreInput" type="number" value="${m.awayScore??''}" onchange="score('${m.id}','awayScore',this.value)"><div><input class="teamInput" value="${m.away}" onchange="mset('${m.id}','away',this.value)">${m.away?`<div class="teamMeta">${originBadge(m.away)}</div>`:''}</div></div><div class="refBox small">${teamRefLine(m.home)}<br>${teamRefLine(m.away)}</div><div class="advance">Pasa: <b>${winnerText(m)}</b> ${winnerText(m)!=='pendiente'&&winnerText(m)!=='empate / penales pendiente'?originBadge(winnerText(m)):''}</div></div>`).join('')}</div>${stageWinnersHtml(key,title)}</div>`;}
+
+function qualifiedSummaryHtml(){
+  let q=qualified();
+  let complete=allGroupsComplete();
+  let title=complete?'Equipos que pasan al final de la Fase de Grupos':'Clasificación parcial de la Fase de Grupos';
+  let note=complete?'Ya están completos los grupos: estos son los 32 equipos clasificados.':'Resumen parcial: se actualiza cada vez que ingresas un resultado. Los clasificados pueden cambiar hasta que terminen todos los grupos.';
+  return `<div class="stageSummary"><h3>${title}</h3><p class="small">${note}</p><table><thead><tr><th>#</th><th>Equipo</th><th>Grupo</th><th>Puesto</th><th>Puntos</th><th>DG</th><th>GF</th><th>Referencia</th></tr></thead><tbody>${q.map((x,i)=>`<tr><td>${i+1}</td><td><b>${x.team}</b></td><td><span class="groupBadge">GRUPO ${x.group}</span></td><td>${x.pos}°</td><td><b>${x.PTS}</b></td><td>${x.DG}</td><td>${x.GF}</td><td>${refPts(x.team)}</td></tr>`).join('')}</tbody></table></div>`;
+}
+
+function stageWinnersHtml(key,title){
+  let ms=data.knockouts[key]||[];
+  let winners=ms.map((m,i)=>{let w=winnerObj(m);if(!w)return null;let o=originInfo(w.team);return {team:w.team,match:i+1,ref:refPts(w.team),origin:o};}).filter(Boolean);
+  let label= key==='FINAL' ? 'Campeón al final de la Final' : (key==='THIRD' ? 'Ganador del tercer lugar' : `Equipos que pasan al final de ${title}`);
+  if(!winners.length)return `<div class="stageSummary"><h3>${label}</h3><p class="small">Todavía no hay resultados suficientes para mostrar clasificados.</p></div>`;
+  return `<div class="stageSummary"><h3>${label}</h3><table><thead><tr><th>#</th><th>Equipo</th><th>Grupo original</th><th>Puesto grupo</th><th>Pts grupo</th><th>Partido</th><th>Puntaje / referencia acumulada</th></tr></thead><tbody>${winners.map((x,i)=>`<tr><td>${i+1}</td><td><b>${x.team}</b></td><td><span class="groupBadge">GRUPO ${x.origin.group}</span></td><td>${x.origin.pos}°</td><td><b>${x.origin.groupPts}</b></td><td>${x.match}</td><td><b>${x.ref}</b></td></tr>`).join('')}</tbody></table></div>`;
+}"
+
+
+function renderRanking(){let r=allRanked();view.innerHTML=`<div class="panel"><h2>Ranking general de primera etapa</h2><table><thead><tr><th>#</th><th>Equipo</th><th>Grupo</th><th>Posición</th><th>DG</th><th>GF</th><th>Puntos grupo</th></tr></thead><tbody>${r.map((x,i)=>`<tr><td>${i+1}</td><td><b>${x.team}</b></td><td>${x.group}</td><td>${x.pos}</td><td>${x.DG}</td><td>${x.GF}</td><td><b>${x.PTS}</b></td></tr>`).join('')}</tbody></table></div>`;}
+function render(){renderTabs();if(current=='grupos')renderGroups();else if(current=='r32')renderKO('R32','32avos de final');else if(current=='r16')renderKO('R16','16avos de final');else if(current=='qf')renderKO('QF','Cuartos de final');else if(current=='sf')renderKO('SF','Semifinales');else if(current=='third')renderKO('THIRD','Partido por tercer lugar');else if(current=='final')renderKO('FINAL','Final');else renderRanking();}
+function simulateAll(){
+  // 1) Simula los 72 partidos de grupos.
+  groups.forEach((g,gi)=>data.groups[g].matches.forEach((m,mi)=>{
+    m.homeScore=(gi+mi*2)%5;
+    m.awayScore=(gi*2+mi+1)%5;
+  }));
+
+  // 2) Arma 32avos con 24 clasificados directos + 8 mejores terceros.
+  buildKnockouts();
+
+  // 3) Simula cada fase en orden. Después de cada fase, actualiza la siguiente.
+  ['R32','R16','QF','SF'].forEach((st,si)=>{
+    data.knockouts[st].forEach((m,i)=>{
+      m.homeScore=(i+si+2)%4;
+      m.awayScore=(i*2+si+1)%4;
+      if(m.homeScore==m.awayScore){ m.homeScore=(m.homeScore+1)%5; }
+    });
+    buildAllNext();
+  });
+
+  // 4) Simula tercer lugar y final después de tener ganadores/perdedores de semifinales.
+  ['THIRD','FINAL'].forEach((st,si)=>{
+    data.knockouts[st].forEach((m,i)=>{
+      m.homeScore=(i+si+2)%4;
+      m.awayScore=(i+si+1)%4;
+      if(m.homeScore==m.awayScore){ m.homeScore++; }
+    });
+  });
+  buildAllNext();
+  saveData();
+  render();
+  const final=data.knockouts.FINAL[0];
+  const champion=winnerText(final);
+  document.getElementById('simStatus').innerHTML=`✅ Simulación completa: grupos, 32avos, 16avos, cuartos, semifinales, tercer lugar y final llenos. Campeón simulado: <b>${champion}</b>.`;
+}
+function resetResults(){groups.forEach(g=>data.groups[g].matches.forEach(m=>{m.homeScore=null;m.awayScore=null;}));Object.keys(data.knockouts).forEach(k=>data.knockouts[k].forEach(m=>{m.homeScore=null;m.awayScore=null;}));saveData();render();}
+function resetEverything(){if(confirm('¿Reiniciar equipos, fechas, partidos y resultados?')){data=defaultData();localStorage.removeItem('mundial2026app');render();}}
+function saveData(){localStorage.setItem('mundial2026app',JSON.stringify(data));}
+function loadData(show){let s=localStorage.getItem('mundial2026app');if(s){data=JSON.parse(s);if(show)alert('Datos restaurados.');render();}}
+async function updateFromUrl(){let url=document.getElementById('apiUrl').value.trim();if(!url)return alert('Pega una URL JSON primero.');try{let res=await fetch(url);let arr=await res.json();applyExternalMatches(arr);alert('Resultados importados desde la web/API.');render();}catch(e){alert('No se pudo consultar la URL. Revisa que sea JSON y permita CORS para GitHub Pages.');}}
+function importJson(){try{let arr=JSON.parse(document.getElementById('jsonImport').value);applyExternalMatches(arr);alert('JSON importado.');render();}catch(e){alert('JSON inválido.');}}
+function applyExternalMatches(arr){arr.forEach(x=>{let m=null;if(x.id)m=findMatch(x.id);if(!m&&x.stage==='GRUPOS')m=data.groups[x.group]?.matches.find(mm=>mm.home==x.home&&mm.away==x.away);if(!m)return;if(x.homeScore!==undefined)m.homeScore=x.homeScore;if(x.awayScore!==undefined)m.awayScore=x.awayScore;if(x.date)m.date=x.date;if(x.timeEcuador)m.timeEcuador=x.timeEcuador;if(x.venue)m.venue=x.venue;});buildKnockouts();saveData();}
+init();
+</script>
+</body>
+</html>

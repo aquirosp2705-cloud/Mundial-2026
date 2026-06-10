@@ -31,18 +31,26 @@ header h1{margin:0;font-size:24px}header p{margin:6px 0 0;color:#dbe7ff;font-siz
       <button class="btn danger" onclick="resetResults()">Borrar todos los resultados</button>
       <button class="btn warn" onclick="resetEverything()">Reiniciar todo</button>
     </div>
+    <div class="notice" style="margin-top:12px;background:#eef4ff;border-color:#b2ccff;color:#1849a9">
+      <b>Resultados automáticos Football-Data.org</b><br>
+      <div class="apiBox">
+        <input id="fdToken" class="textInput" type="password" placeholder="Pega aquí tu API Token de football-data.org una sola vez">
+        <button class="btn ok" onclick="consultarFootballData()">Consultar Football-Data</button>
+      </div>
+      <div class="toolbar" style="margin-top:8px">
+        <button class="btn sec" onclick="guardarTokenFD()">Guardar token</button>
+        <button class="btn sec" onclick="mostrarOcultarTokenFD()">Mostrar / ocultar token</button>
+        <button class="btn sec" onclick="copiarTokenFD()">Copiar token guardado</button>
+        <button class="btn danger" onclick="borrarTokenFD()">Borrar token</button>
+      </div>
+      <div class="toolbar" style="margin-top:8px">
+        <button class="btn" onclick="activarAutoFootballData()">Activar automático cada 5 min</button>
+        <button class="btn danger" onclick="detenerAutoFootballData()">Detener automático</button>
+      </div>
+      <div id="fdStatus" class="small" style="margin-top:8px">Pega tu token una sola vez y presiona <b>Guardar token</b>. Quedará guardado en este navegador.</div>
+    </div>
     <div id="simStatus" class="notice" style="margin-top:12px;background:#ecfdf3;border-color:#abefc6;color:#065f46">Presiona <b>Simular partidos y resultados</b> para llenar automáticamente TODAS las etapas hasta la final y verificar la lógica.</div>
     <div class="notice" style="margin-top:12px">GitHub Pages es estático. Para resultados automáticos necesitas una API pública con CORS o un JSON tuyo publicado. Esta app ya trae campo para pegar una URL/API o importar JSON manualmente.</div>
-
-    <div class="notice" style="margin-top:12px;background:#eef4ff;border-color:#b2ccff;color:#1849a9">
-      <b>Consulta Native Stats:</b> usa el botón para intentar leer automáticamente los resultados desde https://native-stats.org/competition/WC/. Si el navegador bloquea la consulta por CORS, la app te avisará y podrás usar una URL puente.
-    </div>
-    <div class="apiBox">
-      <input id="nativeUrl" class="textInput" value="https://native-stats.org/competition/WC/" placeholder="URL Native Stats Mundial 2026">
-      <button class="btn" onclick="consultarNativeStats()">Consultar Native Stats</button>
-    </div>
-    <div id="nativeStatus" class="small" style="margin-top:8px;color:#475467"></div>
-
     <div class="apiBox"><input id="apiUrl" class="textInput" placeholder="URL JSON de resultados / API CORS. Ejemplo: https://tusitio.com/mundial2026.json"><button class="btn" onclick="updateFromUrl()">Consultar web/API</button></div>
     <details style="margin-top:10px"><summary><b>Importar resultados pegando JSON</b></summary><textarea id="jsonImport" placeholder='[{"stage":"GRUPOS","group":"A","home":"México","away":"Sudáfrica","homeScore":2,"awayScore":1,"date":"2026-06-11","timeEcuador":"14:00","venue":"Estadio Azteca"}]'></textarea><br><button class="btn sec" onclick="importJson()">Importar JSON</button></details>
   </div>
@@ -154,96 +162,110 @@ async function updateFromUrl(){let url=document.getElementById('apiUrl').value.t
 function importJson(){try{let arr=JSON.parse(document.getElementById('jsonImport').value);applyExternalMatches(arr);alert('JSON importado.');render();}catch(e){alert('JSON inválido.');}}
 function applyExternalMatches(arr){arr.forEach(x=>{let m=null;if(x.id)m=findMatch(x.id);if(!m&&x.stage==='GRUPOS')m=data.groups[x.group]?.matches.find(mm=>mm.home==x.home&&mm.away==x.away);if(!m)return;if(x.homeScore!==undefined)m.homeScore=x.homeScore;if(x.awayScore!==undefined)m.awayScore=x.awayScore;if(x.date)m.date=x.date;if(x.timeEcuador)m.timeEcuador=x.timeEcuador;if(x.venue)m.venue=x.venue;});buildKnockouts();saveData();}
 
-function normalizarEquipoNative(nombre){
-  if(!nombre) return '';
-  let n=String(nombre).trim().replace(/\s+/g,' ');
-  const mapa={
-    'Czechia':'República Checa','Bosnia-Herzegovina':'Bosnia y Herzegovina','Bosnia and Herzegovina':'Bosnia y Herzegovina',
-    'USA':'Estados Unidos','United States':'Estados Unidos','Korea Republic':'Corea del Sur','South Korea':'Corea del Sur',
-    'Ivory Coast':'Costa de Marfil','Saudi Arabia':'Arabia Saudita','Netherlands':'Países Bajos','New Zealand':'Nueva Zelanda',
-    'South Africa':'Sudáfrica','Curacao':'Curaçao','Cape Verde':'Cabo Verde','England':'Inglaterra','Germany':'Alemania',
-    'Spain':'España','France':'Francia','Brazil':'Brasil','Argentina':'Argentina','Mexico':'México','Canada':'Canadá',
-    'Ecuador':'Ecuador','Uruguay':'Uruguay','Paraguay':'Paraguay','Colombia':'Colombia','Portugal':'Portugal','Belgium':'Bélgica',
-    'Switzerland':'Suiza','Peru':'Perú','Japan':'Japón','Chile':'Chile','Italy':'Italia','Croatia':'Croacia',
-    'Australia':'Australia','Turkey':'Turquía','Austria':'Austria','Algeria':'Argelia','Jordan':'Jordania','Morocco':'Marruecos',
-    'Scotland':'Escocia','Haiti':'Haití','Senegal':'Senegal','Norway':'Noruega','Iraq':'Irak','Panama':'Panamá','Ghana':'Ghana',
-    'Qatar':'Qatar','Uzbekistan':'Uzbekistán','Jamaica':'Jamaica','Egypt':'Egipto','Costa Rica':'Costa Rica'
-  };
-  return mapa[n] || n;
+let fdTimer=null;
+function guardarTokenFD(){
+  const t=document.getElementById('fdToken')?.value.trim();
+  if(!t) return alert('Pega primero tu API Token.');
+  localStorage.setItem('footballDataToken', t);
+  document.getElementById('fdStatus').innerHTML='✅ Token guardado solo en este navegador. Ya no tendrás que pegarlo de nuevo en este equipo.';
 }
-function extraerResultadosNativeDesdeHtml(html){
-  const doc=new DOMParser().parseFromString(html,'text/html');
-  const texto=doc.body.innerText.replace(/\r/g,'\n');
-  const lineas=texto.split('\n').map(x=>x.trim()).filter(Boolean);
-  let resultados=[];
-  // Patrón genérico: Equipo A 2 - 1 Equipo B, flexible para HTML renderizado.
-  const patron=/([A-Za-zÁÉÍÓÚÜÑáéíóúüñ .'-]+?)\s+(\d{1,2})\s*[-–:]\s*(\d{1,2})\s+([A-Za-zÁÉÍÓÚÜÑáéíóúüñ .'-]+)/g;
-  let m;
-  while((m=patron.exec(texto))!==null){
-    let home=normalizarEquipoNative(m[1]);
-    let away=normalizarEquipoNative(m[4]);
-    let hs=+m[2], as=+m[3];
-    if(home && away && home!==away){resultados.push({home,away,homeScore:hs,awayScore:as,source:'Native Stats'});}
+function cargarTokenFD(){
+  const t=localStorage.getItem('footballDataToken');
+  const el=document.getElementById('fdToken');
+  if(t&&el){
+    el.value=t;
+    const st=document.getElementById('fdStatus');
+    if(st) st.innerHTML='✅ Token cargado desde este navegador. Puedes consultar o activar automático.';
   }
-  // Intento adicional por líneas consecutivas: equipo, score, score, equipo.
-  for(let i=0;i<lineas.length-3;i++){
-    if(/^\d{1,2}$/.test(lineas[i+1]) && /^\d{1,2}$/.test(lineas[i+2])){
-      let home=normalizarEquipoNative(lineas[i]);
-      let away=normalizarEquipoNative(lineas[i+3]);
-      if(home && away && isKnownTeam(home) && isKnownTeam(away)){
-        resultados.push({home,away,homeScore:+lineas[i+1],awayScore:+lineas[i+2],source:'Native Stats'});
-      }
-    }
-  }
-  // Quitar duplicados.
-  const seen=new Set();
-  resultados=resultados.filter(r=>{let k=[r.home,r.away,r.homeScore,r.awayScore].join('|'); if(seen.has(k))return false; seen.add(k); return true;});
-  return resultados;
 }
-function isKnownTeam(t){return groups.some(g=>data.groups[g].teams.some(x=>x.name===t));}
-function aplicarResultadosPorEquipos(arr){
-  let applied=0, notfound=[];
-  arr.forEach(x=>{
-    let home=normalizarEquipoNative(x.home), away=normalizarEquipoNative(x.away);
-    let m=null;
-    for(const g of groups){
-      m=data.groups[g].matches.find(mm=>(mm.home===home&&mm.away===away)||(mm.home===away&&mm.away===home));
-      if(m) break;
-    }
-    if(!m){
-      for(const k of Object.keys(data.knockouts)){
-        m=data.knockouts[k].find(mm=>(mm.home===home&&mm.away===away)||(mm.home===away&&mm.away===home));
-        if(m) break;
-      }
-    }
-    if(m){
-      if(m.home===home){m.homeScore=+x.homeScore;m.awayScore=+x.awayScore;} else {m.homeScore=+x.awayScore;m.awayScore=+x.homeScore;}
-      applied++;
-    }else{notfound.push(`${home} vs ${away}`);}
-  });
-  buildAllNext(); saveData(); render();
-  return {applied, notfound};
+function mostrarOcultarTokenFD(){
+  const el=document.getElementById('fdToken');
+  if(!el) return;
+  el.type = el.type === 'password' ? 'text' : 'password';
 }
-async function consultarNativeStats(){
-  const status=document.getElementById('nativeStatus');
-  const url=(document.getElementById('nativeUrl')?.value||'https://native-stats.org/competition/WC/').trim();
-  status.innerHTML='Consultando Native Stats...';
+async function copiarTokenFD(){
+  const token=(localStorage.getItem('footballDataToken') || document.getElementById('fdToken')?.value || '').trim();
+  if(!token) return alert('No hay token guardado para copiar.');
   try{
-    const res=await fetch(url,{mode:'cors',cache:'no-store'});
-    if(!res.ok) throw new Error('HTTP '+res.status);
-    const html=await res.text();
-    const resultados=extraerResultadosNativeDesdeHtml(html);
-    if(!resultados.length){
-      status.innerHTML='Consulta realizada, pero no encontré marcadores publicados todavía o el formato de la página cambió.';
-      return;
-    }
-    const r=aplicarResultadosPorEquipos(resultados);
-    status.innerHTML=`✅ Native Stats consultado. Resultados encontrados: ${resultados.length}. Aplicados a la app: <b>${r.applied}</b>. ${r.notfound.length?'No ubicados: '+r.notfound.slice(0,5).join(', '):''}`;
+    await navigator.clipboard.writeText(token);
+    document.getElementById('fdStatus').innerHTML='✅ Token copiado al portapapeles.';
   }catch(e){
-    status.innerHTML='❌ El navegador bloqueó la consulta directa a Native Stats o la página no permite CORS. Solución: usar una URL puente/API o football-data.org. Error: '+e.message;
+    alert('No se pudo copiar automáticamente. Usa Mostrar / ocultar token y cópialo manualmente.');
+  }
+}
+function borrarTokenFD(){
+  if(!confirm('¿Borrar el token guardado en este navegador?')) return;
+  localStorage.removeItem('footballDataToken');
+  const el=document.getElementById('fdToken');
+  if(el) el.value='';
+  document.getElementById('fdStatus').innerHTML='Token borrado de este navegador.';
+}
+function activarAutoFootballData(){
+  const el=document.getElementById('fdToken');
+  if(el?.value.trim()) guardarTokenFD();
+  if(!localStorage.getItem('footballDataToken')) return alert('Primero pega y guarda tu API Token.');
+  consultarFootballData();
+  if(fdTimer) clearInterval(fdTimer);
+  fdTimer=setInterval(consultarFootballData, 5*60*1000);
+  document.getElementById('fdStatus').innerHTML='Actualización automática activada cada 5 minutos.';
+}
+function detenerAutoFootballData(){
+  if(fdTimer) clearInterval(fdTimer);
+  fdTimer=null;
+  document.getElementById('fdStatus').innerHTML='Actualización automática detenida.';
+}
+function normTeamName(x){
+  return (x||'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\b(cf|fc|national football team|seleccion|de|the)\b/g,'').replace(/[^a-z0-9]/g,'').trim();
+}
+function findMatchByTeams(home,away){
+  const h=normTeamName(home), a=normTeamName(away);
+  let all=[];
+  groups.forEach(g=>all.push(...data.groups[g].matches));
+  Object.values(data.knockouts).forEach(arr=>all.push(...arr));
+  return all.find(m=>normTeamName(m.home)===h && normTeamName(m.away)===a) || all.find(m=>normTeamName(m.home)===a && normTeamName(m.away)===h) || null;
+}
+function ecuadorDateParts(utc){
+  const d=new Date(utc);
+  const dateFmt=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Guayaquil',year:'numeric',month:'2-digit',day:'2-digit'});
+  const timeFmt=new Intl.DateTimeFormat('es-EC',{timeZone:'America/Guayaquil',hour:'2-digit',minute:'2-digit',hour12:false});
+  return {date:dateFmt.format(d), timeEcuador:timeFmt.format(d)};
+}
+async function consultarFootballData(){
+  const token=(document.getElementById('fdToken')?.value.trim()) || localStorage.getItem('footballDataToken');
+  if(!token) return alert('Pega tu API Token de football-data.org primero.');
+  const status=document.getElementById('fdStatus');
+  status.innerHTML='Consultando Football-Data.org...';
+  try{
+    const res=await fetch('https://api.football-data.org/v4/competitions/WC/matches', {headers:{'X-Auth-Token':token}});
+    if(!res.ok) throw new Error('HTTP '+res.status+' - '+await res.text());
+    const json=await res.json();
+    let updated=0, received=(json.matches||[]).length;
+    (json.matches||[]).forEach(x=>{
+      const home=x.homeTeam?.name || x.homeTeam?.shortName || '';
+      const away=x.awayTeam?.name || x.awayTeam?.shortName || '';
+      let m=findMatchByTeams(home,away);
+      if(!m) return;
+      const rev=normTeamName(m.home)===normTeamName(away) && normTeamName(m.away)===normTeamName(home);
+      const ft=x.score?.fullTime || x.score?.regularTime || {};
+      const hs=ft.home, as=ft.away;
+      if(x.utcDate){const p=ecuadorDateParts(x.utcDate); m.date=p.date; m.timeEcuador=p.timeEcuador;}
+      if(x.venue) m.venue=x.venue;
+      if(hs!==null && hs!==undefined && as!==null && as!==undefined){
+        if(rev){m.homeScore=as; m.awayScore=hs;} else {m.homeScore=hs; m.awayScore=as;}
+      }
+      updated++;
+    });
+    buildKnockouts();
+    saveData();
+    render();
+    const now=new Date().toLocaleString('es-EC');
+    document.getElementById('fdStatus').innerHTML=`Última consulta: ${now}. Partidos recibidos: ${received}. Partidos actualizados en la app: ${updated}.`;
+  }catch(e){
+    status.innerHTML='No se pudo consultar Football-Data directamente. Puede ser CORS, límite del plan o token inválido. Error: '+e.message;
   }
 }
 
+cargarTokenFD();
 init();
 </script>
 </body>

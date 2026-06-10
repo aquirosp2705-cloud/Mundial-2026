@@ -10,6 +10,8 @@
 header{background:linear-gradient(135deg,#071952,#0b5fff);color:white;padding:22px 18px;position:sticky;top:0;z-index:10;box-shadow:0 6px 16px rgba(0,0,0,.18)}
 header h1{margin:0;font-size:24px}header p{margin:6px 0 0;color:#dbe7ff;font-size:14px}.wrap{max-width:1280px;margin:0 auto;padding:18px}.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 18px rgba(16,24,40,.06);padding:16px;margin-bottom:16px}.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.btn{border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer;background:var(--brand);color:#fff}.btn:hover{background:var(--brand2)}.btn.sec{background:#eef2f7;color:#1d2939}.btn.danger{background:#c4320a}.btn.ok{background:#087443}.btn.warn{background:#b54708}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}.tab{padding:10px 12px;border:1px solid var(--line);background:#fff;border-radius:999px;cursor:pointer;font-weight:700;color:#344054}.tab.active{background:var(--brand);color:#fff;border-color:var(--brand)}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(430px,1fr));gap:16px}.groupTitle{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--brand);padding-bottom:8px;margin-bottom:10px}.groupTitle h3{font-weight:900;font-size:20px;color:#071952}.stageSummary{margin-top:16px;border:2px solid var(--line);border-radius:14px;background:#f8fafc;padding:12px}.stageSummary h3{margin-bottom:8px;color:#071952}.stageSummary table{background:white;border-radius:10px;overflow:hidden}.stageSummary .groupBadge{font-weight:900;color:#071952;background:#eef4ff;border-radius:999px;padding:2px 8px;display:inline-block}h2,h3{margin:0}.small{font-size:12px;color:var(--muted)}table{width:100%;border-collapse:collapse;font-size:13px}th,td{border-bottom:1px solid #edf0f5;padding:7px;text-align:left;vertical-align:middle}th{background:#f8fafc;color:#344054;font-size:12px}.rank1{background:#ecfdf3}.rank2{background:#f0f9ff}.rank3{background:#fff7ed}.teamInput,.scoreInput,.textInput,.dateInput{width:100%;border:1px solid var(--line);border-radius:8px;padding:7px;background:#fff}.scoreInput{width:54px;text-align:center}.dateInput{min-width:120px}.match{display:grid;grid-template-columns:1.1fr 58px 20px 58px 1.1fr;gap:6px;align-items:center}.muted{color:var(--muted)}.pill{display:inline-block;padding:3px 8px;border-radius:999px;background:var(--soft);color:#1849a9;font-weight:700;font-size:12px}.winner{font-weight:800;color:var(--ok)}.loser{color:#98a2b3}.bracket{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:16px}.matchCard{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff;margin-bottom:10px}.advance{font-size:12px;margin-top:6px}.apiBox{display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:10px}.notice{background:#fffbeb;border:1px solid #fedf89;color:#7a2e0e;padding:10px;border-radius:12px;font-size:13px}.hide{display:none}textarea{width:100%;min-height:110px;border:1px solid var(--line);border-radius:12px;padding:10px;font-family:monospace}.summary{display:flex;gap:10px;flex-wrap:wrap}.summary div{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:10px;min-width:160px}.originBadge{font-weight:900;color:#071952;background:#e0edff;border:1px solid #b2ccff;border-radius:999px;padding:2px 8px;display:inline-block;margin-left:4px}.teamMeta{font-size:11px;color:#475467;margin-top:4px;line-height:1.35}.teamLine{font-weight:800}.refBox{background:#f8fafc;border:1px solid #edf0f5;border-radius:10px;padding:7px;margin-top:8px}@media(max-width:700px){.grid{grid-template-columns:1fr}.match{grid-template-columns:1fr 46px 14px 46px 1fr}header{position:relative}.apiBox{grid-template-columns:1fr}.wrap{padding:10px}}
+
+.searchGrid{display:grid;grid-template-columns:180px 1fr auto auto auto;gap:10px;align-items:end}.searchResults{margin-top:12px;border:1px solid var(--line);border-radius:14px;overflow:auto;background:white}.searchResults table{min-width:900px}.quickScore{display:flex;gap:6px;align-items:center;flex-wrap:wrap}.quickScore input{width:54px;text-align:center}.quickSave{padding:7px 10px;border-radius:8px;font-size:12px}.savedMsg{color:var(--ok);font-weight:700;font-size:11px;margin-left:4px}.searchTag{font-weight:900;color:#071952;background:#eef4ff;border-radius:999px;padding:2px 8px;display:inline-block;font-size:12px}.emptySearch{padding:12px;color:var(--muted)}@media(max-width:800px){.searchGrid{grid-template-columns:1fr}.searchResults table{font-size:12px;min-width:760px}}
 </style>
 
 <link rel="icon" type="image/png" href="icon.png">
@@ -20,11 +22,11 @@ header h1{margin:0;font-size:24px}header p{margin:6px 0 0;color:#dbe7ff;font-siz
 
 </head>
 <body>
-<header><h1>🏆 Mundial de Fútbol 2026 - Control de Etapas</h1><p>Tablas por grupos, clasificación automática, etapas eliminatorias, simulación, limpieza e importación de resultados externos.</p></header>
+<header><h1>🏆 Mundial de Fútbol 2026 - Control de Etapas</h1><p>Tablas por grupos, clasificación automática, etapas eliminatorias y resultados conectados a calendario oficial.</p></header>
 <div class="wrap">
   <div class="panel">
     <div class="toolbar">
-      <button class="btn" onclick="simulateAll()">Simular partidos y resultados</button>
+      <button class="btn" onclick="simulateAll()">Simular solo resultados</button>
       <button class="btn ok" onclick="buildKnockouts()">Actualizar clasificados y etapas</button>
       <button class="btn sec" onclick="saveData()">Guardar en este navegador</button>
       <button class="btn sec" onclick="loadData(true)">Restaurar guardado</button>
@@ -35,7 +37,7 @@ header h1{margin:0;font-size:24px}header p{margin:6px 0 0;color:#dbe7ff;font-siz
       <b>Resultados automáticos Football-Data.org</b><br>
       <div class="apiBox">
         <input id="fdToken" class="textInput" type="password" placeholder="Pega aquí tu API Token de football-data.org una sola vez">
-        <button class="btn ok" onclick="consultarFootballData()">Consultar Football-Data</button>
+        <button class="btn ok" onclick="consultarFootballData()">Cargar calendario oficial / actualizar resultados</button>
       </div>
       <div class="toolbar" style="margin-top:8px">
         <button class="btn sec" onclick="guardarTokenFD()">Guardar token</button>
@@ -47,32 +49,79 @@ header h1{margin:0;font-size:24px}header p{margin:6px 0 0;color:#dbe7ff;font-siz
         <button class="btn" onclick="activarAutoFootballData()">Activar automático cada 5 min</button>
         <button class="btn danger" onclick="detenerAutoFootballData()">Detener automático</button>
       </div>
-      <div id="fdStatus" class="small" style="margin-top:8px">Pega tu token una sola vez y presiona <b>Guardar token</b>. Quedará guardado en este navegador.</div>
+      <div id="fdStatus" class="small" style="margin-top:8px">Pega tu token una sola vez y presiona <b>Guardar token</b>. Luego usa <b>Cargar calendario oficial / actualizar resultados</b>.</div>
     </div>
-    <div id="simStatus" class="notice" style="margin-top:12px;background:#ecfdf3;border-color:#abefc6;color:#065f46">Presiona <b>Simular partidos y resultados</b> para llenar automáticamente TODAS las etapas hasta la final y verificar la lógica.</div>
+    <div id="simStatus" class="notice" style="margin-top:12px;background:#ecfdf3;border-color:#abefc6;color:#065f46">Primero carga el <b>calendario oficial</b> desde Football-Data. La simulación solo llenará resultados de prueba sin cambiar fechas, horas ni sedes oficiales.</div>
     <div class="notice" style="margin-top:12px">GitHub Pages es estático. Para resultados automáticos necesitas una API pública con CORS o un JSON tuyo publicado. Esta app ya trae campo para pegar una URL/API o importar JSON manualmente.</div>
     <div class="apiBox"><input id="apiUrl" class="textInput" placeholder="URL JSON de resultados / API CORS. Ejemplo: https://tusitio.com/mundial2026.json"><button class="btn" onclick="updateFromUrl()">Consultar web/API</button></div>
     <details style="margin-top:10px"><summary><b>Importar resultados pegando JSON</b></summary><textarea id="jsonImport" placeholder='[{"stage":"GRUPOS","group":"A","home":"México","away":"Sudáfrica","homeScore":2,"awayScore":1,"date":"2026-06-11","timeEcuador":"14:00","venue":"Estadio Azteca"}]'></textarea><br><button class="btn sec" onclick="importJson()">Importar JSON</button></details>
+    <div class="notice" style="margin-top:12px;background:#f8fafc;border-color:#d8dee9;color:#172033">
+      <b>🔎 Buscar partidos por fecha o equipo</b><br>
+      <div class="searchGrid" style="margin-top:10px">
+        <div>
+          <label class="small"><b>Fecha del partido</b></label>
+          <input id="searchDate" class="dateInput" type="date" onchange="searchMatches()">
+        </div>
+        <div>
+          <label class="small"><b>Equipo</b></label>
+          <input id="searchTeam" class="textInput" list="teamList" placeholder="Ejemplo: Ecuador" oninput="searchMatches()">
+          <datalist id="teamList"></datalist>
+        </div>
+        <button class="btn sec" onclick="setSearchDateEcuador(0)">Hoy</button>
+        <button class="btn sec" onclick="setSearchDateEcuador(1)">Mañana</button>
+        <button class="btn" onclick="searchMatches(7)">Próximos 7 días</button>
+      </div>
+      <div class="toolbar" style="margin-top:8px">
+        <button class="btn ok" onclick="searchMatches()">Buscar</button>
+        <button class="btn sec" onclick="clearMatchSearch()">Limpiar búsqueda</button>
+      </div>
+      <div id="searchStatus" class="small" style="margin-top:8px">Puedes buscar por fecha para ingresar resultados más rápido sin recorrer todos los grupos.</div>
+      <div id="searchResults" class="searchResults hide"></div>
+    </div>
+
   </div>
   <div class="tabs" id="tabs"></div>
   <div id="view"></div>
 </div>
 <script>
 const groups = 'ABCDEFGHIJKL'.split('');
-const seedTeams = {
-A:['México','Sudáfrica','Corea del Sur','Costa Rica'],B:['Canadá','Bosnia y Herzegovina','Uruguay','Egipto'],C:['Estados Unidos','Paraguay','Australia','Turquía'],D:['Argentina','Austria','Argelia','Jordania'],E:['Alemania','Curaçao','Costa de Marfil','Ecuador'],F:['Brasil','Marruecos','Escocia','Haití'],G:['España','Arabia Saudita','Colombia','Cabo Verde'],H:['Francia','Senegal','Noruega','Irak'],I:['Inglaterra','Croacia','Panamá','Ghana'],J:['Italia','Japón','Chile','Nueva Zelanda'],K:['Portugal','Países Bajos','Qatar','Uzbekistán'],L:['Bélgica','Suiza','Perú','Jamaica']
-};
-let data, current='grupos';
 function defaultData(){
-  let d={groups:{},knockouts:{R32:[],R16:[],QF:[],SF:[],THIRD:[],FINAL:[]}};
-  groups.forEach((g,gi)=>{let teams=seedTeams[g];d.groups[g]={teams:teams.map(t=>({name:t})),matches:[]};let pairs=[[0,1],[2,3],[0,2],[1,3],[0,3],[1,2]];pairs.forEach((p,i)=>d.groups[g].matches.push({id:`G${g}-${i+1}`,stage:'GRUPOS',group:g,home:teams[p[0]],away:teams[p[1]],date:`2026-06-${String(11+Math.floor((gi*6+i)/4)).padStart(2,'0')}`,timeEcuador:['11:00','14:00','17:00','20:00'][(gi+i)%4],venue:['Ciudad de México','Toronto','Los Ángeles','Houston','Miami','Dallas','New York/New Jersey','Kansas City'][(gi+i)%8],homeScore:null,awayScore:null}));});return d;
+  let d={officialFixtureLoaded:false, officialLastLoad:null, groups:{}, knockouts:{R32:[],R16:[],QF:[],SF:[],THIRD:[],FINAL:[]}};
+  groups.forEach(g=>{d.groups[g]={teams:[],matches:[]};});
+  return d;
 }
 function init(){data=defaultData();loadData(false);renderTabs();render();}
 function renderTabs(){let items=[['grupos','Fase de grupos'],['r32','32avos'],['r16','16avos'],['qf','Cuartos'],['sf','Semifinales'],['third','Tercer lugar'],['final','Final'],['ranking','Ranking general']];tabs.innerHTML=items.map(x=>`<button class="tab ${current==x[0]?'active':''}" onclick="current='${x[0]}';render()">${x[1]}</button>`).join('');}
-function tableForGroup(g){let stats={};data.groups[g].teams.forEach(t=>stats[t.name]={team:t.name,PJ:0,PG:0,PE:0,PP:0,GF:0,GC:0,DG:0,PTS:0});data.groups[g].matches.forEach(m=>{if(m.homeScore===null||m.awayScore===null)return;let a=stats[m.home],b=stats[m.away];a.PJ++;b.PJ++;a.GF+=+m.homeScore;a.GC+=+m.awayScore;b.GF+=+m.awayScore;b.GC+=+m.homeScore;if(+m.homeScore>+m.awayScore){a.PG++;b.PP++;a.PTS+=3}else if(+m.homeScore<+m.awayScore){b.PG++;a.PP++;b.PTS+=3}else{a.PE++;b.PE++;a.PTS++;b.PTS++;}});Object.values(stats).forEach(s=>s.DG=s.GF-s.GC);return Object.values(stats).sort((a,b)=>b.PTS-a.PTS||b.DG-a.DG||b.GF-a.GF||a.team.localeCompare(b.team));}
+function ensureStat(stats, team){
+  if(!team) return null;
+  if(!stats[team]) stats[team]={team:team,PJ:0,PG:0,PE:0,PP:0,GF:0,GC:0,DG:0,PTS:0};
+  return stats[team];
+}
+function tableForGroup(g){
+  let stats={};
+  (data.groups[g]?.teams||[]).forEach(t=>ensureStat(stats,t.name));
+  (data.groups[g]?.matches||[]).forEach(m=>{
+    ensureStat(stats,m.home); ensureStat(stats,m.away);
+    if(m.homeScore===null||m.awayScore===null)return;
+    let a=stats[m.home],b=stats[m.away]; if(!a||!b)return;
+    a.PJ++;b.PJ++;a.GF+=+m.homeScore;a.GC+=+m.awayScore;b.GF+=+m.awayScore;b.GC+=+m.homeScore;
+    if(+m.homeScore>+m.awayScore){a.PG++;b.PP++;a.PTS+=3}else if(+m.homeScore<+m.awayScore){b.PG++;a.PP++;b.PTS+=3}else{a.PE++;b.PE++;a.PTS++;b.PTS++;}
+  });
+  Object.values(stats).forEach(x=>x.DG=x.GF-x.GC);
+  return Object.values(stats).sort((a,b)=>b.PTS-a.PTS||b.DG-a.DG||b.GF-a.GF||a.team.localeCompare(b.team));
+}
 function allRanked(){return groups.flatMap(g=>tableForGroup(g).map((s,i)=>({...s,group:g,pos:i+1,groupPts:s.PTS,totalRef:s.PTS})) ).sort((a,b)=>b.PTS-a.PTS||b.DG-a.DG||b.GF-a.GF);}
-function qualified(){let firstSecond=[],third=[];groups.forEach(g=>{let t=tableForGroup(g);firstSecond.push({...t[0],slot:`1${g}`},{...t[1],slot:`2${g}`});third.push({...t[2],slot:`3${g}`});});third.sort((a,b)=>b.PTS-a.PTS||b.DG-a.DG||b.GF-a.GF);return [...firstSecond,...third.slice(0,8)].sort((a,b)=>b.PTS-a.PTS||b.DG-a.DG||b.GF-a.GF);}
-function renderGroups(){view.innerHTML=`<div class="grid">`+groups.map(g=>`<div class="panel"><div class="groupTitle"><h3><b>GRUPO ${g}</b></h3><span class="pill">Pasan 1°, 2° y mejores 3°</span></div>${standingsHtml(g)}<h4>Partidos</h4>${matchesHtml(data.groups[g].matches)}${groupProgressHtml(g)}</div>`).join('')+`</div>`+qualifiedSummaryHtml();}
+function qualified(){
+  let firstSecond=[],third=[];
+  groups.forEach(g=>{let t=tableForGroup(g); if(t[0])firstSecond.push({...t[0],slot:`1${g}`}); if(t[1])firstSecond.push({...t[1],slot:`2${g}`}); if(t[2])third.push({...t[2],slot:`3${g}`});});
+  third.sort((a,b)=>b.PTS-a.PTS||b.DG-a.DG||b.GF-a.GF);
+  return [...firstSecond,...third.slice(0,8)].sort((a,b)=>b.PTS-a.PTS||b.DG-a.DG||b.GF-a.GF);
+}
+function renderGroups(){
+  const loaded=data.officialFixtureLoaded;
+  const officialMsg = loaded ? `<div class="notice" style="margin-bottom:12px;background:#ecfdf3;border-color:#abefc6;color:#065f46">Calendario oficial cargado desde Football-Data. Última carga: <b>${data.officialLastLoad||'-'}</b>.</div>` : `<div class="notice" style="margin-bottom:12px">No hay calendario oficial cargado. Pega/guarda tu API Token y presiona <b>Cargar calendario oficial / actualizar resultados</b>. No se muestran fechas simuladas porque no son confiables.</div>`;
+  view.innerHTML=officialMsg+`<div class="grid">`+groups.map(g=>`<div class="panel"><div class="groupTitle"><h3><b>GRUPO ${g}</b></h3><span class="pill">Pasan 1°, 2° y mejores 3°</span></div>${standingsHtml(g)}<h4>Partidos</h4>${matchesHtml(data.groups[g].matches)}${groupProgressHtml(g)}</div>`).join('')+`</div>`+qualifiedSummaryHtml();
+}
 function standingsHtml(g){let rows=tableForGroup(g);return `<table><thead><tr><th>#</th><th>País</th><th>PJ</th><th>GF</th><th>GC</th><th>DG</th><th>Pts</th></tr></thead><tbody>${rows.map((r,i)=>`<tr class="rank${i+1}"><td>${i+1}</td><td><b>${r.team}</b></td><td>${r.PJ}</td><td>${r.GF}</td><td>${r.GC}</td><td>${r.DG}</td><td><b>${r.PTS}</b></td></tr>`).join('')}</tbody></table>`;}
 function groupStatus(g){let played=data.groups[g].matches.filter(m=>m.homeScore!==null&&m.awayScore!==null).length;let total=data.groups[g].matches.length;return {played,total,complete:played===total,missing:total-played};}
 function groupProgressHtml(g){
@@ -88,7 +137,21 @@ function winnerText(m){if(m.homeScore===null||m.awayScore===null)return 'pendien
 function findMatch(id){for(const g of groups){let m=data.groups[g].matches.find(x=>x.id==id);if(m)return m;}for(const k of Object.keys(data.knockouts)){let m=data.knockouts[k].find(x=>x.id==id);if(m)return m;}return null;}
 function mset(id,field,val){let m=findMatch(id);m[field]=val;saveData();render();}
 function score(id,field,val){let m=findMatch(id);m[field]=val===''?null:+val;saveData();if(id.startsWith('G'))render();else{buildNextFrom(id);render();}}
-function buildKnockouts(){let q=qualified();const stages=[['R32',16,'32avos'],['R16',8,'16avos'],['QF',4,'Cuartos'],['SF',2,'Semifinal'],['THIRD',1,'Tercer lugar'],['FINAL',1,'Final']];data.knockouts.R32=[];for(let i=0;i<16;i++){let a=q[i],b=q[31-i]||q[q.length-1];data.knockouts.R32.push(newKO('R32',i+1,a,b,'2026-06-28',i));}['R16','QF','SF','THIRD','FINAL'].forEach(k=>{if(!data.knockouts[k].length){let n={R16:8,QF:4,SF:2,THIRD:1,FINAL:1}[k];for(let i=0;i<n;i++)data.knockouts[k].push(newKO(k,i+1,null,null,'2026-07-01',i));}});buildAllNext();saveData();render();}
+function buildKnockouts(){
+  let q=qualified();
+  if(!q.length){ alert('Primero carga el calendario oficial y/o registra resultados de grupos.'); return; }
+  const hasOfficialKOs = data.officialFixtureLoaded && (data.knockouts.R32.length||data.knockouts.R16.length||data.knockouts.QF.length||data.knockouts.SF.length||data.knockouts.THIRD.length||data.knockouts.FINAL.length);
+  if(!hasOfficialKOs){
+    // Solo si no existe fixture oficial de eliminatorias, crea llaves provisionales SIN fechas oficiales.
+    data.knockouts.R32=[];
+    for(let i=0;i<16;i++){let a=q[i],b=q[31-i]||null;data.knockouts.R32.push(newKO('R32',i+1,a,b,'',''))}
+    ['R16','QF','SF','THIRD','FINAL'].forEach(k=>{if(!data.knockouts[k].length){let n={R16:8,QF:4,SF:2,THIRD:1,FINAL:1}[k];for(let i=0;i<n;i++)data.knockouts[k].push(newKO(k,i+1,null,null,'',''));}});
+  }else if(data.knockouts.R32.length){
+    // Conserva fechas, horas y sedes oficiales; solo rellena equipos clasificados cuando correspondan.
+    data.knockouts.R32.forEach((m,i)=>{let a=q[i], b=q[31-i]; if(a && (!m.home || /winner|runner|third|tbd|por definir/i.test(m.home)))m.home=a.team; if(b && (!m.away || /winner|runner|third|tbd|por definir/i.test(m.away)))m.away=b.team;});
+  }
+  buildAllNext();saveData();render();
+}
 function newKO(stage,n,a,b,date,i){return {id:`${stage}-${n}`,stage,group:'',home:a?.team||'',away:b?.team||'',homeScore:null,awayScore:null,date, timeEcuador:['11:00','14:00','17:00','20:00'][i%4],venue:['Seattle','Atlanta','Boston','Vancouver','Miami','Dallas','Los Ángeles','New York/New Jersey'][i%8],homeRef:a?refPts(a.team):'',awayRef:b?refPts(b.team):''};}
 function refPts(team){let group=allRanked().find(x=>x.team==team)?.PTS||0;let ko=0;Object.values(data.knockouts).flat().forEach(m=>{if(m.homeScore!==null&&m.awayScore!==null){let w=winnerText(m); if(w==team)ko+=3;}});return `Grupo:${group} | Eliminatorias:${ko} | Total:${group+ko}`;}
 function originInfo(team){let r=allRanked().find(x=>x.team==team);if(!team||!r)return {group:'-',pos:'-',groupPts:0,slot:'Sin origen',label:'Sin origen de grupo'};let third=r.pos===3?'Mejor 3°':`${r.pos}°`;return {group:r.group,pos:r.pos,groupPts:r.PTS,slot:`${r.group}-${third}`,label:`GRUPO ${r.group} · ${third} · ${r.PTS} pts`};}
@@ -97,7 +160,17 @@ function teamWithOrigin(team){if(!team)return '';return `<div class="teamLine">$
 function teamRefLine(team){if(!team)return 'Pendiente';let o=originInfo(team);return `${team}: ${refPts(team)} | Origen: Grupo ${o.group}, puesto ${o.pos}°, puntos grupo ${o.groupPts}`;}
 function winnerObj(m){if(!m||m.homeScore===null||m.awayScore===null)return null;let name=+m.homeScore>=+m.awayScore?m.home:m.away;return {team:name};}
 function loserObj(m){if(!m||m.homeScore===null||m.awayScore===null)return null;let name=+m.homeScore>=+m.awayScore?m.away:m.home;return {team:name};}
-function buildAllNext(){['R32','R16','QF'].forEach((st,idx)=>{let next=['R16','QF','SF'][idx];data.knockouts[next].forEach((m,i)=>{let a=winnerObj(data.knockouts[st][i*2]);let b=winnerObj(data.knockouts[st][i*2+1]);if(a)m.home=a.team;if(b)m.away=b.team;m.homeRef=m.home?refPts(m.home):'';m.awayRef=m.away?refPts(m.away):'';});});let sf=data.knockouts.SF;let final=data.knockouts.FINAL[0],third=data.knockouts.THIRD[0];let w1=winnerObj(sf[0]),w2=winnerObj(sf[1]),l1=loserObj(sf[0]),l2=loserObj(sf[1]);if(w1)final.home=w1.team;if(w2)final.away=w2.team;if(l1)third.home=l1.team;if(l2)third.away=l2.team;[final,third,...data.knockouts.SF].forEach(m=>{m.homeRef=m.home?refPts(m.home):'';m.awayRef=m.away?refPts(m.away):'';});}
+function buildAllNext(){
+  ['R32','R16','QF'].forEach((st,idx)=>{
+    let next=['R16','QF','SF'][idx];
+    (data.knockouts[next]||[]).forEach((m,i)=>{let a=winnerObj((data.knockouts[st]||[])[i*2]);let b=winnerObj((data.knockouts[st]||[])[i*2+1]);if(a)m.home=a.team;if(b)m.away=b.team;m.homeRef=m.home?refPts(m.home):'';m.awayRef=m.away?refPts(m.away):'';});
+  });
+  let sf=data.knockouts.SF||[];let final=(data.knockouts.FINAL||[])[0],third=(data.knockouts.THIRD||[])[0];
+  let w1=winnerObj(sf[0]),w2=winnerObj(sf[1]),l1=loserObj(sf[0]),l2=loserObj(sf[1]);
+  if(final){if(w1)final.home=w1.team;if(w2)final.away=w2.team;final.homeRef=final.home?refPts(final.home):'';final.awayRef=final.away?refPts(final.away):'';}
+  if(third){if(l1)third.home=l1.team;if(l2)third.away=l2.team;third.homeRef=third.home?refPts(third.home):'';third.awayRef=third.away?refPts(third.away):'';}
+  (data.knockouts.SF||[]).forEach(m=>{m.homeRef=m.home?refPts(m.home):'';m.awayRef=m.away?refPts(m.away):'';});
+}
 function buildNextFrom(){buildAllNext();saveData();}
 function renderKO(key,title){let ms=data.knockouts[key]||[];view.innerHTML=`<div class="panel"><h2>${title}</h2><p class="small">Cada equipo muestra su <b>grupo original</b>, puesto de clasificación y puntos de grupo para validar los cruces. También se muestra la referencia acumulada: grupos + victorias en eliminatorias.</p><div class="bracket">${ms.map(m=>`<div class="matchCard"><b>${m.stage} Partido ${m.id.split('-')[1]}</b><div class="small"><input class="dateInput" value="${m.date}" onchange="mset('${m.id}','date',this.value)"> <input class="scoreInput" value="${m.timeEcuador}" onchange="mset('${m.id}','timeEcuador',this.value)"> <input class="textInput" style="width:170px" value="${m.venue}" onchange="mset('${m.id}','venue',this.value)"></div><div class="match"><div><input class="teamInput" value="${m.home}" onchange="mset('${m.id}','home',this.value)">${m.home?`<div class="teamMeta">${originBadge(m.home)}</div>`:''}</div><input class="scoreInput" type="number" value="${m.homeScore??''}" onchange="score('${m.id}','homeScore',this.value)"><b>-</b><input class="scoreInput" type="number" value="${m.awayScore??''}" onchange="score('${m.id}','awayScore',this.value)"><div><input class="teamInput" value="${m.away}" onchange="mset('${m.id}','away',this.value)">${m.away?`<div class="teamMeta">${originBadge(m.away)}</div>`:''}</div></div><div class="refBox small">${teamRefLine(m.home)}<br>${teamRefLine(m.away)}</div><div class="advance">Pasa: <b>${winnerText(m)}</b> ${winnerText(m)!=='pendiente'&&winnerText(m)!=='empate / penales pendiente'?originBadge(winnerText(m)):''}</div></div>`).join('')}</div>${stageWinnersHtml(key,title)}</div>`;}
 
@@ -120,39 +193,18 @@ function stageWinnersHtml(key,title){
 function renderRanking(){let r=allRanked();view.innerHTML=`<div class="panel"><h2>Ranking general de primera etapa</h2><table><thead><tr><th>#</th><th>Equipo</th><th>Grupo</th><th>Posición</th><th>DG</th><th>GF</th><th>Puntos grupo</th></tr></thead><tbody>${r.map((x,i)=>`<tr><td>${i+1}</td><td><b>${x.team}</b></td><td>${x.group}</td><td>${x.pos}</td><td>${x.DG}</td><td>${x.GF}</td><td><b>${x.PTS}</b></td></tr>`).join('')}</tbody></table></div>`;}
 function render(){renderTabs();if(current=='grupos')renderGroups();else if(current=='r32')renderKO('R32','32avos de final');else if(current=='r16')renderKO('R16','16avos de final');else if(current=='qf')renderKO('QF','Cuartos de final');else if(current=='sf')renderKO('SF','Semifinales');else if(current=='third')renderKO('THIRD','Partido por tercer lugar');else if(current=='final')renderKO('FINAL','Final');else renderRanking();}
 function simulateAll(){
-  // 1) Simula los 72 partidos de grupos.
-  groups.forEach((g,gi)=>data.groups[g].matches.forEach((m,mi)=>{
-    m.homeScore=(gi+mi*2)%5;
-    m.awayScore=(gi*2+mi+1)%5;
-  }));
-
-  // 2) Arma 32avos con 24 clasificados directos + 8 mejores terceros.
+  const totalGroupMatches=groups.reduce((acc,g)=>acc+(data.groups[g]?.matches||[]).length,0);
+  if(!data.officialFixtureLoaded || !totalGroupMatches){
+    alert('Primero carga el calendario oficial desde Football-Data. La simulación ya no crea fechas, horas, sedes ni equipos inventados.');
+    return;
+  }
+  groups.forEach((g,gi)=>(data.groups[g].matches||[]).forEach((m,mi)=>{m.homeScore=(gi+mi*2)%5;m.awayScore=(gi*2+mi+1)%5;}));
   buildKnockouts();
-
-  // 3) Simula cada fase en orden. Después de cada fase, actualiza la siguiente.
-  ['R32','R16','QF','SF'].forEach((st,si)=>{
-    data.knockouts[st].forEach((m,i)=>{
-      m.homeScore=(i+si+2)%4;
-      m.awayScore=(i*2+si+1)%4;
-      if(m.homeScore==m.awayScore){ m.homeScore=(m.homeScore+1)%5; }
-    });
-    buildAllNext();
-  });
-
-  // 4) Simula tercer lugar y final después de tener ganadores/perdedores de semifinales.
-  ['THIRD','FINAL'].forEach((st,si)=>{
-    data.knockouts[st].forEach((m,i)=>{
-      m.homeScore=(i+si+2)%4;
-      m.awayScore=(i+si+1)%4;
-      if(m.homeScore==m.awayScore){ m.homeScore++; }
-    });
-  });
-  buildAllNext();
-  saveData();
-  render();
-  const final=data.knockouts.FINAL[0];
-  const champion=winnerText(final);
-  document.getElementById('simStatus').innerHTML=`✅ Simulación completa: grupos, 32avos, 16avos, cuartos, semifinales, tercer lugar y final llenos. Campeón simulado: <b>${champion}</b>.`;
+  ['R32','R16','QF','SF'].forEach((st,si)=>{(data.knockouts[st]||[]).forEach((m,i)=>{if(!m.home||!m.away)return;m.homeScore=(i+si+2)%4;m.awayScore=(i*2+si+1)%4;if(m.homeScore==m.awayScore){m.homeScore=(m.homeScore+1)%5;}});buildAllNext();});
+  ['THIRD','FINAL'].forEach((st,si)=>{(data.knockouts[st]||[]).forEach((m,i)=>{if(!m.home||!m.away)return;m.homeScore=(i+si+2)%4;m.awayScore=(i+si+1)%4;if(m.homeScore==m.awayScore){m.homeScore++;}});});
+  buildAllNext();saveData();render();
+  const final=(data.knockouts.FINAL||[])[0];const champion=final?winnerText(final):'pendiente';
+  document.getElementById('simStatus').innerHTML=`✅ Simulación de resultados completa usando calendario oficial cargado. No se cambiaron fechas, horas ni sedes. Campeón simulado: <b>${champion}</b>.`;
 }
 function resetResults(){groups.forEach(g=>data.groups[g].matches.forEach(m=>{m.homeScore=null;m.awayScore=null;}));Object.keys(data.knockouts).forEach(k=>data.knockouts[k].forEach(m=>{m.homeScore=null;m.awayScore=null;}));saveData();render();}
 function resetEverything(){if(confirm('¿Reiniciar equipos, fechas, partidos y resultados?')){data=defaultData();localStorage.removeItem('mundial2026app');render();}}
@@ -161,6 +213,97 @@ function loadData(show){let s=localStorage.getItem('mundial2026app');if(s){data=
 async function updateFromUrl(){let url=document.getElementById('apiUrl').value.trim();if(!url)return alert('Pega una URL JSON primero.');try{let res=await fetch(url);let arr=await res.json();applyExternalMatches(arr);alert('Resultados importados desde la web/API.');render();}catch(e){alert('No se pudo consultar la URL. Revisa que sea JSON y permita CORS para GitHub Pages.');}}
 function importJson(){try{let arr=JSON.parse(document.getElementById('jsonImport').value);applyExternalMatches(arr);alert('JSON importado.');render();}catch(e){alert('JSON inválido.');}}
 function applyExternalMatches(arr){arr.forEach(x=>{let m=null;if(x.id)m=findMatch(x.id);if(!m&&x.stage==='GRUPOS')m=data.groups[x.group]?.matches.find(mm=>mm.home==x.home&&mm.away==x.away);if(!m)return;if(x.homeScore!==undefined)m.homeScore=x.homeScore;if(x.awayScore!==undefined)m.awayScore=x.awayScore;if(x.date)m.date=x.date;if(x.timeEcuador)m.timeEcuador=x.timeEcuador;if(x.venue)m.venue=x.venue;});buildKnockouts();saveData();}
+
+
+function getAllMatchesWithStage(){
+  const all=[];
+  groups.forEach(g=>data.groups[g].matches.forEach(m=>all.push({...m, stageLabel:'Grupo '+g, stageKey:'grupos'})));
+  const labels={R32:'32avos',R16:'16avos',QF:'Cuartos',SF:'Semifinales',THIRD:'Tercer lugar',FINAL:'Final'};
+  const keys={R32:'r32',R16:'r16',QF:'qf',SF:'sf',THIRD:'third',FINAL:'final'};
+  Object.keys(data.knockouts).forEach(k=>(data.knockouts[k]||[]).forEach(m=>all.push({...m, stageLabel:labels[k]||k, stageKey:keys[k]||'grupos'})));
+  return all.filter(m=>m.home||m.away);
+}
+function populateTeamSearch(){
+  const dl=document.getElementById('teamList');
+  if(!dl) return;
+  const teams=[...new Set(getAllMatchesWithStage().flatMap(m=>[m.home,m.away]).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+  dl.innerHTML=teams.map(t=>`<option value="${escapeHtml(t)}"></option>`).join('');
+}
+function escapeHtml(x){return (x||'').toString().replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function ecuadorDate(offset=0){
+  const now=new Date();
+  now.setDate(now.getDate()+offset);
+  return new Intl.DateTimeFormat('en-CA',{timeZone:'America/Guayaquil',year:'numeric',month:'2-digit',day:'2-digit'}).format(now);
+}
+function setSearchDateEcuador(offset){
+  document.getElementById('searchDate').value=ecuadorDate(offset);
+  searchMatches();
+}
+function clearMatchSearch(){
+  const d=document.getElementById('searchDate'), t=document.getElementById('searchTeam'), r=document.getElementById('searchResults'), st=document.getElementById('searchStatus');
+  if(d)d.value=''; if(t)t.value='';
+  if(r){r.classList.add('hide'); r.innerHTML='';}
+  if(st)st.innerHTML='Búsqueda limpia. Puedes buscar por fecha, equipo o ambos.';
+}
+let lastSearchNextDays=null;
+function searchMatches(nextDays){
+  populateTeamSearch();
+  if(nextDays!==undefined && nextDays!==null) lastSearchNextDays=nextDays;
+  else lastSearchNextDays=null;
+  const date=(document.getElementById('searchDate')?.value||'').trim();
+  const team=(document.getElementById('searchTeam')?.value||'').trim().toLowerCase();
+  const status=document.getElementById('searchStatus');
+  const box=document.getElementById('searchResults');
+  let list=getAllMatchesWithStage();
+  if(lastSearchNextDays){
+    const start=ecuadorDate(0), end=ecuadorDate(lastSearchNextDays);
+    list=list.filter(m=>m.date>=start && m.date<=end);
+  }else if(date){
+    list=list.filter(m=>m.date===date);
+  }
+  if(team){
+    list=list.filter(m=>(m.home||'').toLowerCase().includes(team)||(m.away||'').toLowerCase().includes(team));
+  }
+  list.sort((a,b)=>(a.date||'').localeCompare(b.date||'') || (a.timeEcuador||'').localeCompare(b.timeEcuador||''));
+  if(!date && !team && !lastSearchNextDays){
+    if(status)status.innerHTML='Elige una fecha o escribe un equipo para buscar.';
+    if(box){box.classList.add('hide'); box.innerHTML='';}
+    return;
+  }
+  if(status)status.innerHTML=`Resultado de búsqueda: <b>${list.length}</b> partido(s). Puedes ingresar el marcador y presionar <b>Guardar resultado</b>.`;
+  if(!list.length){box.classList.remove('hide'); box.innerHTML='<div class="emptySearch">No encontré partidos con ese filtro.</div>'; return;}
+  box.classList.remove('hide');
+  box.innerHTML=`<table><thead><tr><th>Fecha</th><th>Hora Ecuador</th><th>Etapa/Grupo</th><th>Partido</th><th>Estadio</th><th>Ingresar resultado</th><th>Ir a etapa</th></tr></thead><tbody>${list.map(m=>`<tr><td><b>${m.date||''}</b></td><td>${m.timeEcuador||''}</td><td><span class="searchTag">${m.stageLabel}</span></td><td><b>${escapeHtml(m.home||'')}</b> vs <b>${escapeHtml(m.away||'')}</b></td><td>${escapeHtml(m.venue||'')}</td><td><div class="quickScore"><input id="qs_${m.id}_home" class="scoreInput" type="number" value="${m.homeScore??''}" placeholder="${escapeHtml((m.home||'').slice(0,3))}"><b>-</b><input id="qs_${m.id}_away" class="scoreInput" type="number" value="${m.awayScore??''}" placeholder="${escapeHtml((m.away||'').slice(0,3))}"><button class="btn ok quickSave" onclick="quickSaveScore('${m.id}')">Guardar resultado</button><span id="msg_${m.id}" class="savedMsg"></span></div></td><td><button class="btn sec" onclick="goToMatchStage('${m.stageKey}')">Ver</button></td></tr>`).join('')}</tbody></table>`;
+}
+function quickSaveScore(id){
+  const m=findMatch(id);
+  if(!m) return;
+  const home=document.getElementById(`qs_${id}_home`)?.value;
+  const away=document.getElementById(`qs_${id}_away`)?.value;
+  m.homeScore = home==='' ? null : +home;
+  m.awayScore = away==='' ? null : +away;
+  if(!id.startsWith('G')) buildAllNext();
+  else buildAllNext();
+  saveData();
+  render();
+  searchMatches(lastSearchNextDays);
+  const msg=document.getElementById(`msg_${id}`);
+  if(msg) msg.textContent='Guardado';
+}
+function quickScoreUpdate(id, field, value){
+  const m=findMatch(id);
+  if(!m) return;
+  m[field]=value===''?null:+value;
+  buildAllNext();
+  saveData();
+  render();
+  searchMatches(lastSearchNextDays);
+}
+function goToMatchStage(stage){
+  current=stage;
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
 
 let fdTimer=null;
 function guardarTokenFD(){
@@ -230,40 +373,91 @@ function ecuadorDateParts(utc){
   const timeFmt=new Intl.DateTimeFormat('es-EC',{timeZone:'America/Guayaquil',hour:'2-digit',minute:'2-digit',hour12:false});
   return {date:dateFmt.format(d), timeEcuador:timeFmt.format(d)};
 }
+
+function groupLetterFromFD(x){
+  const raw=(x.group||x.stage||x.matchday||'').toString().toUpperCase();
+  let m=raw.match(/GROUP[_\s-]?([A-L])/); if(m) return m[1];
+  m=raw.match(/\b([A-L])\b/); if(m) return m[1];
+  return '';
+}
+function stageKeyFromFD(x){
+  const st=(x.stage||'').toString().toUpperCase();
+  if(st.includes('GROUP') || st.includes('FIRST')) return 'GROUP';
+  if(st.includes('LAST_32') || st.includes('ROUND_OF_32') || st.includes('32')) return 'R32';
+  if(st.includes('LAST_16') || st.includes('ROUND_OF_16') || st.includes('16')) return 'R16';
+  if(st.includes('QUARTER')) return 'QF';
+  if(st.includes('SEMI')) return 'SF';
+  if(st.includes('THIRD')) return 'THIRD';
+  if(st.includes('FINAL')) return 'FINAL';
+  return '';
+}
+function teamNameFD(t){return t?.shortName || t?.name || t?.tla || 'Por definir';}
+function addTeamToGroup(g, name){
+  if(!g || !name || name==='Por definir') return;
+  const arr=data.groups[g].teams;
+  if(!arr.find(t=>normTeamName(t.name)===normTeamName(name))) arr.push({name});
+}
+function scoreFromFD(x){
+  const ft=x.score?.fullTime || x.score?.regularTime || {};
+  const hs=ft.home, as=ft.away;
+  return {homeScore:(hs===null||hs===undefined)?null:hs, awayScore:(as===null||as===undefined)?null:as};
+}
+function matchObjFromFD(x, stage, group){
+  const home=teamNameFD(x.homeTeam), away=teamNameFD(x.awayTeam);
+  const p=x.utcDate?ecuadorDateParts(x.utcDate):{date:'',timeEcuador:''};
+  const sc=scoreFromFD(x);
+  return {id:String(x.id||`${stage}-${group||''}-${home}-${away}`).replace(/[^A-Za-z0-9_-]/g,''), stage:stage==='GROUP'?'GRUPOS':stage, group:group||'', home, away, date:p.date, timeEcuador:p.timeEcuador, venue:x.venue || x.area?.name || 'Por confirmar', homeScore:sc.homeScore, awayScore:sc.awayScore, officialId:x.id||null, status:x.status||''};
+}
+function applyFootballDataOfficial(matches){
+  let oldScores={};
+  groups.forEach(g=>(data.groups[g].matches||[]).forEach(m=>{oldScores[`${normTeamName(m.home)}|${normTeamName(m.away)}`]={homeScore:m.homeScore,awayScore:m.awayScore};}));
+  Object.values(data.knockouts||{}).flat().forEach(m=>{oldScores[`${normTeamName(m.home)}|${normTeamName(m.away)}`]={homeScore:m.homeScore,awayScore:m.awayScore};});
+  data=defaultData();
+  (matches||[]).forEach(x=>{
+    const sk=stageKeyFromFD(x);
+    if(!sk) return;
+    if(sk==='GROUP'){
+      const g=groupLetterFromFD(x);
+      if(!g || !data.groups[g]) return;
+      const m=matchObjFromFD(x,'GROUP',g);
+      const saved=oldScores[`${normTeamName(m.home)}|${normTeamName(m.away)}`];
+      if(saved && m.homeScore===null && m.awayScore===null){m.homeScore=saved.homeScore;m.awayScore=saved.awayScore;}
+      data.groups[g].matches.push(m);
+      addTeamToGroup(g,m.home); addTeamToGroup(g,m.away);
+    }else{
+      const m=matchObjFromFD(x,sk,'');
+      if(data.knockouts[sk]) data.knockouts[sk].push(m);
+    }
+  });
+  groups.forEach(g=>data.groups[g].matches.sort((a,b)=>(a.date+a.timeEcuador).localeCompare(b.date+b.timeEcuador)));
+  Object.keys(data.knockouts).forEach(k=>data.knockouts[k].sort((a,b)=>(a.date+a.timeEcuador).localeCompare(b.date+b.timeEcuador)));
+  data.officialFixtureLoaded=true;
+  data.officialLastLoad=new Date().toLocaleString('es-EC');
+}
 async function consultarFootballData(){
   const token=(document.getElementById('fdToken')?.value.trim()) || localStorage.getItem('footballDataToken');
   if(!token) return alert('Pega tu API Token de football-data.org primero.');
   const status=document.getElementById('fdStatus');
-  status.innerHTML='Consultando Football-Data.org...';
+  status.innerHTML='Consultando calendario oficial y resultados en Football-Data.org...';
   try{
     const res=await fetch('https://api.football-data.org/v4/competitions/WC/matches', {headers:{'X-Auth-Token':token}});
     if(!res.ok) throw new Error('HTTP '+res.status+' - '+await res.text());
     const json=await res.json();
-    let updated=0, received=(json.matches||[]).length;
-    (json.matches||[]).forEach(x=>{
-      const home=x.homeTeam?.name || x.homeTeam?.shortName || '';
-      const away=x.awayTeam?.name || x.awayTeam?.shortName || '';
-      let m=findMatchByTeams(home,away);
-      if(!m) return;
-      const rev=normTeamName(m.home)===normTeamName(away) && normTeamName(m.away)===normTeamName(home);
-      const ft=x.score?.fullTime || x.score?.regularTime || {};
-      const hs=ft.home, as=ft.away;
-      if(x.utcDate){const p=ecuadorDateParts(x.utcDate); m.date=p.date; m.timeEcuador=p.timeEcuador;}
-      if(x.venue) m.venue=x.venue;
-      if(hs!==null && hs!==undefined && as!==null && as!==undefined){
-        if(rev){m.homeScore=as; m.awayScore=hs;} else {m.homeScore=hs; m.awayScore=as;}
-      }
-      updated++;
-    });
-    buildKnockouts();
-    saveData();
-    render();
-    const now=new Date().toLocaleString('es-EC');
-    document.getElementById('fdStatus').innerHTML=`Última consulta: ${now}. Partidos recibidos: ${received}. Partidos actualizados en la app: ${updated}.`;
+    const received=(json.matches||[]).length;
+    applyFootballDataOfficial(json.matches||[]);
+    saveData();render();
+    document.getElementById('fdStatus').innerHTML=`Calendario oficial / resultados cargados. Partidos recibidos: <b>${received}</b>. Última consulta: <b>${data.officialLastLoad}</b>.`;
   }catch(e){
     status.innerHTML='No se pudo consultar Football-Data directamente. Puede ser CORS, límite del plan o token inválido. Error: '+e.message;
   }
 }
+
+
+const _renderOriginal = render;
+render = function(){
+  _renderOriginal();
+  populateTeamSearch();
+};
 
 cargarTokenFD();
 init();

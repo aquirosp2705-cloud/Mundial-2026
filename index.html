@@ -90,8 +90,7 @@ function stageWinnersHtml(key,title){
   let label= key==='FINAL' ? 'Campeón al final de la Final' : (key==='THIRD' ? 'Ganador del tercer lugar' : `Equipos que pasan al final de ${title}`);
   if(!winners.length)return `<div class="stageSummary"><h3>${label}</h3><p class="small">Todavía no hay resultados suficientes para mostrar clasificados.</p></div>`;
   return `<div class="stageSummary"><h3>${label}</h3><table><thead><tr><th>#</th><th>Equipo</th><th>Grupo original</th><th>Puesto grupo</th><th>Pts grupo</th><th>Partido</th><th>Puntaje / referencia acumulada</th></tr></thead><tbody>${winners.map((x,i)=>`<tr><td>${i+1}</td><td><b>${x.team}</b></td><td><span class="groupBadge">GRUPO ${x.origin.group}</span></td><td>${x.origin.pos}°</td><td><b>${x.origin.groupPts}</b></td><td>${x.match}</td><td><b>${x.ref}</b></td></tr>`).join('')}</tbody></table></div>`;
-}"
-
+}
 
 function renderRanking(){let r=allRanked();view.innerHTML=`<div class="panel"><h2>Ranking general de primera etapa</h2><table><thead><tr><th>#</th><th>Equipo</th><th>Grupo</th><th>Posición</th><th>DG</th><th>GF</th><th>Puntos grupo</th></tr></thead><tbody>${r.map((x,i)=>`<tr><td>${i+1}</td><td><b>${x.team}</b></td><td>${x.group}</td><td>${x.pos}</td><td>${x.DG}</td><td>${x.GF}</td><td><b>${x.PTS}</b></td></tr>`).join('')}</tbody></table></div>`;}
 function render(){renderTabs();if(current=='grupos')renderGroups();else if(current=='r32')renderKO('R32','32avos de final');else if(current=='r16')renderKO('R16','16avos de final');else if(current=='qf')renderKO('QF','Cuartos de final');else if(current=='sf')renderKO('SF','Semifinales');else if(current=='third')renderKO('THIRD','Partido por tercer lugar');else if(current=='final')renderKO('FINAL','Final');else renderRanking();}

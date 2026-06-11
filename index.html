@@ -3,463 +3,176 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Mundial 2026 - Tablas y Etapas</title>
-<style>
-:root{--bg:#f4f7fb;--card:#fff;--ink:#172033;--muted:#667085;--line:#d8dee9;--brand:#0b5fff;--brand2:#003a9b;--ok:#087443;--bad:#b42318;--warn:#b54708;--soft:#eef4ff;}
-*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink)}
-header{background:linear-gradient(135deg,#071952,#0b5fff);color:white;padding:22px 18px;position:sticky;top:0;z-index:10;box-shadow:0 6px 16px rgba(0,0,0,.18)}
-header h1{margin:0;font-size:24px}header p{margin:6px 0 0;color:#dbe7ff;font-size:14px}.wrap{max-width:1280px;margin:0 auto;padding:18px}.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 18px rgba(16,24,40,.06);padding:16px;margin-bottom:16px}.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.btn{border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer;background:var(--brand);color:#fff}.btn:hover{background:var(--brand2)}.btn.sec{background:#eef2f7;color:#1d2939}.btn.danger{background:#c4320a}.btn.ok{background:#087443}.btn.warn{background:#b54708}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}.tab{padding:10px 12px;border:1px solid var(--line);background:#fff;border-radius:999px;cursor:pointer;font-weight:700;color:#344054}.tab.active{background:var(--brand);color:#fff;border-color:var(--brand)}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(430px,1fr));gap:16px}.groupTitle{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--brand);padding-bottom:8px;margin-bottom:10px}.groupTitle h3{font-weight:900;font-size:20px;color:#071952}.stageSummary{margin-top:16px;border:2px solid var(--line);border-radius:14px;background:#f8fafc;padding:12px}.stageSummary h3{margin-bottom:8px;color:#071952}.stageSummary table{background:white;border-radius:10px;overflow:hidden}.stageSummary .groupBadge{font-weight:900;color:#071952;background:#eef4ff;border-radius:999px;padding:2px 8px;display:inline-block}h2,h3{margin:0}.small{font-size:12px;color:var(--muted)}table{width:100%;border-collapse:collapse;font-size:13px}th,td{border-bottom:1px solid #edf0f5;padding:7px;text-align:left;vertical-align:middle}th{background:#f8fafc;color:#344054;font-size:12px}.rank1{background:#ecfdf3}.rank2{background:#f0f9ff}.rank3{background:#fff7ed}.teamInput,.scoreInput,.textInput,.dateInput{width:100%;border:1px solid var(--line);border-radius:8px;padding:7px;background:#fff}.scoreInput{width:54px;text-align:center}.dateInput{min-width:120px}.match{display:grid;grid-template-columns:1.1fr 58px 20px 58px 1.1fr;gap:6px;align-items:center}.muted{color:var(--muted)}.pill{display:inline-block;padding:3px 8px;border-radius:999px;background:var(--soft);color:#1849a9;font-weight:700;font-size:12px}.winner{font-weight:800;color:var(--ok)}.loser{color:#98a2b3}.bracket{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:16px}.matchCard{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff;margin-bottom:10px}.advance{font-size:12px;margin-top:6px}.apiBox{display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:10px}.notice{background:#fffbeb;border:1px solid #fedf89;color:#7a2e0e;padding:10px;border-radius:12px;font-size:13px}.hide{display:none}textarea{width:100%;min-height:110px;border:1px solid var(--line);border-radius:12px;padding:10px;font-family:monospace}.summary{display:flex;gap:10px;flex-wrap:wrap}.summary div{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:10px;min-width:160px}.originBadge{font-weight:900;color:#071952;background:#e0edff;border:1px solid #b2ccff;border-radius:999px;padding:2px 8px;display:inline-block;margin-left:4px}.teamMeta{font-size:11px;color:#475467;margin-top:4px;line-height:1.35}.teamLine{font-weight:800}.refBox{background:#f8fafc;border:1px solid #edf0f5;border-radius:10px;padding:7px;margin-top:8px}@media(max-width:700px){.grid{grid-template-columns:1fr}.match{grid-template-columns:1fr 46px 14px 46px 1fr}header{position:relative}.apiBox{grid-template-columns:1fr}.wrap{padding:10px}}
-
-.searchGrid{display:grid;grid-template-columns:180px 1fr auto auto auto;gap:10px;align-items:end}.searchResults{margin-top:12px;border:1px solid var(--line);border-radius:14px;overflow:auto;background:white}.searchResults table{min-width:900px}.quickScore{display:flex;gap:6px;align-items:center;flex-wrap:wrap}.quickScore input{width:54px;text-align:center}.quickSave{padding:7px 10px;border-radius:8px;font-size:12px}.savedMsg{color:var(--ok);font-weight:700;font-size:11px;margin-left:4px}.searchTag{font-weight:900;color:#071952;background:#eef4ff;border-radius:999px;padding:2px 8px;display:inline-block;font-size:12px}.emptySearch{padding:12px;color:var(--muted)}@media(max-width:800px){.searchGrid{grid-template-columns:1fr}.searchResults table{font-size:12px;min-width:760px}}
-</style>
-
+<title>Mundial 2026 - Control de Etapas V2</title>
 <link rel="icon" type="image/png" href="icon.png">
 <link rel="apple-touch-icon" href="icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Mundial 2026">
-
+<style>
+:root{--bg:#f4f7fb;--card:#fff;--ink:#172033;--muted:#667085;--line:#d8dee9;--brand:#0b5fff;--brand2:#003a9b;--ok:#087443;--bad:#b42318;--warn:#b54708;--soft:#eef4ff;--gold:#fff7d6;--green:#ecfdf3;--blue:#f0f9ff;--orange:#fff7ed;}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:linear-gradient(135deg,#071952,#0b5fff);color:white;padding:22px 18px;position:sticky;top:0;z-index:10;box-shadow:0 6px 16px rgba(0,0,0,.18)}
+header h1{margin:0;font-size:24px}header p{margin:6px 0 0;color:#dbe7ff;font-size:14px}
+.wrap{max-width:1280px;margin:0 auto;padding:18px}.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 18px rgba(16,24,40,.06);padding:16px;margin-bottom:16px}
+.toolbar,.searchbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.btn{border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer;background:var(--brand);color:#fff}.btn:hover{background:var(--brand2)}.btn.sec{background:#eef2f7;color:#1d2939}.btn.danger{background:#c4320a}.btn.ok{background:#087443}.btn.warn{background:#b54708}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}.tab{padding:10px 12px;border:1px solid var(--line);background:#fff;border-radius:999px;cursor:pointer;font-weight:700;color:#344054}.tab.active{background:var(--brand);color:#fff;border-color:var(--brand)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(430px,1fr));gap:16px}.groupTitle{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--brand);padding-bottom:8px;margin-bottom:10px}.groupTitle h3{font-weight:900;font-size:20px;color:#071952}
+h2,h3{margin:0}.small{font-size:12px;color:var(--muted)}table{width:100%;border-collapse:collapse;font-size:13px}th,td{border-bottom:1px solid #edf0f5;padding:7px;text-align:left;vertical-align:middle}th{background:#f8fafc;color:#344054;font-size:12px}
+.rank1{background:var(--green)}.rank2{background:var(--blue)}.rank3{background:var(--orange)}.groupBadge,.originBadge,.pill{display:inline-block;padding:3px 8px;border-radius:999px;background:var(--soft);color:#1849a9;font-weight:800;font-size:12px}.originBadge{background:#e0edff;border:1px solid #b2ccff;color:#071952}
+.teamInput,.scoreInput,.textInput,.dateInput,select{border:1px solid var(--line);border-radius:8px;padding:8px;background:#fff}.textInput{min-width:220px}.scoreInput{width:58px;text-align:center}.dateInput{min-width:145px}
+.match{display:grid;grid-template-columns:1.15fr 58px 20px 58px 1.15fr;gap:6px;align-items:center}.matchCard{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff;margin-bottom:10px}.bracket{display:grid;grid-template-columns:repeat(auto-fit,minmax(370px,1fr));gap:16px}.advance{font-size:12px;margin-top:6px}.notice{background:#fffbeb;border:1px solid #fedf89;color:#7a2e0e;padding:10px;border-radius:12px;font-size:13px}textarea{width:100%;min-height:100px;border:1px solid var(--line);border-radius:12px;padding:10px;font-family:monospace}
+.stageSummary{margin-top:16px;border:2px solid var(--line);border-radius:14px;background:#f8fafc;padding:12px}.stageSummary h3{margin-bottom:8px;color:#071952}.stageSummary table{background:white;border-radius:10px;overflow:hidden}
+.resultRow{border:1px solid var(--line);border-radius:12px;padding:10px;margin-bottom:8px;background:#fff}.resultGrid{display:grid;grid-template-columns:95px 1fr 64px 64px 95px;gap:8px;align-items:center}.resultTitle{font-weight:900}.muted{color:var(--muted)}.empty{color:#98a2b3;font-style:italic}.refBox{background:#f8fafc;border:1px solid #edf0f5;border-radius:10px;padding:8px;margin-top:8px;line-height:1.45}.teamMeta{font-size:11px;color:#475467;margin-top:4px;line-height:1.35}.teamLine{font-weight:900}.winner{font-weight:900;color:var(--ok)}.loser{color:#98a2b3}.warnText{color:var(--warn);font-weight:800}.okText{color:var(--ok);font-weight:800}
+.pathLine{display:block;font-size:12px;margin-top:2px}.teamCard{padding:6px;border-radius:10px;background:#f8fafc;border:1px solid #edf0f5}
+@media(max-width:700px){.grid{grid-template-columns:1fr}.match{grid-template-columns:1fr 46px 14px 46px 1fr}.resultGrid{grid-template-columns:1fr 56px 56px}.resultGrid .wide{grid-column:1 / -1}header{position:relative}.wrap{padding:10px}}
+</style>
 </head>
 <body>
-<header><h1>🏆 Mundial de Fútbol 2026 - Control de Etapas</h1><p>Tablas por grupos, clasificación automática, etapas eliminatorias y resultados conectados a calendario oficial.</p></header>
+<header><h1>🏆 Mundial de Fútbol 2026 - Control de Etapas V2</h1><p>Calendario oficial desde tu Excel · Hora Ecuador · búsqueda · resultados manuales · puntos acumulados por etapa.</p></header>
 <div class="wrap">
   <div class="panel">
     <div class="toolbar">
-      <button class="btn" onclick="simulateAll()">Simular solo resultados</button>
-      <button class="btn ok" onclick="buildKnockouts()">Actualizar clasificados y etapas</button>
-      <button class="btn sec" onclick="saveData()">Guardar en este navegador</button>
-      <button class="btn sec" onclick="loadData(true)">Restaurar guardado</button>
-      <button class="btn danger" onclick="resetResults()">Borrar todos los resultados</button>
-      <button class="btn warn" onclick="resetEverything()">Reiniciar todo</button>
+      <button class="btn sec" onclick="saveData(true)">Guardar</button>
+      <button class="btn sec" onclick="loadData(true)">Restaurar</button>
+      <button class="btn sec" onclick="exportBackup()">Exportar respaldo</button>
+      <button class="btn sec" onclick="document.getElementById('backupFile').click()">Importar respaldo</button>
+      <input id="backupFile" type="file" accept="application/json" style="display:none" onchange="importBackupFile(event)">
+      <button class="btn danger" onclick="resetResults()">Borrar resultados</button>
     </div>
-    <div class="notice" style="margin-top:12px;background:#eef4ff;border-color:#b2ccff;color:#1849a9">
-      <b>Resultados automáticos Football-Data.org</b><br>
-      <div class="apiBox">
-        <input id="fdToken" class="textInput" type="password" placeholder="Pega aquí tu API Token de football-data.org una sola vez">
-        <button class="btn ok" onclick="consultarFootballData()">Cargar calendario oficial / actualizar resultados</button>
-      </div>
-      <div class="toolbar" style="margin-top:8px">
-        <button class="btn sec" onclick="guardarTokenFD()">Guardar token</button>
-        <button class="btn sec" onclick="mostrarOcultarTokenFD()">Mostrar / ocultar token</button>
-        <button class="btn sec" onclick="copiarTokenFD()">Copiar token guardado</button>
-        <button class="btn danger" onclick="borrarTokenFD()">Borrar token</button>
-      </div>
-      <div class="toolbar" style="margin-top:8px">
-        <button class="btn" onclick="activarAutoFootballData()">Activar automático cada 5 min</button>
-        <button class="btn danger" onclick="detenerAutoFootballData()">Detener automático</button>
-      </div>
-      <div id="fdStatus" class="small" style="margin-top:8px">Pega tu token una sola vez y presiona <b>Guardar token</b>. Luego usa <b>Cargar calendario oficial / actualizar resultados</b>.</div>
-    </div>
-    <div id="simStatus" class="notice" style="margin-top:12px;background:#ecfdf3;border-color:#abefc6;color:#065f46">Primero carga el <b>calendario oficial</b> desde Football-Data. La simulación solo llenará resultados de prueba sin cambiar fechas, horas ni sedes oficiales.</div>
-    <div class="notice" style="margin-top:12px">GitHub Pages es estático. Para resultados automáticos necesitas una API pública con CORS o un JSON tuyo publicado. Esta app ya trae campo para pegar una URL/API o importar JSON manualmente.</div>
-    <div class="apiBox"><input id="apiUrl" class="textInput" placeholder="URL JSON de resultados / API CORS. Ejemplo: https://tusitio.com/mundial2026.json"><button class="btn" onclick="updateFromUrl()">Consultar web/API</button></div>
-    <details style="margin-top:10px"><summary><b>Importar resultados pegando JSON</b></summary><textarea id="jsonImport" placeholder='[{"stage":"GRUPOS","group":"A","home":"México","away":"Sudáfrica","homeScore":2,"awayScore":1,"date":"2026-06-11","timeEcuador":"14:00","venue":"Estadio Azteca"}]'></textarea><br><button class="btn sec" onclick="importJson()">Importar JSON</button></details>
-    <div class="notice" style="margin-top:12px;background:#f8fafc;border-color:#d8dee9;color:#172033">
-      <b>🔎 Buscar partidos por fecha o equipo</b><br>
-      <div class="searchGrid" style="margin-top:10px">
-        <div>
-          <label class="small"><b>Fecha del partido</b></label>
-          <input id="searchDate" class="dateInput" type="date" onchange="searchMatches()">
-        </div>
-        <div>
-          <label class="small"><b>Equipo</b></label>
-          <input id="searchTeam" class="textInput" list="teamList" placeholder="Ejemplo: Ecuador" oninput="searchMatches()">
-          <datalist id="teamList"></datalist>
-        </div>
-        <button class="btn sec" onclick="setSearchDateEcuador(0)">Hoy</button>
-        <button class="btn sec" onclick="setSearchDateEcuador(1)">Mañana</button>
-        <button class="btn" onclick="searchMatches(7)">Próximos 7 días</button>
-      </div>
-      <div class="toolbar" style="margin-top:8px">
-        <button class="btn ok" onclick="searchMatches()">Buscar</button>
-        <button class="btn sec" onclick="clearMatchSearch()">Limpiar búsqueda</button>
-      </div>
-      <div id="searchStatus" class="small" style="margin-top:8px">Puedes buscar por fecha para ingresar resultados más rápido sin recorrer todos los grupos.</div>
-      <div id="searchResults" class="searchResults hide"></div>
-    </div>
-
+    <div class="notice" style="margin-top:12px">Se eliminaron los botones de consulta web/API. El calendario, países, fechas, sedes y horas Ecuador vienen del archivo oficial procesado. Tú solo ingresas resultados.</div>
   </div>
+
+  <div class="panel">
+    <h2>🔎 Buscar partidos para ingresar resultados</h2>
+    <div class="searchbar" style="margin-top:12px">
+      <label>Fecha Ecuador: <input type="date" id="searchDate" class="dateInput"></label>
+      <label>Equipo/país: <input type="text" id="searchTeam" class="textInput" placeholder="Ej: Ecuador, México, Brasil"></label>
+      <button class="btn" onclick="searchMatches()">Buscar</button>
+      <button class="btn sec" onclick="quickToday()">Hoy</button>
+      <button class="btn sec" onclick="quickTomorrow()">Mañana</button>
+      <button class="btn sec" onclick="quickNext7()">Próximos 7 días</button>
+      <button class="btn sec" onclick="clearSearch()">Limpiar</button>
+    </div>
+    <div id="searchResults" style="margin-top:12px"></div>
+  </div>
+
   <div class="tabs" id="tabs"></div>
   <div id="view"></div>
 </div>
 <script>
+const fixtureRaw = [{"match_no": 1, "stage": "Grupos", "group": "A", "date_ecuador": "2026-06-11", "time_ecuador": "14:00", "datetime_ecuador": "2026-06-11 14:00", "date_source": "2026-06-11", "time_source": "15:00", "team1": "MÉXICO", "team2": "SUDÁFRICA", "venue": "Estadio Ciudad de México", "city_short": "Ciudad de México", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 2, "stage": "Grupos", "group": "A", "date_ecuador": "2026-06-11", "time_ecuador": "21:00", "datetime_ecuador": "2026-06-11 21:00", "date_source": "2026-06-11", "time_source": "22:00", "team1": "COREA del SUR", "team2": "REP. CHECA", "venue": "Estadio Guadalajara", "city_short": "Guadalajara", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 3, "stage": "Grupos", "group": "B", "date_ecuador": "2026-06-12", "time_ecuador": "14:00", "datetime_ecuador": "2026-06-12 14:00", "date_source": "2026-06-12", "time_source": "15:00", "team1": "CANADÁ", "team2": "BOSNIA y HERZEG.", "venue": "Estadio Toronto", "city_short": "Toronto", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 4, "stage": "Grupos", "group": "D", "date_ecuador": "2026-06-12", "time_ecuador": "20:00", "datetime_ecuador": "2026-06-12 20:00", "date_source": "2026-06-12", "time_source": "21:00", "team1": "ESTADOS UNIDOS", "team2": "PARAGUAY", "venue": "Estadio Los Angeles", "city_short": "Los Angeles", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 5, "stage": "Grupos", "group": "B", "date_ecuador": "2026-06-13", "time_ecuador": "14:00", "datetime_ecuador": "2026-06-13 14:00", "date_source": "2026-06-13", "time_source": "15:00", "team1": "CATAR", "team2": "SUIZA", "venue": "Estadio Bahía de San Francisco", "city_short": "San Francisco", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 6, "stage": "Grupos", "group": "C", "date_ecuador": "2026-06-13", "time_ecuador": "17:00", "datetime_ecuador": "2026-06-13 17:00", "date_source": "2026-06-13", "time_source": "18:00", "team1": "BRASIL", "team2": "MARRUECOS", "venue": "Estadio Nueva York/Nueva Jersey", "city_short": "N. York/N. Jersey", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 7, "stage": "Grupos", "group": "C", "date_ecuador": "2026-06-13", "time_ecuador": "20:00", "datetime_ecuador": "2026-06-13 20:00", "date_source": "2026-06-13", "time_source": "21:00", "team1": "HAITÍ", "team2": "ESCOCIA", "venue": "Estadio Boston", "city_short": "Boston", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 8, "stage": "Grupos", "group": "D", "date_ecuador": "2026-06-13", "time_ecuador": "23:00", "datetime_ecuador": "2026-06-13 23:00", "date_source": "2026-06-14", "time_source": "00:00", "team1": "AUSTRALIA", "team2": "TURQUÍA", "venue": "Estadio BC Place Vancouver", "city_short": "Vancouver", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 9, "stage": "Grupos", "group": "E", "date_ecuador": "2026-06-14", "time_ecuador": "12:00", "datetime_ecuador": "2026-06-14 12:00", "date_source": "2026-06-14", "time_source": "13:00", "team1": "ALEMANIA", "team2": "CURAZAO", "venue": "Estadio Houston", "city_short": "Houston", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 10, "stage": "Grupos", "group": "F", "date_ecuador": "2026-06-14", "time_ecuador": "15:00", "datetime_ecuador": "2026-06-14 15:00", "date_source": "2026-06-14", "time_source": "16:00", "team1": "PAÍSES BAJOS", "team2": "JAPÓN", "venue": "Estadio Dallas", "city_short": "Dallas", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 11, "stage": "Grupos", "group": "E", "date_ecuador": "2026-06-14", "time_ecuador": "18:00", "datetime_ecuador": "2026-06-14 18:00", "date_source": "2026-06-14", "time_source": "19:00", "team1": "COSTA de MARFIL", "team2": "ECUADOR", "venue": "Estadio Filadelfia", "city_short": "Filadelfia", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 12, "stage": "Grupos", "group": "F", "date_ecuador": "2026-06-14", "time_ecuador": "21:00", "datetime_ecuador": "2026-06-14 21:00", "date_source": "2026-06-14", "time_source": "22:00", "team1": "SUECIA", "team2": "TÚNEZ", "venue": "Estadio Monterrey", "city_short": "Monterrey", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 13, "stage": "Grupos", "group": "H", "date_ecuador": "2026-06-15", "time_ecuador": "11:00", "datetime_ecuador": "2026-06-15 11:00", "date_source": "2026-06-15", "time_source": "12:00", "team1": "ESPAÑA", "team2": "CABO VERDE", "venue": "Estadio Atlanta", "city_short": "Atlanta", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 14, "stage": "Grupos", "group": "G", "date_ecuador": "2026-06-15", "time_ecuador": "14:00", "datetime_ecuador": "2026-06-15 14:00", "date_source": "2026-06-15", "time_source": "15:00", "team1": "BÉLGICA", "team2": "EGIPTO", "venue": "Estadio Seattle", "city_short": "Seattle", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 15, "stage": "Grupos", "group": "H", "date_ecuador": "2026-06-15", "time_ecuador": "17:00", "datetime_ecuador": "2026-06-15 17:00", "date_source": "2026-06-15", "time_source": "18:00", "team1": "ARABIA SAUDITA", "team2": "URUGUAY", "venue": "Estadio Miami", "city_short": "Miami", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 16, "stage": "Grupos", "group": "G", "date_ecuador": "2026-06-15", "time_ecuador": "20:00", "datetime_ecuador": "2026-06-15 20:00", "date_source": "2026-06-15", "time_source": "21:00", "team1": "IRÁN", "team2": "NUEVA ZELANDA", "venue": "Estadio Los Angeles", "city_short": "Los Angeles", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 17, "stage": "Grupos", "group": "I", "date_ecuador": "2026-06-16", "time_ecuador": "14:00", "datetime_ecuador": "2026-06-16 14:00", "date_source": "2026-06-16", "time_source": "15:00", "team1": "FRANCIA", "team2": "SENEGAL", "venue": "Estadio Nueva York/Nueva Jersey", "city_short": "N. York/N. Jersey", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 18, "stage": "Grupos", "group": "I", "date_ecuador": "2026-06-16", "time_ecuador": "17:00", "datetime_ecuador": "2026-06-16 17:00", "date_source": "2026-06-16", "time_source": "18:00", "team1": "IRAK", "team2": "NORUEGA", "venue": "Estadio Boston", "city_short": "Boston", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 19, "stage": "Grupos", "group": "J", "date_ecuador": "2026-06-16", "time_ecuador": "20:00", "datetime_ecuador": "2026-06-16 20:00", "date_source": "2026-06-16", "time_source": "21:00", "team1": "ARGENTINA", "team2": "ARGELIA", "venue": "Estadio Kansas City", "city_short": "Kansas City", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 20, "stage": "Grupos", "group": "J", "date_ecuador": "2026-06-16", "time_ecuador": "23:00", "datetime_ecuador": "2026-06-16 23:00", "date_source": "2026-06-17", "time_source": "00:00", "team1": "AUSTRIA", "team2": "JORDANIA", "venue": "Estadio Bahía de San Francisco", "city_short": "San Francisco", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 21, "stage": "Grupos", "group": "K", "date_ecuador": "2026-06-17", "time_ecuador": "12:00", "datetime_ecuador": "2026-06-17 12:00", "date_source": "2026-06-17", "time_source": "13:00", "team1": "PORTUGAL", "team2": "REP. del CONGO", "venue": "Estadio Houston", "city_short": "Houston", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 22, "stage": "Grupos", "group": "L", "date_ecuador": "2026-06-17", "time_ecuador": "15:00", "datetime_ecuador": "2026-06-17 15:00", "date_source": "2026-06-17", "time_source": "16:00", "team1": "INGLATERRA", "team2": "CROACIA", "venue": "Estadio Dallas", "city_short": "Dallas", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 23, "stage": "Grupos", "group": "L", "date_ecuador": "2026-06-17", "time_ecuador": "18:00", "datetime_ecuador": "2026-06-17 18:00", "date_source": "2026-06-17", "time_source": "19:00", "team1": "GHANA", "team2": "PANAMÁ", "venue": "Estadio Toronto", "city_short": "Toronto", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 24, "stage": "Grupos", "group": "K", "date_ecuador": "2026-06-17", "time_ecuador": "21:00", "datetime_ecuador": "2026-06-17 21:00", "date_source": "2026-06-17", "time_source": "22:00", "team1": "UZBEKISTÁN", "team2": "COLOMBIA", "venue": "Estadio Ciudad de México", "city_short": "Ciudad de México", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 25, "stage": "Grupos", "group": "A", "date_ecuador": "2026-06-18", "time_ecuador": "11:00", "datetime_ecuador": "2026-06-18 11:00", "date_source": "2026-06-18", "time_source": "12:00", "team1": "REP. CHECA", "team2": "SUDÁFRICA", "venue": "Estadio Atlanta", "city_short": "Atlanta", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 26, "stage": "Grupos", "group": "B", "date_ecuador": "2026-06-18", "time_ecuador": "14:00", "datetime_ecuador": "2026-06-18 14:00", "date_source": "2026-06-18", "time_source": "15:00", "team1": "SUIZA", "team2": "BOSNIA y HERZEG.", "venue": "Estadio Los Angeles", "city_short": "Los Angeles", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 27, "stage": "Grupos", "group": "B", "date_ecuador": "2026-06-18", "time_ecuador": "17:00", "datetime_ecuador": "2026-06-18 17:00", "date_source": "2026-06-18", "time_source": "18:00", "team1": "CANADÁ", "team2": "CATAR", "venue": "Estadio BC Place Vancouver", "city_short": "Vancouver", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 28, "stage": "Grupos", "group": "A", "date_ecuador": "2026-06-18", "time_ecuador": "20:00", "datetime_ecuador": "2026-06-18 20:00", "date_source": "2026-06-18", "time_source": "21:00", "team1": "MÉXICO", "team2": "COREA del SUR", "venue": "Estadio Guadalajara", "city_short": "Guadalajara", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 29, "stage": "Grupos", "group": "D", "date_ecuador": "2026-06-19", "time_ecuador": "14:00", "datetime_ecuador": "2026-06-19 14:00", "date_source": "2026-06-19", "time_source": "15:00", "team1": "ESTADOS UNIDOS", "team2": "AUSTRALIA", "venue": "Estadio Seattle", "city_short": "Seattle", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 30, "stage": "Grupos", "group": "C", "date_ecuador": "2026-06-19", "time_ecuador": "17:00", "datetime_ecuador": "2026-06-19 17:00", "date_source": "2026-06-19", "time_source": "18:00", "team1": "ESCOCIA", "team2": "MARRUECOS", "venue": "Estadio Boston", "city_short": "Boston", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 31, "stage": "Grupos", "group": "C", "date_ecuador": "2026-06-19", "time_ecuador": "19:30", "datetime_ecuador": "2026-06-19 19:30", "date_source": "2026-06-19", "time_source": "20:30", "team1": "BRASIL", "team2": "HAITÍ", "venue": "Estadio Filadelfia", "city_short": "Filadelfia", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 32, "stage": "Grupos", "group": "D", "date_ecuador": "2026-06-19", "time_ecuador": "22:00", "datetime_ecuador": "2026-06-19 22:00", "date_source": "2026-06-19", "time_source": "23:00", "team1": "TURQUÍA", "team2": "PARAGUAY", "venue": "Estadio Bahía de San Francisco", "city_short": "San Francisco", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 33, "stage": "Grupos", "group": "F", "date_ecuador": "2026-06-20", "time_ecuador": "12:00", "datetime_ecuador": "2026-06-20 12:00", "date_source": "2026-06-20", "time_source": "13:00", "team1": "PAÍSES BAJOS", "team2": "SUECIA", "venue": "Estadio Houston", "city_short": "Houston", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 34, "stage": "Grupos", "group": "E", "date_ecuador": "2026-06-20", "time_ecuador": "15:00", "datetime_ecuador": "2026-06-20 15:00", "date_source": "2026-06-20", "time_source": "16:00", "team1": "ALEMANIA", "team2": "COSTA de MARFIL", "venue": "Estadio Toronto", "city_short": "Toronto", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 35, "stage": "Grupos", "group": "E", "date_ecuador": "2026-06-20", "time_ecuador": "19:00", "datetime_ecuador": "2026-06-20 19:00", "date_source": "2026-06-20", "time_source": "20:00", "team1": "ECUADOR", "team2": "CURAZAO", "venue": "Estadio Kansas City", "city_short": "Kansas City", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 36, "stage": "Grupos", "group": "F", "date_ecuador": "2026-06-20", "time_ecuador": "23:00", "datetime_ecuador": "2026-06-20 23:00", "date_source": "2026-06-21", "time_source": "00:00", "team1": "TÚNEZ", "team2": "JAPÓN", "venue": "Estadio Monterrey", "city_short": "Monterrey", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 37, "stage": "Grupos", "group": "H", "date_ecuador": "2026-06-21", "time_ecuador": "11:00", "datetime_ecuador": "2026-06-21 11:00", "date_source": "2026-06-21", "time_source": "12:00", "team1": "ESPAÑA", "team2": "ARABIA SAUDITA", "venue": "Estadio Atlanta", "city_short": "Atlanta", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 38, "stage": "Grupos", "group": "G", "date_ecuador": "2026-06-21", "time_ecuador": "14:00", "datetime_ecuador": "2026-06-21 14:00", "date_source": "2026-06-21", "time_source": "15:00", "team1": "BÉLGICA", "team2": "IRÁN", "venue": "Estadio Los Angeles", "city_short": "Los Angeles", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 39, "stage": "Grupos", "group": "H", "date_ecuador": "2026-06-21", "time_ecuador": "17:00", "datetime_ecuador": "2026-06-21 17:00", "date_source": "2026-06-21", "time_source": "18:00", "team1": "URUGUAY", "team2": "CABO VERDE", "venue": "Estadio Miami", "city_short": "Miami", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 40, "stage": "Grupos", "group": "G", "date_ecuador": "2026-06-21", "time_ecuador": "20:00", "datetime_ecuador": "2026-06-21 20:00", "date_source": "2026-06-21", "time_source": "21:00", "team1": "NUEVA ZELANDA", "team2": "EGIPTO", "venue": "Estadio BC Place Vancouver", "city_short": "Vancouver", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 41, "stage": "Grupos", "group": "J", "date_ecuador": "2026-06-22", "time_ecuador": "12:00", "datetime_ecuador": "2026-06-22 12:00", "date_source": "2026-06-22", "time_source": "13:00", "team1": "ARGENTINA", "team2": "AUSTRIA", "venue": "Estadio Dallas", "city_short": "Dallas", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 42, "stage": "Grupos", "group": "I", "date_ecuador": "2026-06-22", "time_ecuador": "16:00", "datetime_ecuador": "2026-06-22 16:00", "date_source": "2026-06-22", "time_source": "17:00", "team1": "FRANCIA", "team2": "IRAK", "venue": "Estadio Filadelfia", "city_short": "Filadelfia", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 43, "stage": "Grupos", "group": "I", "date_ecuador": "2026-06-22", "time_ecuador": "19:00", "datetime_ecuador": "2026-06-22 19:00", "date_source": "2026-06-22", "time_source": "20:00", "team1": "NORUEGA", "team2": "SENEGAL", "venue": "Estadio Nueva York/Nueva Jersey", "city_short": "N. York/N. Jersey", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 44, "stage": "Grupos", "group": "J", "date_ecuador": "2026-06-22", "time_ecuador": "22:00", "datetime_ecuador": "2026-06-22 22:00", "date_source": "2026-06-22", "time_source": "23:00", "team1": "JORDANIA", "team2": "ARGELIA", "venue": "Estadio Bahía de San Francisco", "city_short": "San Francisco", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 45, "stage": "Grupos", "group": "K", "date_ecuador": "2026-06-23", "time_ecuador": "12:00", "datetime_ecuador": "2026-06-23 12:00", "date_source": "2026-06-23", "time_source": "13:00", "team1": "PORTUGAL", "team2": "UZBEKISTÁN", "venue": "Estadio Houston", "city_short": "Houston", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 46, "stage": "Grupos", "group": "L", "date_ecuador": "2026-06-23", "time_ecuador": "15:00", "datetime_ecuador": "2026-06-23 15:00", "date_source": "2026-06-23", "time_source": "16:00", "team1": "INGLATERRA", "team2": "GHANA", "venue": "Estadio Boston", "city_short": "Boston", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 47, "stage": "Grupos", "group": "L", "date_ecuador": "2026-06-23", "time_ecuador": "18:00", "datetime_ecuador": "2026-06-23 18:00", "date_source": "2026-06-23", "time_source": "19:00", "team1": "PANAMÁ", "team2": "CROACIA", "venue": "Estadio Toronto", "city_short": "Toronto", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 48, "stage": "Grupos", "group": "K", "date_ecuador": "2026-06-23", "time_ecuador": "21:00", "datetime_ecuador": "2026-06-23 21:00", "date_source": "2026-06-23", "time_source": "22:00", "team1": "COLOMBIA", "team2": "REP. del CONGO", "venue": "Estadio Guadalajara", "city_short": "Guadalajara", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 49, "stage": "Grupos", "group": "B", "date_ecuador": "2026-06-24", "time_ecuador": "14:00", "datetime_ecuador": "2026-06-24 14:00", "date_source": "2026-06-24", "time_source": "15:00", "team1": "SUIZA", "team2": "CANADÁ", "venue": "Estadio BC Place Vancouver", "city_short": "Vancouver", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 50, "stage": "Grupos", "group": "B", "date_ecuador": "2026-06-24", "time_ecuador": "14:00", "datetime_ecuador": "2026-06-24 14:00", "date_source": "2026-06-24", "time_source": "15:00", "team1": "BOSNIA y HERZEG.", "team2": "CATAR", "venue": "Estadio Seattle", "city_short": "Seattle", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 51, "stage": "Grupos", "group": "C", "date_ecuador": "2026-06-24", "time_ecuador": "17:00", "datetime_ecuador": "2026-06-24 17:00", "date_source": "2026-06-24", "time_source": "18:00", "team1": "ESCOCIA", "team2": "BRASIL", "venue": "Estadio Miami", "city_short": "Miami", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 52, "stage": "Grupos", "group": "C", "date_ecuador": "2026-06-24", "time_ecuador": "17:00", "datetime_ecuador": "2026-06-24 17:00", "date_source": "2026-06-24", "time_source": "18:00", "team1": "MARRUECOS", "team2": "HAITÍ", "venue": "Estadio Atlanta", "city_short": "Atlanta", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 53, "stage": "Grupos", "group": "A", "date_ecuador": "2026-06-24", "time_ecuador": "20:00", "datetime_ecuador": "2026-06-24 20:00", "date_source": "2026-06-24", "time_source": "21:00", "team1": "REP. CHECA", "team2": "MÉXICO", "venue": "Estadio Ciudad de México", "city_short": "Ciudad de México", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 54, "stage": "Grupos", "group": "A", "date_ecuador": "2026-06-24", "time_ecuador": "20:00", "datetime_ecuador": "2026-06-24 20:00", "date_source": "2026-06-24", "time_source": "21:00", "team1": "SUDÁFRICA", "team2": "COREA del SUR", "venue": "Estadio Monterrey", "city_short": "Monterrey", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 55, "stage": "Grupos", "group": "E", "date_ecuador": "2026-06-25", "time_ecuador": "15:00", "datetime_ecuador": "2026-06-25 15:00", "date_source": "2026-06-25", "time_source": "16:00", "team1": "CURAZAO", "team2": "COSTA de MARFIL", "venue": "Estadio Filadelfia", "city_short": "Filadelfia", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 56, "stage": "Grupos", "group": "E", "date_ecuador": "2026-06-25", "time_ecuador": "15:00", "datetime_ecuador": "2026-06-25 15:00", "date_source": "2026-06-25", "time_source": "16:00", "team1": "ECUADOR", "team2": "ALEMANIA", "venue": "Estadio Nueva York/Nueva Jersey", "city_short": "N. York/N. Jersey", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 57, "stage": "Grupos", "group": "F", "date_ecuador": "2026-06-25", "time_ecuador": "18:00", "datetime_ecuador": "2026-06-25 18:00", "date_source": "2026-06-25", "time_source": "19:00", "team1": "JAPÓN", "team2": "SUECIA", "venue": "Estadio Dallas", "city_short": "Dallas", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 58, "stage": "Grupos", "group": "F", "date_ecuador": "2026-06-25", "time_ecuador": "18:00", "datetime_ecuador": "2026-06-25 18:00", "date_source": "2026-06-25", "time_source": "19:00", "team1": "TÚNEZ", "team2": "PAÍSES BAJOS", "venue": "Estadio Kansas City", "city_short": "Kansas City", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 59, "stage": "Grupos", "group": "D", "date_ecuador": "2026-06-25", "time_ecuador": "21:00", "datetime_ecuador": "2026-06-25 21:00", "date_source": "2026-06-25", "time_source": "22:00", "team1": "TURQUÍA", "team2": "ESTADOS UNIDOS", "venue": "Estadio Los Angeles", "city_short": "Los Angeles", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 60, "stage": "Grupos", "group": "D", "date_ecuador": "2026-06-25", "time_ecuador": "21:00", "datetime_ecuador": "2026-06-25 21:00", "date_source": "2026-06-25", "time_source": "22:00", "team1": "PARAGUAY", "team2": "AUSTRALIA", "venue": "Estadio Bahía de San Francisco", "city_short": "San Francisco", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 61, "stage": "Grupos", "group": "I", "date_ecuador": "2026-06-26", "time_ecuador": "14:00", "datetime_ecuador": "2026-06-26 14:00", "date_source": "2026-06-26", "time_source": "15:00", "team1": "NORUEGA", "team2": "FRANCIA", "venue": "Estadio Boston", "city_short": "Boston", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 62, "stage": "Grupos", "group": "I", "date_ecuador": "2026-06-26", "time_ecuador": "14:00", "datetime_ecuador": "2026-06-26 14:00", "date_source": "2026-06-26", "time_source": "15:00", "team1": "SENEGAL", "team2": "IRAK", "venue": "Estadio de Toronto", "city_short": "Toronto", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 63, "stage": "Grupos", "group": "H", "date_ecuador": "2026-06-26", "time_ecuador": "19:00", "datetime_ecuador": "2026-06-26 19:00", "date_source": "2026-06-26", "time_source": "20:00", "team1": "CABO VERDE", "team2": "ARABIA SAUDITA", "venue": "Estadio Houston", "city_short": "Houston", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 64, "stage": "Grupos", "group": "H", "date_ecuador": "2026-06-26", "time_ecuador": "19:00", "datetime_ecuador": "2026-06-26 19:00", "date_source": "2026-06-26", "time_source": "20:00", "team1": "URUGUAY", "team2": "ESPAÑA", "venue": "Estadio Guadalajara", "city_short": "Guadalajara", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 65, "stage": "Grupos", "group": "G", "date_ecuador": "2026-06-26", "time_ecuador": "22:00", "datetime_ecuador": "2026-06-26 22:00", "date_source": "2026-06-26", "time_source": "23:00", "team1": "EGIPTO", "team2": "IRÁN", "venue": "Estadio Seattle", "city_short": "Seattle", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 66, "stage": "Grupos", "group": "G", "date_ecuador": "2026-06-26", "time_ecuador": "22:00", "datetime_ecuador": "2026-06-26 22:00", "date_source": "2026-06-26", "time_source": "23:00", "team1": "NUEVA ZELANDA", "team2": "BÉLGICA", "venue": "Estadio BC Place Vancouver", "city_short": "Vancouver", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 67, "stage": "Grupos", "group": "L", "date_ecuador": "2026-06-27", "time_ecuador": "16:00", "datetime_ecuador": "2026-06-27 16:00", "date_source": "2026-06-27", "time_source": "17:00", "team1": "PANAMÁ", "team2": "INGLATERRA", "venue": "Estadio Nueva York/Nueva Jersey", "city_short": "N. York/N. Jersey", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 68, "stage": "Grupos", "group": "L", "date_ecuador": "2026-06-27", "time_ecuador": "16:00", "datetime_ecuador": "2026-06-27 16:00", "date_source": "2026-06-27", "time_source": "17:00", "team1": "CROACIA", "team2": "GHANA", "venue": "Estadio Filadelfia", "city_short": "Filadelfia", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 69, "stage": "Grupos", "group": "K", "date_ecuador": "2026-06-27", "time_ecuador": "18:30", "datetime_ecuador": "2026-06-27 18:30", "date_source": "2026-06-27", "time_source": "19:30", "team1": "COLOMBIA", "team2": "PORTUGAL", "venue": "Estadio Miami", "city_short": "Miami", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 70, "stage": "Grupos", "group": "K", "date_ecuador": "2026-06-27", "time_ecuador": "18:30", "datetime_ecuador": "2026-06-27 18:30", "date_source": "2026-06-27", "time_source": "19:30", "team1": "REP. del CONGO", "team2": "UZBEKISTÁN", "venue": "Estadio Atlanta", "city_short": "Atlanta", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 71, "stage": "Grupos", "group": "J", "date_ecuador": "2026-06-27", "time_ecuador": "21:00", "datetime_ecuador": "2026-06-27 21:00", "date_source": "2026-06-27", "time_source": "22:00", "team1": "ARGELIA", "team2": "AUSTRIA", "venue": "Estadio Kansas City", "city_short": "Kansas City", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 72, "stage": "Grupos", "group": "J", "date_ecuador": "2026-06-27", "time_ecuador": "21:00", "datetime_ecuador": "2026-06-27 21:00", "date_source": "2026-06-27", "time_source": "22:00", "team1": "JORDANIA", "team2": "ARGENTINA", "venue": "Estadio Dallas", "city_short": "Dallas", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 73, "stage": "Dieciseisavos", "group": "", "date_ecuador": "2026-06-28", "time_ecuador": "14:00", "datetime_ecuador": "2026-06-28 14:00", "date_source": "2026-06-28", "time_source": "15:00", "team1": "", "team2": "", "venue": "Estadio Los Angeles", "city_short": "Los Angeles", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 74, "stage": "Dieciseisavos", "group": "", "date_ecuador": "2026-06-29", "time_ecuador": "12:00", "datetime_ecuador": "2026-06-29 12:00", "date_source": "2026-06-29", "time_source": "13:00", "team1": "", "team2": "", "venue": "Estadio Houston", "city_short": "Houston", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 75, "stage": "Dieciseisavos", "group": "", "date_ecuador": "2026-06-29", "time_ecuador": "15:30", "datetime_ecuador": "2026-06-29 15:30", "date_source": "2026-06-29", "time_source": "16:30", "team1": "", "team2": "", "venue": "Estadio Boston", "city_short": "Boston", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 76, "stage": "Dieciseisavos", "group": "", "date_ecuador": "2026-06-29", "time_ecuador": "20:00", "datetime_ecuador": "2026-06-29 20:00", "date_source": "2026-06-29", "time_source": "21:00", "team1": "", "team2": "", "venue": "Estadio Monterrey", "city_short": "Monterrey", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 77, "stage": "Dieciseisavos", "group": "", "date_ecuador": "2026-06-30", "time_ecuador": "12:00", "datetime_ecuador": "2026-06-30 12:00", "date_source": "2026-06-30", "time_source": "13:00", "team1": "", "team2": "", "venue": "Estadio Dallas", "city_short": "Dallas", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 78, "stage": "Dieciseisavos", "group": "", "date_ecuador": "2026-06-30", "time_ecuador": "16:00", "datetime_ecuador": "2026-06-30 16:00", "date_source": "2026-06-30", "time_source": "17:00", "team1": "", "team2": "", "venue": "Estadio Nueva York/Nueva Jersey", "city_short": "N. York/N. Jersey", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 79, "stage": "Dieciseisavos", "group": "", "date_ecuador": "2026-06-30", "time_ecuador": "20:00", "datetime_ecuador": "2026-06-30 20:00", "date_source": "2026-06-30", "time_source": "21:00", "team1": "", "team2": "", "venue": "Estadio Ciudad de México", "city_short": "Ciudad de México", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 80, "stage": "Dieciseisavos", "group": "", "date_ecuador": "2026-07-01", "time_ecuador": "11:00", "datetime_ecuador": "2026-07-01 11:00", "date_source": "2026-07-01", "time_source": "12:00", "team1": "", "team2": "", "venue": "Estadio Atlanta", "city_short": "Atlanta", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 81, "stage": "Dieciseisavos", "group": "", "date_ecuador": "2026-07-01", "time_ecuador": "15:00", "datetime_ecuador": "2026-07-01 15:00", "date_source": "2026-07-01", "time_source": "16:00", "team1": "", "team2": "", "venue": "Estadio Seattle", "city_short": "Seattle", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 82, "stage": "Dieciseisavos", "group": "", "date_ecuador": "2026-07-01", "time_ecuador": "19:00", "datetime_ecuador": "2026-07-01 19:00", "date_source": "2026-07-01", "time_source": "20:00", "team1": "", "team2": "", "venue": "Estadio Bahía de San Francisco", "city_short": "San Francisco", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 83, "stage": "Dieciseisavos", "group": "", "date_ecuador": "2026-07-02", "time_ecuador": "14:00", "datetime_ecuador": "2026-07-02 14:00", "date_source": "2026-07-02", "time_source": "15:00", "team1": "", "team2": "", "venue": "Estadio Los Angeles", "city_short": "Los Angeles", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 84, "stage": "Dieciseisavos", "group": "", "date_ecuador": "2026-07-02", "time_ecuador": "18:00", "datetime_ecuador": "2026-07-02 18:00", "date_source": "2026-07-02", "time_source": "19:00", "team1": "", "team2": "", "venue": "Estadio Toronto", "city_short": "Toronto", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 85, "stage": "Dieciseisavos", "group": "", "date_ecuador": "2026-07-03", "time_ecuador": "22:00", "datetime_ecuador": "2026-07-03 22:00", "date_source": "2026-07-03", "time_source": "23:00", "team1": "", "team2": "", "venue": "Estadio BC Place Vancouver", "city_short": "Vancouver", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 86, "stage": "Dieciseisavos", "group": "", "date_ecuador": "2026-07-03", "time_ecuador": "13:00", "datetime_ecuador": "2026-07-03 13:00", "date_source": "2026-07-03", "time_source": "14:00", "team1": "", "team2": "", "venue": "Estadio Dallas", "city_short": "Dallas", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 87, "stage": "Dieciseisavos", "group": "", "date_ecuador": "2026-07-03", "time_ecuador": "17:00", "datetime_ecuador": "2026-07-03 17:00", "date_source": "2026-07-03", "time_source": "18:00", "team1": "", "team2": "", "venue": "Estadio Miami", "city_short": "Miami", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 88, "stage": "Dieciseisavos", "group": "", "date_ecuador": "2026-07-03", "time_ecuador": "20:30", "datetime_ecuador": "2026-07-03 20:30", "date_source": "2026-07-03", "time_source": "21:30", "team1": "", "team2": "", "venue": "Estadio Kansas City", "city_short": "Kansas City", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 89, "stage": "Octavos", "group": "", "date_ecuador": "2026-07-04", "time_ecuador": "12:00", "datetime_ecuador": "2026-07-04 12:00", "date_source": "2026-07-04", "time_source": "13:00", "team1": "", "team2": "", "venue": "Estadio Houston", "city_short": "Houston", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 90, "stage": "Octavos", "group": "", "date_ecuador": "2026-07-04", "time_ecuador": "16:00", "datetime_ecuador": "2026-07-04 16:00", "date_source": "2026-07-04", "time_source": "17:00", "team1": "", "team2": "", "venue": "Estadio Filadelfia", "city_short": "Filadelfia", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 91, "stage": "Octavos", "group": "", "date_ecuador": "2026-07-05", "time_ecuador": "15:00", "datetime_ecuador": "2026-07-05 15:00", "date_source": "2026-07-05", "time_source": "16:00", "team1": "", "team2": "", "venue": "Estadio Nueva York/Nueva Jersey", "city_short": "N. York/N. Jersey", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 92, "stage": "Octavos", "group": "", "date_ecuador": "2026-07-05", "time_ecuador": "19:00", "datetime_ecuador": "2026-07-05 19:00", "date_source": "2026-07-05", "time_source": "20:00", "team1": "", "team2": "", "venue": "Estadio Ciudad de México", "city_short": "Ciudad de México", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 93, "stage": "Octavos", "group": "", "date_ecuador": "2026-07-06", "time_ecuador": "14:00", "datetime_ecuador": "2026-07-06 14:00", "date_source": "2026-07-06", "time_source": "15:00", "team1": "", "team2": "", "venue": "Estadio Dallas", "city_short": "Dallas", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 94, "stage": "Octavos", "group": "", "date_ecuador": "2026-07-06", "time_ecuador": "19:00", "datetime_ecuador": "2026-07-06 19:00", "date_source": "2026-07-06", "time_source": "20:00", "team1": "", "team2": "", "venue": "Estadio Seattle", "city_short": "Seattle", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 95, "stage": "Octavos", "group": "", "date_ecuador": "2026-07-07", "time_ecuador": "11:00", "datetime_ecuador": "2026-07-07 11:00", "date_source": "2026-07-07", "time_source": "12:00", "team1": "", "team2": "", "venue": "Estadio Atlanta", "city_short": "Atlanta", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 96, "stage": "Octavos", "group": "", "date_ecuador": "2026-07-07", "time_ecuador": "15:00", "datetime_ecuador": "2026-07-07 15:00", "date_source": "2026-07-07", "time_source": "16:00", "team1": "", "team2": "", "venue": "Estadio BC Place Vancouver", "city_short": "Vancouver", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 97, "stage": "Cuartos", "group": "", "date_ecuador": "2026-07-09", "time_ecuador": "15:00", "datetime_ecuador": "2026-07-09 15:00", "date_source": "2026-07-09", "time_source": "16:00", "team1": "", "team2": "", "venue": "Estadio Boston", "city_short": "Boston", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 98, "stage": "Cuartos", "group": "", "date_ecuador": "2026-07-10", "time_ecuador": "14:00", "datetime_ecuador": "2026-07-10 14:00", "date_source": "2026-07-10", "time_source": "15:00", "team1": "", "team2": "", "venue": "Estadio Los Angeles", "city_short": "Los Angeles", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 99, "stage": "Cuartos", "group": "", "date_ecuador": "2026-07-11", "time_ecuador": "16:00", "datetime_ecuador": "2026-07-11 16:00", "date_source": "2026-07-11", "time_source": "17:00", "team1": "", "team2": "", "venue": "Estadio Miami", "city_short": "Miami", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 100, "stage": "Cuartos", "group": "", "date_ecuador": "2026-07-11", "time_ecuador": "20:00", "datetime_ecuador": "2026-07-11 20:00", "date_source": "2026-07-11", "time_source": "21:00", "team1": "", "team2": "", "venue": "Estadio Kansas City", "city_short": "Kansas City", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 101, "stage": "Semifinal", "group": "", "date_ecuador": "2026-07-14", "time_ecuador": "14:00", "datetime_ecuador": "2026-07-14 14:00", "date_source": "2026-07-14", "time_source": "15:00", "team1": "", "team2": "", "venue": "Estadio Dallas", "city_short": "Dallas", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 102, "stage": "Semifinal", "group": "", "date_ecuador": "2026-07-15", "time_ecuador": "14:00", "datetime_ecuador": "2026-07-15 14:00", "date_source": "2026-07-15", "time_source": "15:00", "team1": "", "team2": "", "venue": "Estadio Atlanta", "city_short": "Atlanta", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 103, "stage": "Tercer puesto", "group": "", "date_ecuador": "2026-07-18", "time_ecuador": "16:00", "datetime_ecuador": "2026-07-18 16:00", "date_source": "2026-07-18", "time_source": "17:00", "team1": "", "team2": "", "venue": "Estadio Miami", "city_short": "Miami", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}, {"match_no": 104, "stage": "Final", "group": "", "date_ecuador": "2026-07-19", "time_ecuador": "14:00", "datetime_ecuador": "2026-07-19 14:00", "date_source": "2026-07-19", "time_source": "15:00", "team1": "", "team2": "", "venue": "Estadio N. York/N. Jersey", "city_short": "N. York/N. Jersey", "source_timezone": "UTC-04:00", "result1": "", "result2": ""}];
 const groups = 'ABCDEFGHIJKL'.split('');
+const STORAGE_KEY = 'mundial2026_v2_oficial_manual';
+let current='grupos';
+let data;
+
+function cleanTeam(x){ return (x||'').toString().trim(); }
+function stageKey(s){
+  s=(s||'').toLowerCase();
+  if(s.includes('grupo')) return 'GRUPOS';
+  if(s.includes('dieciseis')) return 'R32';
+  if(s.includes('octavo')) return 'R16';
+  if(s.includes('cuarto')) return 'QF';
+  if(s.includes('semifinal')) return 'SF';
+  if(s.includes('tercer')) return 'THIRD';
+  if(s.includes('final')) return 'FINAL';
+  return s.toUpperCase();
+}
+function stageLabel(k){ return {GRUPOS:'Fase de grupos',R32:'32avos / Dieciseisavos',R16:'16avos / Octavos',QF:'Cuartos',SF:'Semifinales',THIRD:'Tercer lugar',FINAL:'Final'}[k]||k; }
 function defaultData(){
-  let d={officialFixtureLoaded:false, officialLastLoad:null, groups:{}, knockouts:{R32:[],R16:[],QF:[],SF:[],THIRD:[],FINAL:[]}};
-  groups.forEach(g=>{d.groups[g]={teams:[],matches:[]};});
-  return d;
+  return {matches: fixtureRaw.map(r=>({
+    id:'M'+r.match_no, number:r.match_no, stage:stageKey(r.stage), stageName:r.stage, group:r.group||'',
+    date:r.date_ecuador, timeEcuador:r.time_ecuador, displayDate:(r.date_ecuador||'').split('-').reverse().join('/'),
+    home:cleanTeam(r.team1), away:cleanTeam(r.team2), venue:r.venue||'', city:r.city_short||'',
+    homeScore: r.result1===''||r.result1==null ? null : Number(r.result1),
+    awayScore: r.result2===''||r.result2==null ? null : Number(r.result2)
+  }))};
 }
-function init(){data=defaultData();loadData(false);renderTabs();render();}
-function renderTabs(){let items=[['grupos','Fase de grupos'],['r32','32avos'],['r16','16avos'],['qf','Cuartos'],['sf','Semifinales'],['third','Tercer lugar'],['final','Final'],['ranking','Ranking general']];tabs.innerHTML=items.map(x=>`<button class="tab ${current==x[0]?'active':''}" onclick="current='${x[0]}';render()">${x[1]}</button>`).join('');}
-function ensureStat(stats, team){
-  if(!team) return null;
-  if(!stats[team]) stats[team]={team:team,PJ:0,PG:0,PE:0,PP:0,GF:0,GC:0,DG:0,PTS:0};
-  return stats[team];
+function init(){ data=defaultData(); loadData(false); ensureKnockoutTeams(); renderTabs(); render(); searchDefaultUpcoming(); }
+function saveData(show=false){ localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); if(show) alert('Datos guardados en este navegador.'); }
+function loadData(show=false){
+  let s=localStorage.getItem(STORAGE_KEY); if(!s){ if(show) alert('No hay datos guardados.'); return; }
+  try{ let old=JSON.parse(s); if(old && old.matches){ data=old; ensureKnockoutTeams(); if(show) alert('Datos restaurados.'); } }catch(e){ if(show) alert('No se pudo restaurar.'); }
 }
+function resetResults(){ if(!confirm('¿Borrar todos los resultados ingresados?')) return; data.matches.forEach(m=>{m.homeScore=null;m.awayScore=null;if(m.stage!=='GRUPOS'){m.home='';m.away='';}}); ensureKnockoutTeams(); saveData(); render(); searchMatches(); }
+function exportBackup(){ const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='respaldo_mundial_2026.json'; a.click(); URL.revokeObjectURL(a.href); }
+function importBackupFile(evt){ const file=evt.target.files[0]; if(!file)return; const rd=new FileReader(); rd.onload=e=>{ try{ data=JSON.parse(e.target.result); ensureKnockoutTeams(); saveData(); render(); searchMatches(); alert('Respaldo importado.'); }catch(err){ alert('Archivo inválido.'); } }; rd.readAsText(file); evt.target.value=''; }
+
+function renderTabs(){
+  let items=[['grupos','Grupos'],['terceros','Mejores terceros'],['r32','32avos'],['r16','16avos'],['qf','Cuartos'],['sf','Semifinales'],['third','Tercer lugar'],['final','Final'],['ranking','Ranking general']];
+  tabs.innerHTML=items.map(x=>`<button class="tab ${current==x[0]?'active':''}" onclick="current='${x[0]}';render()">${x[1]}</button>`).join('');
+}
+function render(){ renderTabs(); ensureKnockoutTeams(); if(current==='grupos')renderGroups(); else if(current==='terceros')renderThirds(); else if(current==='r32')renderKO('R32','32avos / Dieciseisavos'); else if(current==='r16')renderKO('R16','16avos / Octavos'); else if(current==='qf')renderKO('QF','Cuartos de final'); else if(current==='sf')renderKO('SF','Semifinales'); else if(current==='third')renderKO('THIRD','Partido por tercer lugar'); else if(current==='final')renderKO('FINAL','Final'); else renderRanking(); }
+function groupMatches(g){ return data.matches.filter(m=>m.stage==='GRUPOS' && m.group===g); }
+function getGroupTeams(g){ return [...new Set(groupMatches(g).flatMap(m=>[m.home,m.away]).filter(Boolean))]; }
 function tableForGroup(g){
-  let stats={};
-  (data.groups[g]?.teams||[]).forEach(t=>ensureStat(stats,t.name));
-  (data.groups[g]?.matches||[]).forEach(m=>{
-    ensureStat(stats,m.home); ensureStat(stats,m.away);
-    if(m.homeScore===null||m.awayScore===null)return;
-    let a=stats[m.home],b=stats[m.away]; if(!a||!b)return;
-    a.PJ++;b.PJ++;a.GF+=+m.homeScore;a.GC+=+m.awayScore;b.GF+=+m.awayScore;b.GC+=+m.homeScore;
-    if(+m.homeScore>+m.awayScore){a.PG++;b.PP++;a.PTS+=3}else if(+m.homeScore<+m.awayScore){b.PG++;a.PP++;b.PTS+=3}else{a.PE++;b.PE++;a.PTS++;b.PTS++;}
-  });
-  Object.values(stats).forEach(x=>x.DG=x.GF-x.GC);
+  let stats={}; getGroupTeams(g).forEach(t=>stats[t]={team:t,PJ:0,PG:0,PE:0,PP:0,GF:0,GC:0,DG:0,PTS:0,group:g});
+  groupMatches(g).forEach(m=>{ if(m.homeScore===null||m.awayScore===null||!m.home||!m.away)return; let a=stats[m.home]||(stats[m.home]={team:m.home,PJ:0,PG:0,PE:0,PP:0,GF:0,GC:0,DG:0,PTS:0,group:g}), b=stats[m.away]||(stats[m.away]={team:m.away,PJ:0,PG:0,PE:0,PP:0,GF:0,GC:0,DG:0,PTS:0,group:g}); a.PJ++;b.PJ++;a.GF+=+m.homeScore;a.GC+=+m.awayScore;b.GF+=+m.awayScore;b.GC+=+m.homeScore; if(+m.homeScore>+m.awayScore){a.PG++;b.PP++;a.PTS+=3} else if(+m.homeScore<+m.awayScore){b.PG++;a.PP++;b.PTS+=3} else {a.PE++;b.PE++;a.PTS++;b.PTS++;} });
+  Object.values(stats).forEach(s=>s.DG=s.GF-s.GC);
   return Object.values(stats).sort((a,b)=>b.PTS-a.PTS||b.DG-a.DG||b.GF-a.GF||a.team.localeCompare(b.team));
 }
-function allRanked(){return groups.flatMap(g=>tableForGroup(g).map((s,i)=>({...s,group:g,pos:i+1,groupPts:s.PTS,totalRef:s.PTS})) ).sort((a,b)=>b.PTS-a.PTS||b.DG-a.DG||b.GF-a.GF);}
-function qualified(){
-  let firstSecond=[],third=[];
-  groups.forEach(g=>{let t=tableForGroup(g); if(t[0])firstSecond.push({...t[0],slot:`1${g}`}); if(t[1])firstSecond.push({...t[1],slot:`2${g}`}); if(t[2])third.push({...t[2],slot:`3${g}`});});
-  third.sort((a,b)=>b.PTS-a.PTS||b.DG-a.DG||b.GF-a.GF);
-  return [...firstSecond,...third.slice(0,8)].sort((a,b)=>b.PTS-a.PTS||b.DG-a.DG||b.GF-a.GF);
-}
+function groupStatus(g){ let played=groupMatches(g).filter(m=>m.homeScore!==null&&m.awayScore!==null).length; let total=groupMatches(g).length; return {played,total,complete:played===total,missing:total-played}; }
+function allRanked(){ return groups.flatMap(g=>tableForGroup(g).map((s,i)=>({...s,pos:i+1,slot:`${g}${i+1}`,groupPts:s.PTS}))); }
+function qualified(){ let top=[],third=[]; groups.forEach(g=>{ let t=tableForGroup(g); if(t[0]) top.push({...t[0],pos:1,slot:`${g}1`}); if(t[1]) top.push({...t[1],pos:2,slot:`${g}2`}); if(t[2]) third.push({...t[2],pos:3,slot:`${g}3`}); }); third.sort(sortStandings); return [...top,...third.slice(0,8)].sort(sortStandings); }
+function sortStandings(a,b){ return b.PTS-a.PTS||b.DG-a.DG||b.GF-a.GF||a.team.localeCompare(b.team); }
+function allGroupsComplete(){ return groups.every(g=>groupStatus(g).complete); }
+
 function renderGroups(){
-  const loaded=data.officialFixtureLoaded;
-  const officialMsg = loaded ? `<div class="notice" style="margin-bottom:12px;background:#ecfdf3;border-color:#abefc6;color:#065f46">Calendario oficial cargado desde Football-Data. Última carga: <b>${data.officialLastLoad||'-'}</b>.</div>` : `<div class="notice" style="margin-bottom:12px">No hay calendario oficial cargado. Pega/guarda tu API Token y presiona <b>Cargar calendario oficial / actualizar resultados</b>. No se muestran fechas simuladas porque no son confiables.</div>`;
-  view.innerHTML=officialMsg+`<div class="grid">`+groups.map(g=>`<div class="panel"><div class="groupTitle"><h3><b>GRUPO ${g}</b></h3><span class="pill">Pasan 1°, 2° y mejores 3°</span></div>${standingsHtml(g)}<h4>Partidos</h4>${matchesHtml(data.groups[g].matches)}${groupProgressHtml(g)}</div>`).join('')+`</div>`+qualifiedSummaryHtml();
+  view.innerHTML=`<div class="grid">${groups.map(g=>`<div class="panel"><div class="groupTitle"><h3><b>GRUPO ${g}</b></h3><span class="pill">1°, 2° y 8 mejores 3°</span></div>${standingsHtml(g)}<h4>Partidos oficiales</h4>${matchesHtml(groupMatches(g))}${groupProgressHtml(g)}</div>`).join('')}</div>${qualifiedSummaryHtml()}`;
 }
-function standingsHtml(g){let rows=tableForGroup(g);return `<table><thead><tr><th>#</th><th>País</th><th>PJ</th><th>GF</th><th>GC</th><th>DG</th><th>Pts</th></tr></thead><tbody>${rows.map((r,i)=>`<tr class="rank${i+1}"><td>${i+1}</td><td><b>${r.team}</b></td><td>${r.PJ}</td><td>${r.GF}</td><td>${r.GC}</td><td>${r.DG}</td><td><b>${r.PTS}</b></td></tr>`).join('')}</tbody></table>`;}
-function groupStatus(g){let played=data.groups[g].matches.filter(m=>m.homeScore!==null&&m.awayScore!==null).length;let total=data.groups[g].matches.length;return {played,total,complete:played===total,missing:total-played};}
-function groupProgressHtml(g){
-  let st=groupStatus(g), rows=tableForGroup(g);
-  let label=st.complete?'Resumen final del':'Resumen parcial del';
-  let note=st.complete?'Grupo completo: estos son los puestos finales del grupo.':`Grupo en progreso: ${st.played} de ${st.total} partidos jugados; faltan ${st.missing}. La posición puede cambiar.`;
-  return `<div class="stageSummary"><h3>${label} <span class="groupBadge">GRUPO ${g}</span></h3><p class="small">${note}</p><table><thead><tr><th>Puesto</th><th>Equipo</th><th>Puntos</th><th>DG</th><th>GF</th><th>Estado actual</th></tr></thead><tbody>${rows.map((r,i)=>{let estado=i<2?'Clasifica directo por ahora':(i===2?'Candidato a mejor 3°':'No clasifica por ahora');return `<tr class="rank${i+1}"><td>${i+1}°</td><td><b>${r.team}</b></td><td><b>${r.PTS}</b></td><td>${r.DG}</td><td>${r.GF}</td><td>${estado}</td></tr>`;}).join('')}</tbody></table></div>`;
-}
-function allGroupsComplete(){return groups.every(g=>groupStatus(g).complete);}
+function standingsHtml(g){ let rows=tableForGroup(g); return `<table><thead><tr><th>#</th><th>País</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>GF</th><th>GC</th><th>DG</th><th>Pts</th></tr></thead><tbody>${rows.map((r,i)=>`<tr class="rank${i+1}"><td>${i+1}</td><td><b>${r.team}</b></td><td>${r.PJ}</td><td>${r.PG}</td><td>${r.PE}</td><td>${r.PP}</td><td>${r.GF}</td><td>${r.GC}</td><td>${r.DG}</td><td><b>${r.PTS}</b></td></tr>`).join('')}</tbody></table>`; }
+function groupProgressHtml(g){ let st=groupStatus(g), rows=tableForGroup(g); let label=st.complete?'Resumen final':'Resumen parcial'; return `<div class="stageSummary"><h3>${label} <span class="groupBadge">GRUPO ${g}</span></h3><p class="small">Partidos jugados: ${st.played} de ${st.total}. ${st.complete?'Grupo completo.':'La clasificación puede cambiar.'}</p><table><thead><tr><th>Puesto</th><th>Equipo</th><th>Puntos</th><th>DG</th><th>Estado</th></tr></thead><tbody>${rows.map((r,i)=>{let estado=i<2?'Clasifica directo':(i===2?'Candidato a mejor 3°':'No clasifica por ahora');return `<tr class="rank${i+1}"><td>${i+1}°</td><td><b>${r.team}</b></td><td><b>${r.PTS}</b></td><td>${r.DG}</td><td>${estado}</td></tr>`;}).join('')}</tbody></table></div>`; }
+function qualifiedSummaryHtml(){ let q=qualified(); let title=allGroupsComplete()?'Clasificados a 32avos':'Clasificados provisionales a 32avos'; return `<div class="stageSummary"><h3>${title}</h3><table><thead><tr><th>#</th><th>Equipo</th><th>Origen</th><th>Pts grupo</th><th>DG</th><th>GF</th><th>Historial</th></tr></thead><tbody>${q.map((x,i)=>`<tr><td>${i+1}</td><td><b>${x.team}</b></td><td><span class="originBadge">${x.slot}</span></td><td><b>${x.PTS}</b></td><td>${x.DG}</td><td>${x.GF}</td><td>${teamPathHtml(x.team)}</td></tr>`).join('')}</tbody></table></div>`; }
+function renderThirds(){ let thirds=groups.map(g=>tableForGroup(g)[2]).filter(Boolean).map(x=>({...x,pos:3,slot:`${x.group}3`})).sort(sortStandings); view.innerHTML=`<div class="panel"><h2>Mejores terceros</h2><p class="small">Clasifican los 8 mejores terceros.</p><table><thead><tr><th>#</th><th>Equipo</th><th>Grupo</th><th>Pts</th><th>DG</th><th>GF</th><th>Estado</th></tr></thead><tbody>${thirds.map((x,i)=>`<tr class="${i<8?'rank3':''}"><td>${i+1}</td><td><b>${x.team}</b></td><td><span class="groupBadge">${x.group}</span></td><td><b>${x.PTS}</b></td><td>${x.DG}</td><td>${x.GF}</td><td>${i<8?'Clasifica por ahora':'Fuera por ahora'}</td></tr>`).join('')}</tbody></table></div>`; }
+function renderRanking(){ let r=allRanked().sort(sortStandings); view.innerHTML=`<div class="panel"><h2>Ranking general de primera etapa</h2><table><thead><tr><th>#</th><th>Equipo</th><th>Grupo</th><th>Posición</th><th>PJ</th><th>DG</th><th>GF</th><th>Puntos grupo</th></tr></thead><tbody>${r.map((x,i)=>`<tr><td>${i+1}</td><td><b>${x.team}</b></td><td>${x.group}</td><td>${x.pos}°</td><td>${x.PJ}</td><td>${x.DG}</td><td>${x.GF}</td><td><b>${x.PTS}</b></td></tr>`).join('')}</tbody></table></div>`; }
 
-function matchesHtml(matches){return matches.map(m=>`<div class="matchCard"><div class="small">${m.stage} ${m.group?'<span class="groupBadge">GRUPO '+m.group+'</span>':''} · <input class="dateInput" value="${m.date}" onchange="mset('${m.id}','date',this.value)"> <input class="scoreInput" value="${m.timeEcuador}" onchange="mset('${m.id}','timeEcuador',this.value)"> · <input class="textInput" style="width:180px" value="${m.venue}" onchange="mset('${m.id}','venue',this.value)"></div><div class="match"><input class="teamInput" value="${m.home||''}" onchange="mset('${m.id}','home',this.value)"><input class="scoreInput" type="number" value="${m.homeScore??''}" onchange="score('${m.id}','homeScore',this.value)"><b>-</b><input class="scoreInput" type="number" value="${m.awayScore??''}" onchange="score('${m.id}','awayScore',this.value)"><input class="teamInput" value="${m.away||''}" onchange="mset('${m.id}','away',this.value)"></div><div class="advance">Ganador actual: <b>${winnerText(m)}</b></div></div>`).join('');}
-function winnerText(m){if(m.homeScore===null||m.awayScore===null)return 'pendiente';if(+m.homeScore>+m.awayScore)return m.home;if(+m.homeScore<+m.awayScore)return m.away;return 'empate / penales pendiente';}
-function findMatch(id){for(const g of groups){let m=data.groups[g].matches.find(x=>x.id==id);if(m)return m;}for(const k of Object.keys(data.knockouts)){let m=data.knockouts[k].find(x=>x.id==id);if(m)return m;}return null;}
-function mset(id,field,val){let m=findMatch(id);m[field]=val;saveData();render();}
-function score(id,field,val){let m=findMatch(id);m[field]=val===''?null:+val;saveData();if(id.startsWith('G'))render();else{buildNextFrom(id);render();}}
-function buildKnockouts(){
-  let q=qualified();
-  if(!q.length){ alert('Primero carga el calendario oficial y/o registra resultados de grupos.'); return; }
-  const hasOfficialKOs = data.officialFixtureLoaded && (data.knockouts.R32.length||data.knockouts.R16.length||data.knockouts.QF.length||data.knockouts.SF.length||data.knockouts.THIRD.length||data.knockouts.FINAL.length);
-  if(!hasOfficialKOs){
-    // Solo si no existe fixture oficial de eliminatorias, crea llaves provisionales SIN fechas oficiales.
-    data.knockouts.R32=[];
-    for(let i=0;i<16;i++){let a=q[i],b=q[31-i]||null;data.knockouts.R32.push(newKO('R32',i+1,a,b,'',''))}
-    ['R16','QF','SF','THIRD','FINAL'].forEach(k=>{if(!data.knockouts[k].length){let n={R16:8,QF:4,SF:2,THIRD:1,FINAL:1}[k];for(let i=0;i<n;i++)data.knockouts[k].push(newKO(k,i+1,null,null,'',''));}});
-  }else if(data.knockouts.R32.length){
-    // Conserva fechas, horas y sedes oficiales; solo rellena equipos clasificados cuando correspondan.
-    data.knockouts.R32.forEach((m,i)=>{let a=q[i], b=q[31-i]; if(a && (!m.home || /winner|runner|third|tbd|por definir/i.test(m.home)))m.home=a.team; if(b && (!m.away || /winner|runner|third|tbd|por definir/i.test(m.away)))m.away=b.team;});
-  }
-  buildAllNext();saveData();render();
-}
-function newKO(stage,n,a,b,date,i){return {id:`${stage}-${n}`,stage,group:'',home:a?.team||'',away:b?.team||'',homeScore:null,awayScore:null,date, timeEcuador:['11:00','14:00','17:00','20:00'][i%4],venue:['Seattle','Atlanta','Boston','Vancouver','Miami','Dallas','Los Ángeles','New York/New Jersey'][i%8],homeRef:a?refPts(a.team):'',awayRef:b?refPts(b.team):''};}
-function refPts(team){let group=allRanked().find(x=>x.team==team)?.PTS||0;let ko=0;Object.values(data.knockouts).flat().forEach(m=>{if(m.homeScore!==null&&m.awayScore!==null){let w=winnerText(m); if(w==team)ko+=3;}});return `Grupo:${group} | Eliminatorias:${ko} | Total:${group+ko}`;}
-function originInfo(team){let r=allRanked().find(x=>x.team==team);if(!team||!r)return {group:'-',pos:'-',groupPts:0,slot:'Sin origen',label:'Sin origen de grupo'};let third=r.pos===3?'Mejor 3°':`${r.pos}°`;return {group:r.group,pos:r.pos,groupPts:r.PTS,slot:`${r.group}-${third}`,label:`GRUPO ${r.group} · ${third} · ${r.PTS} pts`};}
-function originBadge(team){let o=originInfo(team);return `<span class="originBadge">${o.label}</span>`;}
-function teamWithOrigin(team){if(!team)return '';return `<div class="teamLine">${team}</div><div class="teamMeta">Origen: ${originBadge(team)}</div>`;}
-function teamRefLine(team){if(!team)return 'Pendiente';let o=originInfo(team);return `${team}: ${refPts(team)} | Origen: Grupo ${o.group}, puesto ${o.pos}°, puntos grupo ${o.groupPts}`;}
-function winnerObj(m){if(!m||m.homeScore===null||m.awayScore===null)return null;let name=+m.homeScore>=+m.awayScore?m.home:m.away;return {team:name};}
-function loserObj(m){if(!m||m.homeScore===null||m.awayScore===null)return null;let name=+m.homeScore>=+m.awayScore?m.away:m.home;return {team:name};}
-function buildAllNext(){
-  ['R32','R16','QF'].forEach((st,idx)=>{
-    let next=['R16','QF','SF'][idx];
-    (data.knockouts[next]||[]).forEach((m,i)=>{let a=winnerObj((data.knockouts[st]||[])[i*2]);let b=winnerObj((data.knockouts[st]||[])[i*2+1]);if(a)m.home=a.team;if(b)m.away=b.team;m.homeRef=m.home?refPts(m.home):'';m.awayRef=m.away?refPts(m.away):'';});
-  });
-  let sf=data.knockouts.SF||[];let final=(data.knockouts.FINAL||[])[0],third=(data.knockouts.THIRD||[])[0];
-  let w1=winnerObj(sf[0]),w2=winnerObj(sf[1]),l1=loserObj(sf[0]),l2=loserObj(sf[1]);
-  if(final){if(w1)final.home=w1.team;if(w2)final.away=w2.team;final.homeRef=final.home?refPts(final.home):'';final.awayRef=final.away?refPts(final.away):'';}
-  if(third){if(l1)third.home=l1.team;if(l2)third.away=l2.team;third.homeRef=third.home?refPts(third.home):'';third.awayRef=third.away?refPts(third.away):'';}
-  (data.knockouts.SF||[]).forEach(m=>{m.homeRef=m.home?refPts(m.home):'';m.awayRef=m.away?refPts(m.away):'';});
-}
-function buildNextFrom(){buildAllNext();saveData();}
-function renderKO(key,title){let ms=data.knockouts[key]||[];view.innerHTML=`<div class="panel"><h2>${title}</h2><p class="small">Cada equipo muestra su <b>grupo original</b>, puesto de clasificación y puntos de grupo para validar los cruces. También se muestra la referencia acumulada: grupos + victorias en eliminatorias.</p><div class="bracket">${ms.map(m=>`<div class="matchCard"><b>${m.stage} Partido ${m.id.split('-')[1]}</b><div class="small"><input class="dateInput" value="${m.date}" onchange="mset('${m.id}','date',this.value)"> <input class="scoreInput" value="${m.timeEcuador}" onchange="mset('${m.id}','timeEcuador',this.value)"> <input class="textInput" style="width:170px" value="${m.venue}" onchange="mset('${m.id}','venue',this.value)"></div><div class="match"><div><input class="teamInput" value="${m.home}" onchange="mset('${m.id}','home',this.value)">${m.home?`<div class="teamMeta">${originBadge(m.home)}</div>`:''}</div><input class="scoreInput" type="number" value="${m.homeScore??''}" onchange="score('${m.id}','homeScore',this.value)"><b>-</b><input class="scoreInput" type="number" value="${m.awayScore??''}" onchange="score('${m.id}','awayScore',this.value)"><div><input class="teamInput" value="${m.away}" onchange="mset('${m.id}','away',this.value)">${m.away?`<div class="teamMeta">${originBadge(m.away)}</div>`:''}</div></div><div class="refBox small">${teamRefLine(m.home)}<br>${teamRefLine(m.away)}</div><div class="advance">Pasa: <b>${winnerText(m)}</b> ${winnerText(m)!=='pendiente'&&winnerText(m)!=='empate / penales pendiente'?originBadge(winnerText(m)):''}</div></div>`).join('')}</div>${stageWinnersHtml(key,title)}</div>`;}
+function matchesHtml(matches){ return matches.sort((a,b)=>a.number-b.number).map(m=>matchCardHtml(m)).join(''); }
+function matchCardHtml(m){ return `<div class="matchCard"><div class="small"><b>Partido ${m.number}</b> · ${stageLabel(m.stage)} ${m.group?'<span class="groupBadge">GRUPO '+m.group+'</span>':''} · ${m.displayDate} · <b>${m.timeEcuador} Ecuador</b> · ${m.venue}</div><div class="match"><div class="teamCard">${teamDisplay(m.home)}</div><input class="scoreInput" type="number" min="0" value="${m.homeScore??''}" onchange="score('${m.id}','homeScore',this.value)"><b>-</b><input class="scoreInput" type="number" min="0" value="${m.awayScore??''}" onchange="score('${m.id}','awayScore',this.value)"><div class="teamCard">${teamDisplay(m.away)}</div></div><div class="advance">${m.stage==='GRUPOS'?'Resultado actual':'Pasa'}: <b>${winnerText(m)}</b></div></div>`; }
+function teamDisplay(team){ if(!team)return '<span class="empty">Pendiente</span>'; return `<div class="teamLine">${team}</div><div class="teamMeta">${originBadge(team)}${teamPathHtml(team)}</div>`; }
+function findMatch(id){ return data.matches.find(m=>m.id===id); }
+function score(id,field,val){ let m=findMatch(id); if(!m)return; m[field]=val===''?null:Math.max(0,Number(val)); if(m.stage!=='GRUPOS'&&m.homeScore!==null&&m.awayScore!==null&&m.homeScore===m.awayScore){ alert('En eliminatorias no puede quedar empate. Ingresa el resultado final/definido para que haya un ganador.'); } ensureKnockoutTeams(); saveData(); render(); searchMatches(false); }
+function winnerText(m){ if(!m||m.homeScore===null||m.awayScore===null)return 'pendiente'; if(+m.homeScore>+m.awayScore)return m.home||'pendiente'; if(+m.homeScore<+m.awayScore)return m.away||'pendiente'; return m.stage==='GRUPOS'?'empate':'empate pendiente'; }
+function winnerTeam(m){ if(!m||m.homeScore===null||m.awayScore===null||m.homeScore===m.awayScore)return ''; return +m.homeScore>+m.awayScore?m.home:m.away; }
+function loserTeam(m){ if(!m||m.homeScore===null||m.awayScore===null||m.homeScore===m.awayScore)return ''; return +m.homeScore>+m.awayScore?m.away:m.home; }
 
-function qualifiedSummaryHtml(){
-  let q=qualified();
-  let complete=allGroupsComplete();
-  let title=complete?'Equipos que pasan al final de la Fase de Grupos':'Clasificación parcial de la Fase de Grupos';
-  let note=complete?'Ya están completos los grupos: estos son los 32 equipos clasificados.':'Resumen parcial: se actualiza cada vez que ingresas un resultado. Los clasificados pueden cambiar hasta que terminen todos los grupos.';
-  return `<div class="stageSummary"><h3>${title}</h3><p class="small">${note}</p><table><thead><tr><th>#</th><th>Equipo</th><th>Grupo</th><th>Puesto</th><th>Puntos</th><th>DG</th><th>GF</th><th>Referencia</th></tr></thead><tbody>${q.map((x,i)=>`<tr><td>${i+1}</td><td><b>${x.team}</b></td><td><span class="groupBadge">GRUPO ${x.group}</span></td><td>${x.pos}°</td><td><b>${x.PTS}</b></td><td>${x.DG}</td><td>${x.GF}</td><td>${refPts(x.team)}</td></tr>`).join('')}</tbody></table></div>`;
+function getStageMatches(stage){ return data.matches.filter(m=>m.stage===stage).sort((a,b)=>a.number-b.number); }
+function ensureKnockoutTeams(){
+  // 32avos: se llena por ranking de clasificados provisionales/oficiales: mejor vs peor.
+  let q=qualified(); let r32=getStageMatches('R32');
+  r32.forEach((m,i)=>{ let a=q[i], b=q[31-i]; m.home=a?.team||''; m.away=b?.team||''; });
+  propagate('R32','R16'); propagate('R16','QF'); propagate('QF','SF');
+  let sf=getStageMatches('SF'), final=getStageMatches('FINAL')[0], third=getStageMatches('THIRD')[0];
+  if(final){ final.home=winnerTeam(sf[0])||''; final.away=winnerTeam(sf[1])||''; }
+  if(third){ third.home=loserTeam(sf[0])||''; third.away=loserTeam(sf[1])||''; }
 }
+function propagate(from,to){ let a=getStageMatches(from), b=getStageMatches(to); b.forEach((m,i)=>{ m.home=winnerTeam(a[i*2])||''; m.away=winnerTeam(a[i*2+1])||''; }); }
+function renderKO(stage,title){ let ms=getStageMatches(stage); view.innerHTML=`<div class="panel"><h2>${title}</h2><p class="small">Cada equipo arrastra sus puntos por etapa. En eliminatorias, victoria = 3 pts en esa etapa. Las fechas, horas y sedes vienen del calendario oficial.</p><div class="bracket">${ms.map(m=>`<div class="matchCard"><div class="small"><b>Partido ${m.number}</b> · ${m.displayDate} · <b>${m.timeEcuador} Ecuador</b> · ${m.venue}</div><div class="match"><div class="teamCard">${teamDisplay(m.home)}</div><input class="scoreInput" type="number" min="0" value="${m.homeScore??''}" onchange="score('${m.id}','homeScore',this.value)"><b>-</b><input class="scoreInput" type="number" min="0" value="${m.awayScore??''}" onchange="score('${m.id}','awayScore',this.value)"><div class="teamCard">${teamDisplay(m.away)}</div></div><div class="advance">Pasa: <b>${winnerText(m)}</b></div><div class="refBox small"><b>Historial</b><br>${teamPathText(m.home)}<br>${teamPathText(m.away)}</div></div>`).join('')}</div>${stageWinnersHtml(stage,title)}</div>`; }
+function stageWinnersHtml(stage,title){ let winners=getStageMatches(stage).map(m=>winnerTeam(m)).filter(Boolean); if(!winners.length)return `<div class="stageSummary"><h3>Equipos que pasan al final de ${title}</h3><p class="small">Todavía no hay resultados suficientes.</p></div>`; return `<div class="stageSummary"><h3>${stage==='FINAL'?'Campeón':'Equipos que pasan al final de '+title}</h3><table><thead><tr><th>#</th><th>Equipo</th><th>Origen</th><th>Grupo</th><th>32avos</th><th>16avos</th><th>Cuartos</th><th>Semifinal</th><th>Final</th><th>Total</th></tr></thead><tbody>${winners.map((t,i)=>{let p=teamPointsByStage(t);return `<tr><td>${i+1}</td><td><b>${t}</b></td><td>${originBadge(t)}</td><td>${p.GROUP}</td><td>${p.R32}</td><td>${p.R16}</td><td>${p.QF}</td><td>${p.SF}</td><td>${p.FINAL}</td><td><b>${p.total}</b></td></tr>`;}).join('')}</tbody></table></div>`; }
 
-function stageWinnersHtml(key,title){
-  let ms=data.knockouts[key]||[];
-  let winners=ms.map((m,i)=>{let w=winnerObj(m);if(!w)return null;let o=originInfo(w.team);return {team:w.team,match:i+1,ref:refPts(w.team),origin:o};}).filter(Boolean);
-  let label= key==='FINAL' ? 'Campeón al final de la Final' : (key==='THIRD' ? 'Ganador del tercer lugar' : `Equipos que pasan al final de ${title}`);
-  if(!winners.length)return `<div class="stageSummary"><h3>${label}</h3><p class="small">Todavía no hay resultados suficientes para mostrar clasificados.</p></div>`;
-  return `<div class="stageSummary"><h3>${label}</h3><table><thead><tr><th>#</th><th>Equipo</th><th>Grupo original</th><th>Puesto grupo</th><th>Pts grupo</th><th>Partido</th><th>Puntaje / referencia acumulada</th></tr></thead><tbody>${winners.map((x,i)=>`<tr><td>${i+1}</td><td><b>${x.team}</b></td><td><span class="groupBadge">GRUPO ${x.origin.group}</span></td><td>${x.origin.pos}°</td><td><b>${x.origin.groupPts}</b></td><td>${x.match}</td><td><b>${x.ref}</b></td></tr>`).join('')}</tbody></table></div>`;
+function originInfo(team){ let r=allRanked().find(x=>x.team===team); if(!r)return {group:'-',pos:'-',slot:'-',groupPts:0}; return {group:r.group,pos:r.pos,slot:`${r.group}${r.pos}`,groupPts:r.PTS}; }
+function originBadge(team){ if(!team)return ''; let o=originInfo(team); return `<span class="originBadge">${o.slot}</span>`; }
+function teamPointsByStage(team){
+  let p={GROUP:0,R32:0,R16:0,QF:0,SF:0,THIRD:0,FINAL:0,total:0};
+  let o=originInfo(team); p.GROUP=o.groupPts||0;
+  data.matches.filter(m=>m.stage!=='GRUPOS'&&m.homeScore!==null&&m.awayScore!==null&&winnerTeam(m)===team).forEach(m=>{ p[m.stage]=(p[m.stage]||0)+3; });
+  p.total=p.GROUP+p.R32+p.R16+p.QF+p.SF+p.THIRD+p.FINAL; return p;
 }
+function teamPathHtml(team){ if(!team)return ''; let p=teamPointsByStage(team); return `<span class="pathLine">Grupo: <b>${p.GROUP}</b> · 32avos: <b>${p.R32}</b> · 16avos: <b>${p.R16}</b> · Cuartos: <b>${p.QF}</b> · Semi: <b>${p.SF}</b> · Final: <b>${p.FINAL}</b> · Total: <b>${p.total}</b></span>`; }
+function teamPathText(team){ if(!team)return '<span class="empty">Pendiente</span>'; let p=teamPointsByStage(team), o=originInfo(team); return `<b>${team}</b> ${originBadge(team)} · Grupo ${o.group}: ${p.GROUP} pts · 32avos: ${p.R32} · 16avos: ${p.R16} · Cuartos: ${p.QF} · Semi: ${p.SF} · Final: ${p.FINAL} · <b>Total: ${p.total}</b>`; }
 
-function renderRanking(){let r=allRanked();view.innerHTML=`<div class="panel"><h2>Ranking general de primera etapa</h2><table><thead><tr><th>#</th><th>Equipo</th><th>Grupo</th><th>Posición</th><th>DG</th><th>GF</th><th>Puntos grupo</th></tr></thead><tbody>${r.map((x,i)=>`<tr><td>${i+1}</td><td><b>${x.team}</b></td><td>${x.group}</td><td>${x.pos}</td><td>${x.DG}</td><td>${x.GF}</td><td><b>${x.PTS}</b></td></tr>`).join('')}</tbody></table></div>`;}
-function render(){renderTabs();if(current=='grupos')renderGroups();else if(current=='r32')renderKO('R32','32avos de final');else if(current=='r16')renderKO('R16','16avos de final');else if(current=='qf')renderKO('QF','Cuartos de final');else if(current=='sf')renderKO('SF','Semifinales');else if(current=='third')renderKO('THIRD','Partido por tercer lugar');else if(current=='final')renderKO('FINAL','Final');else renderRanking();}
-function simulateAll(){
-  const totalGroupMatches=groups.reduce((acc,g)=>acc+(data.groups[g]?.matches||[]).length,0);
-  if(!data.officialFixtureLoaded || !totalGroupMatches){
-    alert('Primero carga el calendario oficial desde Football-Data. La simulación ya no crea fechas, horas, sedes ni equipos inventados.');
-    return;
-  }
-  groups.forEach((g,gi)=>(data.groups[g].matches||[]).forEach((m,mi)=>{m.homeScore=(gi+mi*2)%5;m.awayScore=(gi*2+mi+1)%5;}));
-  buildKnockouts();
-  ['R32','R16','QF','SF'].forEach((st,si)=>{(data.knockouts[st]||[]).forEach((m,i)=>{if(!m.home||!m.away)return;m.homeScore=(i+si+2)%4;m.awayScore=(i*2+si+1)%4;if(m.homeScore==m.awayScore){m.homeScore=(m.homeScore+1)%5;}});buildAllNext();});
-  ['THIRD','FINAL'].forEach((st,si)=>{(data.knockouts[st]||[]).forEach((m,i)=>{if(!m.home||!m.away)return;m.homeScore=(i+si+2)%4;m.awayScore=(i+si+1)%4;if(m.homeScore==m.awayScore){m.homeScore++;}});});
-  buildAllNext();saveData();render();
-  const final=(data.knockouts.FINAL||[])[0];const champion=final?winnerText(final):'pendiente';
-  document.getElementById('simStatus').innerHTML=`✅ Simulación de resultados completa usando calendario oficial cargado. No se cambiaron fechas, horas ni sedes. Campeón simulado: <b>${champion}</b>.`;
+function searchDefaultUpcoming(){ document.getElementById('searchResults').innerHTML='<p class="small">Busca por fecha o por país para ingresar resultados rápidamente.</p>'; }
+function searchMatches(updateInputs=true){
+  let d=document.getElementById('searchDate').value; let team=(document.getElementById('searchTeam').value||'').toLowerCase().trim();
+  let arr=data.matches.filter(m=>{ let ok=true; if(d) ok=ok&&m.date===d; if(team) ok=ok&&((m.home||'').toLowerCase().includes(team)||(m.away||'').toLowerCase().includes(team)); return ok; }).sort((a,b)=>(a.date+a.timeEcuador).localeCompare(b.date+b.timeEcuador));
+  renderSearchResults(arr, d||team?'Resultados de búsqueda':'');
 }
-function resetResults(){groups.forEach(g=>data.groups[g].matches.forEach(m=>{m.homeScore=null;m.awayScore=null;}));Object.keys(data.knockouts).forEach(k=>data.knockouts[k].forEach(m=>{m.homeScore=null;m.awayScore=null;}));saveData();render();}
-function resetEverything(){if(confirm('¿Reiniciar equipos, fechas, partidos y resultados?')){data=defaultData();localStorage.removeItem('mundial2026app');render();}}
-function saveData(){localStorage.setItem('mundial2026app',JSON.stringify(data));}
-function loadData(show){let s=localStorage.getItem('mundial2026app');if(s){data=JSON.parse(s);if(show)alert('Datos restaurados.');render();}}
-async function updateFromUrl(){let url=document.getElementById('apiUrl').value.trim();if(!url)return alert('Pega una URL JSON primero.');try{let res=await fetch(url);let arr=await res.json();applyExternalMatches(arr);alert('Resultados importados desde la web/API.');render();}catch(e){alert('No se pudo consultar la URL. Revisa que sea JSON y permita CORS para GitHub Pages.');}}
-function importJson(){try{let arr=JSON.parse(document.getElementById('jsonImport').value);applyExternalMatches(arr);alert('JSON importado.');render();}catch(e){alert('JSON inválido.');}}
-function applyExternalMatches(arr){arr.forEach(x=>{let m=null;if(x.id)m=findMatch(x.id);if(!m&&x.stage==='GRUPOS')m=data.groups[x.group]?.matches.find(mm=>mm.home==x.home&&mm.away==x.away);if(!m)return;if(x.homeScore!==undefined)m.homeScore=x.homeScore;if(x.awayScore!==undefined)m.awayScore=x.awayScore;if(x.date)m.date=x.date;if(x.timeEcuador)m.timeEcuador=x.timeEcuador;if(x.venue)m.venue=x.venue;});buildKnockouts();saveData();}
+function renderSearchResults(arr,title){ let box=document.getElementById('searchResults'); if(!arr.length){ box.innerHTML='<p class="empty">No se encontraron partidos con ese criterio.</p>'; return; } box.innerHTML=`${title?'<h3>'+title+'</h3>':''}${arr.map(m=>`<div class="resultRow"><div class="resultGrid"><div class="wide"><b>${m.displayDate}</b><br><span class="small">${m.timeEcuador} Ecuador</span></div><div class="wide"><div class="resultTitle">${m.home||'Pendiente'} vs ${m.away||'Pendiente'}</div><div class="small">Partido ${m.number} · ${stageLabel(m.stage)} ${m.group?' · Grupo '+m.group:''} · ${m.venue}</div></div><input class="scoreInput" type="number" min="0" value="${m.homeScore??''}" onchange="score('${m.id}','homeScore',this.value)"><input class="scoreInput" type="number" min="0" value="${m.awayScore??''}" onchange="score('${m.id}','awayScore',this.value)"><button class="btn sec" onclick="saveData(true);render();searchMatches(false)">Guardar</button></div></div>`).join('')}`; }
+function quickToday(){ let today=new Date().toISOString().slice(0,10); document.getElementById('searchDate').value=today; document.getElementById('searchTeam').value=''; searchMatches(); }
+function quickTomorrow(){ let d=new Date(); d.setDate(d.getDate()+1); document.getElementById('searchDate').value=d.toISOString().slice(0,10); document.getElementById('searchTeam').value=''; searchMatches(); }
+function quickNext7(){ let start=new Date(); let end=new Date(); end.setDate(start.getDate()+7); let a=start.toISOString().slice(0,10), b=end.toISOString().slice(0,10); let arr=data.matches.filter(m=>m.date>=a&&m.date<=b).sort((x,y)=>(x.date+x.timeEcuador).localeCompare(y.date+y.timeEcuador)); document.getElementById('searchDate').value=''; document.getElementById('searchTeam').value=''; renderSearchResults(arr,'Próximos 7 días'); }
+function clearSearch(){ document.getElementById('searchDate').value=''; document.getElementById('searchTeam').value=''; searchDefaultUpcoming(); }
 
-
-function getAllMatchesWithStage(){
-  const all=[];
-  groups.forEach(g=>data.groups[g].matches.forEach(m=>all.push({...m, stageLabel:'Grupo '+g, stageKey:'grupos'})));
-  const labels={R32:'32avos',R16:'16avos',QF:'Cuartos',SF:'Semifinales',THIRD:'Tercer lugar',FINAL:'Final'};
-  const keys={R32:'r32',R16:'r16',QF:'qf',SF:'sf',THIRD:'third',FINAL:'final'};
-  Object.keys(data.knockouts).forEach(k=>(data.knockouts[k]||[]).forEach(m=>all.push({...m, stageLabel:labels[k]||k, stageKey:keys[k]||'grupos'})));
-  return all.filter(m=>m.home||m.away);
-}
-function populateTeamSearch(){
-  const dl=document.getElementById('teamList');
-  if(!dl) return;
-  const teams=[...new Set(getAllMatchesWithStage().flatMap(m=>[m.home,m.away]).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
-  dl.innerHTML=teams.map(t=>`<option value="${escapeHtml(t)}"></option>`).join('');
-}
-function escapeHtml(x){return (x||'').toString().replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
-function ecuadorDate(offset=0){
-  const now=new Date();
-  now.setDate(now.getDate()+offset);
-  return new Intl.DateTimeFormat('en-CA',{timeZone:'America/Guayaquil',year:'numeric',month:'2-digit',day:'2-digit'}).format(now);
-}
-function setSearchDateEcuador(offset){
-  document.getElementById('searchDate').value=ecuadorDate(offset);
-  searchMatches();
-}
-function clearMatchSearch(){
-  const d=document.getElementById('searchDate'), t=document.getElementById('searchTeam'), r=document.getElementById('searchResults'), st=document.getElementById('searchStatus');
-  if(d)d.value=''; if(t)t.value='';
-  if(r){r.classList.add('hide'); r.innerHTML='';}
-  if(st)st.innerHTML='Búsqueda limpia. Puedes buscar por fecha, equipo o ambos.';
-}
-let lastSearchNextDays=null;
-function searchMatches(nextDays){
-  populateTeamSearch();
-  if(nextDays!==undefined && nextDays!==null) lastSearchNextDays=nextDays;
-  else lastSearchNextDays=null;
-  const date=(document.getElementById('searchDate')?.value||'').trim();
-  const team=(document.getElementById('searchTeam')?.value||'').trim().toLowerCase();
-  const status=document.getElementById('searchStatus');
-  const box=document.getElementById('searchResults');
-  let list=getAllMatchesWithStage();
-  if(lastSearchNextDays){
-    const start=ecuadorDate(0), end=ecuadorDate(lastSearchNextDays);
-    list=list.filter(m=>m.date>=start && m.date<=end);
-  }else if(date){
-    list=list.filter(m=>m.date===date);
-  }
-  if(team){
-    list=list.filter(m=>(m.home||'').toLowerCase().includes(team)||(m.away||'').toLowerCase().includes(team));
-  }
-  list.sort((a,b)=>(a.date||'').localeCompare(b.date||'') || (a.timeEcuador||'').localeCompare(b.timeEcuador||''));
-  if(!date && !team && !lastSearchNextDays){
-    if(status)status.innerHTML='Elige una fecha o escribe un equipo para buscar.';
-    if(box){box.classList.add('hide'); box.innerHTML='';}
-    return;
-  }
-  if(status)status.innerHTML=`Resultado de búsqueda: <b>${list.length}</b> partido(s). Puedes ingresar el marcador y presionar <b>Guardar resultado</b>.`;
-  if(!list.length){box.classList.remove('hide'); box.innerHTML='<div class="emptySearch">No encontré partidos con ese filtro.</div>'; return;}
-  box.classList.remove('hide');
-  box.innerHTML=`<table><thead><tr><th>Fecha</th><th>Hora Ecuador</th><th>Etapa/Grupo</th><th>Partido</th><th>Estadio</th><th>Ingresar resultado</th><th>Ir a etapa</th></tr></thead><tbody>${list.map(m=>`<tr><td><b>${m.date||''}</b></td><td>${m.timeEcuador||''}</td><td><span class="searchTag">${m.stageLabel}</span></td><td><b>${escapeHtml(m.home||'')}</b> vs <b>${escapeHtml(m.away||'')}</b></td><td>${escapeHtml(m.venue||'')}</td><td><div class="quickScore"><input id="qs_${m.id}_home" class="scoreInput" type="number" value="${m.homeScore??''}" placeholder="${escapeHtml((m.home||'').slice(0,3))}"><b>-</b><input id="qs_${m.id}_away" class="scoreInput" type="number" value="${m.awayScore??''}" placeholder="${escapeHtml((m.away||'').slice(0,3))}"><button class="btn ok quickSave" onclick="quickSaveScore('${m.id}')">Guardar resultado</button><span id="msg_${m.id}" class="savedMsg"></span></div></td><td><button class="btn sec" onclick="goToMatchStage('${m.stageKey}')">Ver</button></td></tr>`).join('')}</tbody></table>`;
-}
-function quickSaveScore(id){
-  const m=findMatch(id);
-  if(!m) return;
-  const home=document.getElementById(`qs_${id}_home`)?.value;
-  const away=document.getElementById(`qs_${id}_away`)?.value;
-  m.homeScore = home==='' ? null : +home;
-  m.awayScore = away==='' ? null : +away;
-  if(!id.startsWith('G')) buildAllNext();
-  else buildAllNext();
-  saveData();
-  render();
-  searchMatches(lastSearchNextDays);
-  const msg=document.getElementById(`msg_${id}`);
-  if(msg) msg.textContent='Guardado';
-}
-function quickScoreUpdate(id, field, value){
-  const m=findMatch(id);
-  if(!m) return;
-  m[field]=value===''?null:+value;
-  buildAllNext();
-  saveData();
-  render();
-  searchMatches(lastSearchNextDays);
-}
-function goToMatchStage(stage){
-  current=stage;
-  render();
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-let fdTimer=null;
-function guardarTokenFD(){
-  const t=document.getElementById('fdToken')?.value.trim();
-  if(!t) return alert('Pega primero tu API Token.');
-  localStorage.setItem('footballDataToken', t);
-  document.getElementById('fdStatus').innerHTML='✅ Token guardado solo en este navegador. Ya no tendrás que pegarlo de nuevo en este equipo.';
-}
-function cargarTokenFD(){
-  const t=localStorage.getItem('footballDataToken');
-  const el=document.getElementById('fdToken');
-  if(t&&el){
-    el.value=t;
-    const st=document.getElementById('fdStatus');
-    if(st) st.innerHTML='✅ Token cargado desde este navegador. Puedes consultar o activar automático.';
-  }
-}
-function mostrarOcultarTokenFD(){
-  const el=document.getElementById('fdToken');
-  if(!el) return;
-  el.type = el.type === 'password' ? 'text' : 'password';
-}
-async function copiarTokenFD(){
-  const token=(localStorage.getItem('footballDataToken') || document.getElementById('fdToken')?.value || '').trim();
-  if(!token) return alert('No hay token guardado para copiar.');
-  try{
-    await navigator.clipboard.writeText(token);
-    document.getElementById('fdStatus').innerHTML='✅ Token copiado al portapapeles.';
-  }catch(e){
-    alert('No se pudo copiar automáticamente. Usa Mostrar / ocultar token y cópialo manualmente.');
-  }
-}
-function borrarTokenFD(){
-  if(!confirm('¿Borrar el token guardado en este navegador?')) return;
-  localStorage.removeItem('footballDataToken');
-  const el=document.getElementById('fdToken');
-  if(el) el.value='';
-  document.getElementById('fdStatus').innerHTML='Token borrado de este navegador.';
-}
-function activarAutoFootballData(){
-  const el=document.getElementById('fdToken');
-  if(el?.value.trim()) guardarTokenFD();
-  if(!localStorage.getItem('footballDataToken')) return alert('Primero pega y guarda tu API Token.');
-  consultarFootballData();
-  if(fdTimer) clearInterval(fdTimer);
-  fdTimer=setInterval(consultarFootballData, 5*60*1000);
-  document.getElementById('fdStatus').innerHTML='Actualización automática activada cada 5 minutos.';
-}
-function detenerAutoFootballData(){
-  if(fdTimer) clearInterval(fdTimer);
-  fdTimer=null;
-  document.getElementById('fdStatus').innerHTML='Actualización automática detenida.';
-}
-function normTeamName(x){
-  return (x||'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\b(cf|fc|national football team|seleccion|de|the)\b/g,'').replace(/[^a-z0-9]/g,'').trim();
-}
-function findMatchByTeams(home,away){
-  const h=normTeamName(home), a=normTeamName(away);
-  let all=[];
-  groups.forEach(g=>all.push(...data.groups[g].matches));
-  Object.values(data.knockouts).forEach(arr=>all.push(...arr));
-  return all.find(m=>normTeamName(m.home)===h && normTeamName(m.away)===a) || all.find(m=>normTeamName(m.home)===a && normTeamName(m.away)===h) || null;
-}
-function ecuadorDateParts(utc){
-  const d=new Date(utc);
-  const dateFmt=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Guayaquil',year:'numeric',month:'2-digit',day:'2-digit'});
-  const timeFmt=new Intl.DateTimeFormat('es-EC',{timeZone:'America/Guayaquil',hour:'2-digit',minute:'2-digit',hour12:false});
-  return {date:dateFmt.format(d), timeEcuador:timeFmt.format(d)};
-}
-
-function groupLetterFromFD(x){
-  const raw=(x.group||x.stage||x.matchday||'').toString().toUpperCase();
-  let m=raw.match(/GROUP[_\s-]?([A-L])/); if(m) return m[1];
-  m=raw.match(/\b([A-L])\b/); if(m) return m[1];
-  return '';
-}
-function stageKeyFromFD(x){
-  const st=(x.stage||'').toString().toUpperCase();
-  if(st.includes('GROUP') || st.includes('FIRST')) return 'GROUP';
-  if(st.includes('LAST_32') || st.includes('ROUND_OF_32') || st.includes('32')) return 'R32';
-  if(st.includes('LAST_16') || st.includes('ROUND_OF_16') || st.includes('16')) return 'R16';
-  if(st.includes('QUARTER')) return 'QF';
-  if(st.includes('SEMI')) return 'SF';
-  if(st.includes('THIRD')) return 'THIRD';
-  if(st.includes('FINAL')) return 'FINAL';
-  return '';
-}
-function teamNameFD(t){return t?.shortName || t?.name || t?.tla || 'Por definir';}
-function addTeamToGroup(g, name){
-  if(!g || !name || name==='Por definir') return;
-  const arr=data.groups[g].teams;
-  if(!arr.find(t=>normTeamName(t.name)===normTeamName(name))) arr.push({name});
-}
-function scoreFromFD(x){
-  const ft=x.score?.fullTime || x.score?.regularTime || {};
-  const hs=ft.home, as=ft.away;
-  return {homeScore:(hs===null||hs===undefined)?null:hs, awayScore:(as===null||as===undefined)?null:as};
-}
-function matchObjFromFD(x, stage, group){
-  const home=teamNameFD(x.homeTeam), away=teamNameFD(x.awayTeam);
-  const p=x.utcDate?ecuadorDateParts(x.utcDate):{date:'',timeEcuador:''};
-  const sc=scoreFromFD(x);
-  return {id:String(x.id||`${stage}-${group||''}-${home}-${away}`).replace(/[^A-Za-z0-9_-]/g,''), stage:stage==='GROUP'?'GRUPOS':stage, group:group||'', home, away, date:p.date, timeEcuador:p.timeEcuador, venue:x.venue || x.area?.name || 'Por confirmar', homeScore:sc.homeScore, awayScore:sc.awayScore, officialId:x.id||null, status:x.status||''};
-}
-function applyFootballDataOfficial(matches){
-  let oldScores={};
-  groups.forEach(g=>(data.groups[g].matches||[]).forEach(m=>{oldScores[`${normTeamName(m.home)}|${normTeamName(m.away)}`]={homeScore:m.homeScore,awayScore:m.awayScore};}));
-  Object.values(data.knockouts||{}).flat().forEach(m=>{oldScores[`${normTeamName(m.home)}|${normTeamName(m.away)}`]={homeScore:m.homeScore,awayScore:m.awayScore};});
-  data=defaultData();
-  (matches||[]).forEach(x=>{
-    const sk=stageKeyFromFD(x);
-    if(!sk) return;
-    if(sk==='GROUP'){
-      const g=groupLetterFromFD(x);
-      if(!g || !data.groups[g]) return;
-      const m=matchObjFromFD(x,'GROUP',g);
-      const saved=oldScores[`${normTeamName(m.home)}|${normTeamName(m.away)}`];
-      if(saved && m.homeScore===null && m.awayScore===null){m.homeScore=saved.homeScore;m.awayScore=saved.awayScore;}
-      data.groups[g].matches.push(m);
-      addTeamToGroup(g,m.home); addTeamToGroup(g,m.away);
-    }else{
-      const m=matchObjFromFD(x,sk,'');
-      if(data.knockouts[sk]) data.knockouts[sk].push(m);
-    }
-  });
-  groups.forEach(g=>data.groups[g].matches.sort((a,b)=>(a.date+a.timeEcuador).localeCompare(b.date+b.timeEcuador)));
-  Object.keys(data.knockouts).forEach(k=>data.knockouts[k].sort((a,b)=>(a.date+a.timeEcuador).localeCompare(b.date+b.timeEcuador)));
-  data.officialFixtureLoaded=true;
-  data.officialLastLoad=new Date().toLocaleString('es-EC');
-}
-async function consultarFootballData(){
-  const token=(document.getElementById('fdToken')?.value.trim()) || localStorage.getItem('footballDataToken');
-  if(!token) return alert('Pega tu API Token de football-data.org primero.');
-  const status=document.getElementById('fdStatus');
-  status.innerHTML='Consultando calendario oficial y resultados en Football-Data.org...';
-  try{
-    const res=await fetch('https://api.football-data.org/v4/competitions/WC/matches', {headers:{'X-Auth-Token':token}});
-    if(!res.ok) throw new Error('HTTP '+res.status+' - '+await res.text());
-    const json=await res.json();
-    const received=(json.matches||[]).length;
-    applyFootballDataOfficial(json.matches||[]);
-    saveData();render();
-    document.getElementById('fdStatus').innerHTML=`Calendario oficial / resultados cargados. Partidos recibidos: <b>${received}</b>. Última consulta: <b>${data.officialLastLoad}</b>.`;
-  }catch(e){
-    status.innerHTML='No se pudo consultar Football-Data directamente. Puede ser CORS, límite del plan o token inválido. Error: '+e.message;
-  }
-}
-
-
-const _renderOriginal = render;
-render = function(){
-  _renderOriginal();
-  populateTeamSearch();
-};
-
-cargarTokenFD();
 init();
 </script>
 </body>

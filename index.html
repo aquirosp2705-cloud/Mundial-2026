@@ -24,7 +24,7 @@ h2,h3{margin:0}.small{font-size:12px;color:var(--muted)}table{width:100%;border-
 .match{display:grid;grid-template-columns:1.15fr 58px 20px 58px 1.15fr;gap:6px;align-items:center}.matchCard{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff;margin-bottom:10px}.bracket{display:grid;grid-template-columns:repeat(auto-fit,minmax(370px,1fr));gap:16px}.advance{font-size:12px;margin-top:6px}.notice{background:#fffbeb;border:1px solid #fedf89;color:#7a2e0e;padding:10px;border-radius:12px;font-size:13px}textarea{width:100%;min-height:100px;border:1px solid var(--line);border-radius:12px;padding:10px;font-family:monospace}
 .stageSummary{margin-top:16px;border:2px solid var(--line);border-radius:14px;background:#f8fafc;padding:12px}.stageSummary h3{margin-bottom:8px;color:#071952}.stageSummary table{background:white;border-radius:10px;overflow:hidden}
 .resultRow{border:1px solid var(--line);border-radius:12px;padding:10px;margin-bottom:8px;background:#fff}.resultGrid{display:grid;grid-template-columns:95px 1fr 64px 64px 95px;gap:8px;align-items:center}.resultTitle{font-weight:900}.muted{color:var(--muted)}.empty{color:#98a2b3;font-style:italic}.refBox{background:#f8fafc;border:1px solid #edf0f5;border-radius:10px;padding:8px;margin-top:8px;line-height:1.45}.teamMeta{font-size:11px;color:#475467;margin-top:4px;line-height:1.35}.teamLine{font-weight:900}.winner{font-weight:900;color:var(--ok)}.loser{color:#98a2b3}.warnText{color:var(--warn);font-weight:800}.okText{color:var(--ok);font-weight:800}
-.pathLine{display:block;font-size:12px;margin-top:2px}.teamCard{padding:6px;border-radius:10px;background:#f8fafc;border:1px solid #edf0f5}
+.pathLine{display:block;font-size:12px;margin-top:2px}.teamCard{padding:6px;border-radius:10px;background:#f8fafc;border:1px solid #edf0f5}.countryChips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.countryChip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 10px;cursor:pointer;font-size:12px;font-weight:800;color:#344054}.countryChip:hover{background:var(--soft);border-color:#b2ccff;color:#1849a9}.countryHelp{margin-top:10px}
 @media(max-width:700px){.grid{grid-template-columns:1fr}.match{grid-template-columns:1fr 46px 14px 46px 1fr}.resultGrid{grid-template-columns:1fr 56px 56px}.resultGrid .wide{grid-column:1 / -1}header{position:relative}.wrap{padding:10px}}
 </style>
 </head>
@@ -47,13 +47,14 @@ h2,h3{margin:0}.small{font-size:12px;color:var(--muted)}table{width:100%;border-
     <h2>🔎 Buscar partidos para ingresar resultados</h2>
     <div class="searchbar" style="margin-top:12px">
       <label>Fecha Ecuador: <input type="date" id="searchDate" class="dateInput"></label>
-      <label>Equipo/país: <input type="text" id="searchTeam" class="textInput" placeholder="Ej: Ecuador, México, Brasil"></label>
+      <label>Equipo/país: <input type="text" id="searchTeam" class="textInput" placeholder="Ej: Ecuador, México, Brasil" list="countryOptions" onfocus="renderCountrySuggestions()" oninput="renderCountrySuggestions(this.value)"></label><datalist id="countryOptions"></datalist>
       <button class="btn" onclick="searchMatches()">Buscar</button>
       <button class="btn sec" onclick="quickToday()">Hoy</button>
       <button class="btn sec" onclick="quickTomorrow()">Mañana</button>
       <button class="btn sec" onclick="quickNext7()">Próximos 7 días</button>
       <button class="btn sec" onclick="clearSearch()">Limpiar</button>
     </div>
+    <div id="countryList" class="countryHelp"></div>
     <div id="searchResults" style="margin-top:12px"></div>
   </div>
 
@@ -89,7 +90,7 @@ function defaultData(){
     awayScore: r.result2===''||r.result2==null ? null : Number(r.result2)
   }))};
 }
-function init(){ data=defaultData(); loadData(false); ensureKnockoutTeams(); renderTabs(); render(); searchDefaultUpcoming(); }
+function init(){ data=defaultData(); loadData(false); ensureKnockoutTeams(); renderTabs(); render(); populateCountryDatalist(); renderCountrySuggestions(); searchDefaultUpcoming(); }
 function saveData(show=false){ localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); if(show) alert('Datos guardados en este navegador.'); }
 function loadData(show=false){
   let s=localStorage.getItem(STORAGE_KEY); if(!s){ if(show) alert('No hay datos guardados.'); return; }
@@ -161,6 +162,30 @@ function teamPointsByStage(team){
 function teamPathHtml(team){ if(!team)return ''; let p=teamPointsByStage(team); return `<span class="pathLine">Grupo: <b>${p.GROUP}</b> · 32avos: <b>${p.R32}</b> · 16avos: <b>${p.R16}</b> · Cuartos: <b>${p.QF}</b> · Semi: <b>${p.SF}</b> · Final: <b>${p.FINAL}</b> · Total: <b>${p.total}</b></span>`; }
 function teamPathText(team){ if(!team)return '<span class="empty">Pendiente</span>'; let p=teamPointsByStage(team), o=originInfo(team); return `<b>${team}</b> ${originBadge(team)} · Grupo ${o.group}: ${p.GROUP} pts · 32avos: ${p.R32} · 16avos: ${p.R16} · Cuartos: ${p.QF} · Semi: ${p.SF} · Final: ${p.FINAL} · <b>Total: ${p.total}</b>`; }
 
+
+function getAllTeams(){
+  return [...new Set(data.matches.flatMap(m=>[m.home,m.away]).filter(t=>t&&t.trim()))].sort((a,b)=>a.localeCompare(b,'es',{sensitivity:'base'}));
+}
+function populateCountryDatalist(){
+  const dl=document.getElementById('countryOptions');
+  if(!dl)return;
+  dl.innerHTML=getAllTeams().map(t=>`<option value="${t}"></option>`).join('');
+}
+function renderCountrySuggestions(filter=''){
+  const box=document.getElementById('countryList');
+  if(!box)return;
+  const f=(filter||'').toLowerCase().trim();
+  const teams=getAllTeams().filter(t=>!f || t.toLowerCase().includes(f));
+  const shown=teams.slice(0,48);
+  box.innerHTML=`<div class="small"><b>Países disponibles:</b> toca uno para listar sus partidos.</div><div class="countryChips">${shown.map(t=>`<button type="button" class="countryChip" onclick="selectCountry('${t.replace(/'/g,"\\'")}')">${t}</button>`).join('')}</div>${teams.length>shown.length?`<div class="small" style="margin-top:6px">Escribe más letras para reducir la lista (${teams.length} países encontrados).</div>`:''}`;
+}
+function selectCountry(team){
+  document.getElementById('searchTeam').value=team;
+  document.getElementById('searchDate').value='';
+  renderCountrySuggestions(team);
+  searchMatches();
+}
+
 function searchDefaultUpcoming(){ document.getElementById('searchResults').innerHTML='<p class="small">Busca por fecha o por país para ingresar resultados rápidamente.</p>'; }
 function searchMatches(updateInputs=true){
   let d=document.getElementById('searchDate').value; let team=(document.getElementById('searchTeam').value||'').toLowerCase().trim();
@@ -171,7 +196,7 @@ function renderSearchResults(arr,title){ let box=document.getElementById('search
 function quickToday(){ let today=new Date().toISOString().slice(0,10); document.getElementById('searchDate').value=today; document.getElementById('searchTeam').value=''; searchMatches(); }
 function quickTomorrow(){ let d=new Date(); d.setDate(d.getDate()+1); document.getElementById('searchDate').value=d.toISOString().slice(0,10); document.getElementById('searchTeam').value=''; searchMatches(); }
 function quickNext7(){ let start=new Date(); let end=new Date(); end.setDate(start.getDate()+7); let a=start.toISOString().slice(0,10), b=end.toISOString().slice(0,10); let arr=data.matches.filter(m=>m.date>=a&&m.date<=b).sort((x,y)=>(x.date+x.timeEcuador).localeCompare(y.date+y.timeEcuador)); document.getElementById('searchDate').value=''; document.getElementById('searchTeam').value=''; renderSearchResults(arr,'Próximos 7 días'); }
-function clearSearch(){ document.getElementById('searchDate').value=''; document.getElementById('searchTeam').value=''; searchDefaultUpcoming(); }
+function clearSearch(){ document.getElementById('searchDate').value=''; document.getElementById('searchTeam').value=''; renderCountrySuggestions(); searchDefaultUpcoming(); }
 
 init();
 </script>
